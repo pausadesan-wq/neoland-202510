@@ -10,11 +10,12 @@
             background-color: black;
         }
 
+        /* pig */
+
         #pig {
             width: 100px;
             height: 100px;
             background-color: pink;
-            /* border-radius: 50px; */
             position: absolute;
             left: 100px;
             top: 100px;
@@ -26,17 +27,20 @@
             background-color: white;
             position: absolute;
             left: 5px;
-            top: 10px;
+            top: 5px;
         }
 
         #left-pupil {
-            widht: 20px;
+            width: 20px;
             height: 20px;
             background-color: black;
+            position: absolute;
+            left: 10px;
+            top: 10px;
         }
 
         #right-eye {
-            widht: 40px;
+            width: 40px;
             height: 40px;
             background-color: white;
             position: absolute;
@@ -45,16 +49,20 @@
         }
 
         #right-pupil {
-            widht: 20px;
+            width: 20px;
             height: 20px;
             background-color: black;
+            position: absolute;
+            left: 10px;
+            top: 10px;
         }
 
         #nose {
-            wight: 40px;
-            height: 20px;
+            width: 50px;
+            height: 30px;
             background-color: palevioletred;
-            left: 30px;
+            position: absolute;
+            left: 25px;
             top: 50px;
         }
 
@@ -65,7 +73,6 @@
             position: absolute;
             left: 10px;
             top: 10px;
-
         }
 
         #right-hole {
@@ -79,14 +86,30 @@
 
         #mouth {
             width: 30px;
-            hegith: 10px;
+            height: 10px;
             background-color: black;
             position: absolute;
             left: 35px;
             bottom: 5px;
         }
 
-        /*car */
+        #left-ear {
+            width: 10px;
+            height: 40px;
+            background-color: pink;
+            position: absolute;
+            left: -10px;
+        }
+
+        #right-ear {
+            width: 10px;
+            height: 40px;
+            background-color: pink;
+            position: absolute;
+            right: -10px;
+        }
+
+        /* car */
 
         #car {
             width: 200px;
@@ -108,8 +131,8 @@
             position: absolute;
             left: 50px;
             top: -20px;
-
         }
+
         #front-wheel {
             width: 40px;
             height: 40px;
@@ -129,13 +152,14 @@
             left: 5px;
             top: 5px;
         }
+
         #back-wheel {
             width: 40px;
             height: 40px;
             background-color: gray;
             border-radius: 20px;
             position: absolute;
-            left: 20px;
+            right: 20px;
             top: 20px;
         }
 
@@ -145,7 +169,7 @@
             background-color: darkgray;
             border-radius: 15px;
             position: absolute;
-            left: 5px;
+            left: 15px;
             top: 5px;
         }
 
@@ -166,20 +190,41 @@
             background-color: lightgray;
             position: absolute;
             left: 0px;
-            top: -50px;  
+            top: -50px;
             border-radius: 50%;
         }
 
+        #window {
+            width: 30px;
+            height: 15px;
+            background-color: aqua;
+            position: absolute;
+            left: 5px;
+            top: -10px;
+            border-bottom: 50px solid aqua;
+            border-top-left-radius: 50px solid transparent;
+            border-top-right-radius: 10px;
+        }
+
         #wings {
-            width: 100px;
-            height: 50px;
-            background-color: gray;
+            width: 50px;
+            height: 0px;
+            background-color: transparent;
             position: absolute;
             left: -50px;
             bottom: 0px;
             border-bottom: 50px solid lightgray;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+        }
+
+        #tail {
+            width: 10px;
+            height: 40px;
+            background-color: gray;
+            position: absolute;
+            top: 10px;
+            left: 20px;
         }
 
         #fire {
@@ -188,8 +233,9 @@
             background-color: gold;
             position: absolute;
             left: -10px;
-            top: -50px;  
+            bottom: -50px;
             border-radius: 50%;
+            z-index: -10;
         }
 
         #inner-fire {
@@ -198,22 +244,20 @@
             background-color: tomato;
             position: absolute;
             left: 15px;
-            top: 20px;  
+            bottom: 20px;
             border-radius: 50%;
+            z-index: -10;
         }
-
     </style>
-
-
 </head>
 
 <body>
     <div id="pig">
         <div id="left-eye">
-           <div id="left-pupil"></div>
+            <div id="left-pupil"></div>
         </div>
         <div id="right-eye">
-           <div id="right-pupil"></div>
+            <div id="right-pupil"></div>
         </div>
         <div id="nose">
             <div id="left-hole"></div>
@@ -221,22 +265,27 @@
         </div>
         <div id="mouth"></div>
         <div id="left-ear"></div>
+        <div id="right-ear"></div>
     </div>
 
     <div id="car">
         <div id="windows"></div>
-        <div id="front-wheel"></div>
-        <div id="back-wheel"></div>
-        <div id="front-rim"></div>
-        <div id="back-rim"></div>
-
+        <div id="front-wheel">
+            <div id="front-rim"></div>
+        </div>
+        <div id="back-wheel">
+            <div id="back-rim"></div>
+        </div>
     </div>
 
-    <div id="spaceship"></div>
-    <div id="head"></div>
-    <div id="wings"></div>
-    <div id="fire"></div>               
-        <div id="inner-fire"></div>
-
+    <div id="spaceship">
+        <div id="head"></div>
+        <div id="wings"></div>
+        <div id="tail"></div>
+        <div id="window"></div> 
+        <div id="fire">
+            <div id="inner-fire"></div>  
+        </div>
+    </div>
 </body>
 </html>
