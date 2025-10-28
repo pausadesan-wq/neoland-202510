@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draw</title>
+
+    <style>
+        body {
+            background-color: black;
+        }
+
+        #pig {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            /* border-radius: 50px; */
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+
+        #left-eye {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            left: 5px;
+            top: 10px;
+        }
+
+        #left-pupil {
+            widht: 20px;
+            height: 20px;
+            background-color: black;
+        }
+
+        #right-eye {
+            widht: 40px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+        }
+
+        #right-pupil {
+            widht: 20px;
+            height: 20px;
+            background-color: black;
+        }
+
+        #nose {
+            wight: 40px;
+            height: 20px;
+            background-color: palevioletred;
+            left: 30px;
+            top: 50px;
+        }
+
+        #left-hole {
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+
+        }
+
+        #right-hole {
+            width: 10px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        #mouth {
+            width: 30px;
+            hegith: 10px;
+            background-color: black;
+            position: absolute;
+            left: 35px;
+            bottom: 5px;
+        }
+
+        /*car */
+
+        #car {
+            width: 200px;
+            height: 50px;
+            background-color: dodgerblue;
+            position: absolute;
+            left: 250px;
+            top: 250px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        #windows {
+            width: 100px;
+            height: 20px;
+            background-color: aqua;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            position: absolute;
+            left: 50px;
+            top: -20px;
+
+        }
+        #front-wheel {
+            width: 40px;
+            height: 40px;
+            background-color: gray;
+            border-radius: 20px;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        #front-rim {
+            width: 30px;
+            height: 30px;
+            background-color: darkgray;
+            border-radius: 15px;
+            position: absolute;
+            left: 5px;
+            top: 5px;
+        }
+        #back-wheel {
+            width: 40px;
+            height: 40px;
+            background-color: gray;
+            border-radius: 20px;
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        #back-rim {
+            width: 30px;
+            height: 30px;
+            background-color: darkgray;
+            border-radius: 15px;
+            position: absolute;
+            left: 5px;
+            top: 5px;
+        }
+
+        /* spaceship */
+
+        #spaceship {
+            width: 50px;
+            height: 100px;
+            background-color: lightgray;
+            position: absolute;
+            left: 100px;
+            top: 300px;
+        }
+
+        #head {
+            width: 50px;
+            height: 100px;
+            background-color: lightgray;
+            position: absolute;
+            left: 0px;
+            top: -50px;  
+            border-radius: 50%;
+        }
+
+        #wings {
+            width: 100px;
+            height: 50px;
+            background-color: gray;
+            position: absolute;
+            left: -50px;
+            bottom: 0px;
+            border-bottom: 50px solid lightgray;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+        }
+
+        #fire {
+            width: 70px;
+            height: 100px;
+            background-color: gold;
+            position: absolute;
+            left: -10px;
+            top: -50px;  
+            border-radius: 50%;
+        }
+
+        #inner-fire {
+            width: 40px;
+            height: 60px;
+            background-color: tomato;
+            position: absolute;
+            left: 15px;
+            top: 20px;  
+            border-radius: 50%;
+        }
+
+    </style>
+
+
+</head>
+
+<body>
+    <div id="pig">
+        <div id="left-eye">
+           <div id="left-pupil"></div>
+        </div>
+        <div id="right-eye">
+           <div id="right-pupil"></div>
+        </div>
+        <div id="nose">
+            <div id="left-hole"></div>
+            <div id="right-hole"></div>
+        </div>
+        <div id="mouth"></div>
+        <div id="left-ear"></div>
+    </div>
+
+    <div id="car">
+        <div id="windows"></div>
+        <div id="front-wheel"></div>
+        <div id="back-wheel"></div>
+        <div id="front-rim"></div>
+        <div id="back-rim"></div>
+
+    </div>
+
+    <div id="spaceship"></div>
+    <div id="head"></div>
+    <div id="wings"></div>
+    <div id="fire"></div>               
+        <div id="inner-fire"></div>
+
+</body>
+</html>
