@@ -11,108 +11,134 @@
             background-color: black;
         }
 
+        /* mike (monsters inc) */
+
+        .mike {
+            background-color: yellowgreen;
+            padding: 10px;
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+
+            & .eye {
+                width: 40px;
+                height: 40px;
+                background-color: white;
+                position: absolute;
+                left: 20px;
+                top: 10px;
+                border-radius: 50%;
+            }
+
+            & .pupil {
+                width: 20px;
+                height: 20px;
+                background-color: darkblue;
+                position: absolute;
+                left: 10px;
+                top: 10px;
+                border-radius: 50%;
+            }
+
+            & .mouth {
+                width: 30px;
+                height: 10px;
+                background-color: black;
+                position: absolute;
+                left: 25px;
+                bottom: 10px;
+            }
+        }
+
         /* pig */
 
-        #pig {
+        .pig {
             width: 100px;
             height: 100px;
             background-color: pink;
             position: absolute;
             left: 100px;
             top: 100px;
-        }
 
-        #left-eye {
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            position: absolute;
-            left: 5px;
-            top: 5px;
-        }
+            & .eye {
+                width: 40px;
+                height: 40px;
+                background-color: white;
+                position: absolute;
+                top: 5px;
+            }
 
-        #left-pupil {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
+            & .eye-left {
+                left: 5px;
+            }
 
-        #right-eye {
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            position: absolute;
-            right: 5px;
-            top: 5px;
-        }
+            & .eye-right {
+                right: 5px;
+            }
 
-        #right-pupil {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
+            & .pupil {
+                width: 20px;
+                height: 20px;
+                background-color: black;
+                position: absolute;
+                left: 10px;
+                top: 10px;
+            }
 
-        #nose {
-            width: 50px;
-            height: 30px;
-            background-color: palevioletred;
-            position: absolute;
-            left: 25px;
-            top: 50px;
-        }
+            & .nose {
+                width: 50px;
+                height: 30px;
+                background-color: palevioletred;
+                position: absolute;
+                left: 25px;
+                top: 50px;
+            }
 
-        #left-hole {
-            width: 10px;
-            height: 10px;
-            background-color: black;
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
+            & .hole {
+                width: 10px;
+                height: 10px;
+                background-color: black;
+                position: absolute;
+                top: 10px;
+            }
 
-        #right-hole {
-            width: 10px;
-            height: 10px;
-            background-color: black;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
+            & .hole-left {
+                left: 10px;
+            }
 
-        #mouth {
-            width: 30px;
-            height: 10px;
-            background-color: black;
-            position: absolute;
-            left: 35px;
-            bottom: 5px;
-        }
+            & .hole-right {
+                right: 10px;
+            }
 
-        #left-ear {
-            width: 10px;
-            height: 40px;
-            background-color: pink;
-            position: absolute;
-            left: -10px;
-        }
+            & .mouth {
+                width: 30px;
+                height: 10px;
+                background-color: black;
+                position: absolute;
+                left: 35px;
+                bottom: 5px;
+            }
 
-        #right-ear {
-            width: 10px;
-            height: 40px;
-            background-color: pink;
-            position: absolute;
-            right: -10px;
+            & .ear {
+                width: 10px;
+                height: 40px;
+                background-color: pink;
+                position: absolute;
+            }
+
+            & .ear-left {
+                left: -10px;
+            }
+
+            & .ear-right {
+                right: -10px;
+            }
         }
 
         /* car */
 
-        #car {
+        .car {
             width: 200px;
             height: 50px;
             background-color: dodgerblue;
@@ -121,199 +147,185 @@
             top: 250px;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
+
+            & .windows {
+                width: 100px;
+                height: 20px;
+                background-color: aqua;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                position: absolute;
+                left: 50px;
+                top: -20px;
+            }
+
+            & .wheel {
+                width: 40px;
+                height: 40px;
+                background-color: gray;
+                border-radius: 20px;
+                position: absolute;
+                top: 20px;
+            }
+
+            & .wheel-front {
+                left: 20px;
+            }
+
+            & .wheel-back {
+                right: 20px;
+            }
+
+            & .rim {
+                width: 30px;
+                height: 30px;
+                background-color: darkgray;
+                border-radius: 15px;
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
         }
 
-        #windows {
-            width: 100px;
-            height: 20px;
-            background-color: aqua;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            position: absolute;
-            left: 50px;
-            top: -20px;
-        }
-
-        #front-wheel {
-            width: 40px;
-            height: 40px;
-            background-color: gray;
-            border-radius: 20px;
-            position: absolute;
-            left: 20px;
-            top: 20px;
-        }
-
-        #front-rim {
-            width: 30px;
-            height: 30px;
-            background-color: darkgray;
-            border-radius: 15px;
-            position: absolute;
-            left: 5px;
-            top: 5px;
-        }
-
-        #back-wheel {
-            width: 40px;
-            height: 40px;
-            background-color: gray;
-            border-radius: 20px;
-            position: absolute;
-            right: 20px;
-            top: 20px;
-        }
-
-        #back-rim {
-            width: 30px;
-            height: 30px;
-            background-color: darkgray;
-            border-radius: 15px;
-            position: absolute;
-            left: 5px;
-            top: 5px;
-        }
 
         /* spaceship */
 
-        #spaceship {
+        .spaceship {
             width: 50px;
             height: 100px;
             background-color: lightgray;
             position: absolute;
             left: 100px;
             top: 300px;
-        }
 
-        #head {
-            width: 50px;
-            height: 100px;
-            background-color: lightgray;
-            position: absolute;
-            left: 0px;
-            top: -50px;
-            border-radius: 50%;
-        }
+            & .head {
+                width: 50px;
+                height: 100px;
+                background-color: lightgray;
+                position: absolute;
+                left: 0px;
+                top: -50px;
+                border-radius: 50%;
+            }
 
+            & .window {
+                width: 30px;
+                height: 15px;
+                background-color: aqua;
+                position: absolute;
+                left: 10px;
+                top: -20px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
 
-        #window {
-            width: 30px;
-            height: 15px;
-            background-color: aqua;
-            position: absolute;
-            left: 10px;
-            top: -20px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
+            & .wings {
+                width: 50px;
+                height: 0px;
+                background-color: transparent;
+                position: absolute;
+                left: -50px;
+                bottom: 0px;
+                border-bottom: 50px solid lightgray;
+                border-left: 50px solid transparent;
+                border-right: 50px solid transparent;
+            }
 
-        #wings {
-            width: 50px;
-            height: 0px;
-            background-color: transparent;
-            position: absolute;
-            left: -50px;
-            bottom: 0px;
-            border-bottom: 50px solid lightgray;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-        }
+            & .tail {
+                width: 10px;
+                height: 40px;
+                background-color: gray;
+                position: absolute;
+                top: 10px;
+                left: 20px;
+            }
 
-        #tail {
-            width: 10px;
-            height: 40px;
-            background-color: gray;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-        }
+            & .fire {
+                width: 70px;
+                height: 100px;
+                background-color: gold;
+                position: absolute;
+                left: -10px;
+                bottom: -50px;
+                border-radius: 50%;
+                z-index: -10;
+            }
 
-        #fire {
-            width: 70px;
-            height: 100px;
-            background-color: gold;
-            position: absolute;
-            left: -10px;
-            bottom: -50px;
-            border-radius: 50%;
-            z-index: -10;
-        }
-
-        #inner-fire {
-            width: 40px;
-            height: 60px;
-            background-color: tomato;
-            position: absolute;
-            left: 15px;
-            bottom: 20px;
-            border-radius: 50%;
-            z-index: -10;
+            & .inner-fire {
+                width: 40px;
+                height: 60px;
+                background-color: tomato;
+                position: absolute;
+                left: 15px;
+                bottom: 20px;
+                border-radius: 50%;
+                z-index: -10;
+            }
         }
 
         /* house */
 
-        #house {
+        .house {
             width: 100px;
             height: 100px;
             background-color: beige;
             position: absolute;
             left: 230px;
             top: 180px;
+
+            .glass {
+                width: 30px;
+                height: 30px;
+                background-color: aqua;
+                position: absolute;
+                top: 15px;
+
+                &.glass-1 {
+                    left: 15px;
+                }
+
+                &.glass-2 {
+                    right: 15px;
+                }
+            }
+
+            .door {
+                width: 30px;
+                height: 45px;
+                background-color: burlywood;
+                position: absolute;
+                left: 35px;
+                top: 55px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+
+            .roof {
+                width: 30px;
+                height: 60px;
+                background-color: transparent;
+                position: absolute;
+                top: -105px;
+                right: -40px;
+                border-left: 75px solid transparent;
+                border-right: 75px solid transparent;
+                border-bottom: 50px solid burlywood;
+            }
+
+            .fireplace {
+                width: 10px;
+                height: 30px;
+                background-color: lightgray;
+                position: absolute;
+                top: -50px;
+                right: 90px;
+            }
         }
 
-        #glass-1 {
-            width: 30px;
-            height: 30px;
-            background-color: aqua;
-            position: absolute;
-            left: 15px;
-            top: 15px;
-        }
-
-        #glass-2 {
-            width: 30px;
-            height: 30px;
-            background-color: aqua;
-            position: absolute;
-            right: 15px;
-            top: 15px;
-        }
-
-        #door {
-            width: 30px;
-            height: 45px;
-            background-color: burlywood;
-            position: absolute;
-            left: 35px;
-            top: 55px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        #roof {
-            width: 30px;
-            height: 60px;
-            background-color: transparent;
-            position: absolute;
-            top: -105px;
-            right: -40px;
-            border-left: 75px solid transparent;
-            border-right: 75px solid transparent;
-            border-bottom: 50px solid burlywood;
-        }
-
-        #fireplace {
-            width: 10px;
-            height: 30px;
-            background-color: lightgray;
-            position: absolute;
-            top: -50px;
-            right: 90px;
-        }
 
         /* deadpoolmask */
 
-        #deadpoolmask {
+        .deadpoolmask {
             width: 130px;
             height: 130px;
             background-color: red;
@@ -323,16 +335,17 @@
             left: 60px;
         }
 
-        #inner-mask {
+        & .inner-mask {
             width: 110px;
             height: 110px;
             background-color: black;
             position: absolute;
             border-radius: 50%;
             top: 350px;
-            left: 70px; 
+            left: 70px;
         }
-        #strip {
+
+        & .strip {
             width: 20px;
             height: 120px;
             background-color: red;
@@ -341,7 +354,7 @@
             left: 115px;
         }
 
-        #left-eye-mask {
+        & .left-eye-mask {
             width: 28px;
             height: 28px;
             background-color: white;
@@ -351,7 +364,7 @@
             right: -118px;
         }
 
-        #right-eye-mask {
+        & .right-eye-mask {
             width: 28px;
             height: 28px;
             background-color: white;
@@ -360,60 +373,68 @@
             top: 380px;
             left: 83px;
         }
-
+        
     </style>
 </head>
 
 <body>
-    <div id="pig">
-        <div id="left-eye">
-            <div id="left-pupil"></div>
+    <div class="mike">
+        <div class="eye">
+            <div class="pupil"></div>
         </div>
-        <div id="right-eye">
-            <div id="right-pupil"></div>
-        </div>
-        <div id="nose">
-            <div id="left-hole"></div>
-            <div id="right-hole"></div>
-        </div>
-        <div id="mouth"></div>
-        <div id="left-ear"></div>
-        <div id="right-ear"></div>
+        <div class="mouth"></div>
     </div>
 
-    <div id="car">
-        <div id="windows"></div>
-        <div id="front-wheel">
-            <div id="front-rim"></div>
+    <div class="pig">
+        <div class="eye eye-left">
+            <div class="pupil"></div>
         </div>
-        <div id="back-wheel">
-            <div id="back-rim"></div>
+        <div class="eye eye-right">
+            <div class="pupil"></div>
+        </div>
+        <div class="nose">
+            <div class="hole hole-left"></div>
+            <div class="hole hole-right"></div>
+        </div>
+        <div class="mouth"></div>
+        <div class="ear ear-left"></div>
+        <div class="ear ear-right"></div>
+    </div>
+
+    <div class="car">
+        <div class="windows"></div>
+        <div class="wheel wheel-front">
+            <div class="rim"></div>
+        </div>
+        <div class="wheel wheel-back">
+            <div class="rim"></div>
         </div>
     </div>
 
-    <div id="spaceship">
-        <div id="head"></div>
-        <div id="window"></div>
-        <div id="wings">
-            <div id="tail"></div>
+    <div class="spaceship">
+        <div class="head"></div>
+        <div class="window"></div>
+        <div class="wings">
+            <div class="tail"></div>
         </div>
-        <div id="fire">
-            <div id="inner-fire"></div>    
-        </div>
-
-        <div id="house">
-            <div id="glass-1"></div>
-            <div id="glass-2"></div>
-            <div id="door"></div>
-            <div id="fireplace"></div>
-            <div id="roof"></div>
+        <div class="fire">
+            <div class="inner-fire"></div>
         </div>
 
-        <div id="deadpoolmask"></div>
-        <div id="inner-mask"></div>
-        <div id="strip"></div>
-        <div id="left-eye-mask"></div>
-        <div id="right-eye-mask"></div>
+        <div class="house">
+            <div class="roof"></div>
+            <div class="fireplace"></div>
+            <div class="glass glass-1"></div>
+            <div class="glass glass-2"></div>
+            <div class="door"></div>
+        </div>
+
+
+        <div class="deadpoolmask"></div>
+        <div class="inner-mask"></div>
+        <div class="strip"></div>
+        <div class="left-eye-mask"></div>
+        <div class="right-eye-mask"></div>
     </div>
 </body>
 
