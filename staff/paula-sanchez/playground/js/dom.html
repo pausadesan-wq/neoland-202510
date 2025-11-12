@@ -4,8 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM</title>
+<!--
+    <style>
+        .mi-clase{
+            border-style: solid;
+            background-color: pink;
+        }
+
+    </style>
+        -->
 </head>
 <body>
-    
+    <h1>Hello, DOM!</h1>
+
+    <div>
+        <p> A ver, qué le ponemos</p>
+    </div>
+
+    <script>
+        document.childNodes[1].childNodes[2].childNodes[1].style.backgroundColor = 'olive'
+        document.childNodes[1].childNodes[2].childNodes[1].style.color = 'beige'
+        document.childNodes[1].childNodes[2].childNodes[1].style.paddingLeft = '.5rem'
+        document.childNodes[1].childNodes[2].childNodes[3].childNodes[1].style.color = 'green'
+
+        const div = document.createElement('div')
+        div.textContent = 'Descubriendo DOM'
+        //div.className = 'mi-clase'
+        div.style.borderStyle = 'solid'
+        div.style.backgroundColor = 'rgb(250,140,100)'
+        document.body.appendChild(div);
+
+        const box = document.createElement('div')
+        box.style.width = '100px'
+        box.style.height = '100px'
+        box.style.background = 'orange'
+        box.style.position = 'absolute'
+        box.style.top = '200px'
+        box.style.left = '150px'
+        document.body.appendChild(box)
+
+        const minibox = document.createElement('div')
+        minibox.style.width = '50px'
+        minibox.style.height = '50px'
+        minibox.style.backgroundColor = 'red'
+        minibox.style.position = 'absolute'
+        minibox.style.top = '25px'
+        minibox.style.right = '25px'
+        minibox.style.borderRadius = '50%'
+        box.appendChild(minibox)
+
+        const robot = document.createElement('div')
+        robot.style.width = '200px'
+        robot.style.height = '200px'
+        robot.style.backgroundColor = 'grey'
+        robot.style.top = '400px'
+        robot.style.left = '100px'
+        robot.style.position = 'absolute'
+        document.body.appendChild(robot)
+
+        const eyeL = document.createElement('div')
+        eyeL.style.width = '40px'
+        eyeL.style.height = '40px'
+        eyeL.style.backgroundColor = 'silver'
+        eyeL.style.position = 'absolute'
+        eyeL.style.top = '50px'
+        eyeL.style.left = '35px'
+        robot.appendChild(eyeL)
+
+        const eyeR = document.createElement('div')
+        eyeR.style.width = '40px'
+        eyeR.style.height = '40px'
+        eyeR.style.backgroundColor = 'silver'
+        eyeR.style.position = 'absolute'
+        eyeR.style.top = '50px'
+        eyeR.style.right = '35px'
+        robot.appendChild(eyeR)
+
+        const mouth = document.createElement('div')
+        mouth.style.width = '80px'
+        mouth.style.height = '40px'
+        mouth.style.backgroundColor = 'silver'
+        mouth.style.position = 'absolute'
+        mouth.style.top = '130px'
+        mouth.style.right = '60px'
+        robot.appendChild(mouth)
+
+    </script>
 </body>
 </html>
