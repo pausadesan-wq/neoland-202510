@@ -69,3 +69,36 @@ console.log(collection)
 collection.remove('Wendy')
 console.log(collection)
 // { 0: 'Peter', 2: 'James', count: 3}
+
+// EJERCICIO 11-11-2025
+
+collection.removeFirst('Wendy')
+console.log(collection)
+
+collection.add('Wendy')
+collection.add('Pepito')
+collection.add('Wendy')
+
+collection.removeFirst = function (item) {
+    for (var i = 0; i < this.count; i++) {
+        if (this[i] === item) {
+            delete this[i]
+            return
+        }
+    }
+}
+
+// TODO implement remove method
+// forma más avanzada --> collection.update = function (src, update){
+
+collection.update = function (target, replacement){
+    for (var i = 0; i < this.count; i++)
+        if (this[i] === target)
+            this[i] = replacement
+}
+
+collection.update('Pepito', 'Jiminy')
+console.log(collection)
+
+// src --> src (source), el valor original a buscar. Es el elemento que quieres reemplazar dentro de la colección.
+// update --> es el nuevo valor con el que lo sustituyes.
