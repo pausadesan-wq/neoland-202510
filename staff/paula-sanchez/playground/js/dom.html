@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOM</title>
-<!--
+    <!--
     <style>
         .mi-clase{
             border-style: solid;
@@ -14,6 +15,7 @@
     </style>
         -->
 </head>
+
 <body>
     <h1>Hello, DOM!</h1>
 
@@ -89,6 +91,73 @@
         mouth.style.right = '60px'
         robot.appendChild(mouth)
 
+        //Práctica pececito
+
+        const fishBody = document.createElement('div')
+        fishBody.style.width = '140px'
+        fishBody.style.height = '90px'
+        fishBody.style.background = 'linear-gradient(to right, #00b3b3, #66ffff)'
+        fishBody.style.borderRadius = '50%'
+        fishBody.style.position = 'absolute'
+        fishBody.style.top = '700px'
+        fishBody.style.left = '100px'
+        document.body.appendChild(fishBody)
+
+        const tail = document.createElement('div')
+        tail.style.width = '0'
+        tail.style.height = '0'
+        tail.style.borderTop = '30px solid transparent'
+        tail.style.borderBottom = '30px solid transparent'
+        tail.style.borderRight = '40px solid #00cccc'
+        tail.style.position = 'absolute'
+        tail.style.top = '18px'
+        tail.style.left = '140px'
+        fishBody.appendChild(tail)
+
+        const eyeFish = document.createElement('div')
+        eyeFish.style.width = '25px'
+        eyeFish.style.height = '25px'
+        eyeFish.style.backgroundColor = 'white'
+        eyeFish.style.borderRadius = '50%'
+        eyeFish.style.position = 'absolute'
+        eyeFish.style.top = '25px'
+        eyeFish.style.left = '30px'
+        fishBody.appendChild(eyeFish)
+
+        const pupil = document.createElement('div')
+        pupil.style.width = '15px'
+        pupil.style.height = '15px'
+        pupil.style.backgroundColor = 'blue'
+        pupil.style.borderRadius = '50%'
+        pupil.style.position = 'absolute'
+        pupil.style.top = '5px'
+        pupil.style.left = '0'
+        eyeFish.appendChild(pupil)
+
+        const finTop = document.createElement('div')
+        finTop.style.width = '0'
+        finTop.style.height = '0'
+        finTop.style.borderLeft = '15px solid transparent'
+        finTop.style.borderRight = '15px solid transparent'
+        finTop.style.borderBottom = '25px solid #00cccc'
+        finTop.style.position = 'absolute'
+        finTop.style.top = '90px'
+        finTop.style.left = '60px'
+        fishBody.appendChild(finTop)
+
+        const finBottom = document.createElement('div')
+        finBottom.style.width = '0'
+        finBottom.style.height = '0'
+        finBottom.style.borderLeft = '15px solid transparent'
+        finBottom.style.borderRight = '15px solid transparent'
+        finBottom.style.borderTop = '25px solid #00cccc'
+        finBottom.style.position = 'absolute'
+        finBottom.style.top = '-25px'
+        finBottom.style.left = '60px'
+        fishBody.appendChild(finBottom)
+
+
     </script>
 </body>
+
 </html>
