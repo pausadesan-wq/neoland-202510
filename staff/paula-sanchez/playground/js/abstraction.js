@@ -58,12 +58,12 @@ for (let i = 0; i < products.length; i++) {
     console.log('Brand: ' + products[i].brand + ', Model: ' + products[i].model + ', Sku: ' + products[i].sku + ', Variant: ' + products[i].variant)
     
 }
-
+//----> otra forma de hacerlo, pero es más largo
 */
 
 for (var i = 0; i < products.length; i++) {
     var product = products[i]
 
     var line = product.brand + ' ' + product.model + ' ' + product.variant + ' (' + product.sku + ')'
-    console.log(line)
+    console.log(line) 
 }

@@ -103,3 +103,20 @@ console.log(collection)
 // src --> src (source), el valor original a buscar. Es el elemento que quieres reemplazar dentro de la colección.
 // update --> es el nuevo valor con el que lo sustituyes.
 
+// TODO implement updateFirst method to find the first element matching target and update it with replacement
+
+collection.updateFirst = function (target, replacement) {
+    for (var i = 0; i < this.count; i++)
+        if (this[i] === target) {
+            this[i] = replacement
+            return
+        }
+}
+
+collection.updateFirst('Jiminy', 'Pepito')
+console.log(collection)
+
+// { 0: 'Peter', 2: 'James', 4: 'Pepito', 5: 'Wendy', 6: 'Jiminy', count: 7}
+
+//TODO SWAP
+//TODO index
