@@ -45,15 +45,25 @@ products[3] = pumaFerrariYellow
 products[4] = vansOlsSchoolBlack
 */
 //var products = [nikeAirMaxBlack, nikeAirMaxWhite, pumaFerrariRed, pumaFerrariYellow, vansOlsSchoolBlack]
+
 var products = new Array(nikeAirMaxBlack, nikeAirMaxWhite, pumaFerrariRed, pumaFerrariYellow, vansOlsSchoolBlack)
 
 console.clear()
 
 // TODO show list of products in console (with all information inline per product)
 
-console.log('Product list: ')
+/* console.log('Product list: ')
 
 for (let i = 0; i < products.length; i++) {
     console.log('Brand: ' + products[i].brand + ', Model: ' + products[i].model + ', Sku: ' + products[i].sku + ', Variant: ' + products[i].variant)
     
+}
+
+*/
+
+for (var i = 0; i < products.length; i++) {
+    var product = products[i]
+
+    var line = product.brand + ' ' + product.model + ' ' + product.variant + ' (' + product.sku + ')'
+    console.log(line)
 }
