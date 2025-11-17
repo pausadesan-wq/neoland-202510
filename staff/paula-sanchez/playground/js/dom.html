@@ -42,7 +42,7 @@
         box.style.background = 'orange'
         box.style.position = 'absolute'
         box.style.top = '200px'
-        box.style.left = '150px'
+        box.style.left = '300px'
         document.body.appendChild(box)
 
         const minibox = document.createElement('div')
@@ -60,7 +60,7 @@
         robot.style.height = '200px'
         robot.style.backgroundColor = 'grey'
         robot.style.top = '400px'
-        robot.style.left = '100px'
+        robot.style.left = '300px'
         robot.style.position = 'absolute'
         document.body.appendChild(robot)
 
@@ -155,6 +155,134 @@
         finBottom.style.top = '-25px'
         finBottom.style.left = '60px'
         fishBody.appendChild(finBottom)
+
+        //PRÁCTICA 14-11-2025
+
+        let marioX = 100, marioY = 200, marioWidth = 70, marioHeight = 150, marioLife = 10
+
+        const step = 10
+
+        const mario = document.createElement('div')
+        mario.style.width = marioWidth +'px'
+        mario.style.height = marioHeight + 'px'
+        mario.style.backgroundColor = 'green'
+        mario.style.backgroundImage = 'url(https://static.wikia.nocookie.net/mario/images/d/dc/Mario_%282%29.png)'
+        mario.style.backgroundPosition = 'center'
+        mario.style.backgroundSize = 'contain'
+        mario.style.backgroundRepeat = 'no-repeat'
+        mario.style.position = 'absolute'
+        mario.style.position = 'absolute'
+        mario.style.left = marioX + 'px'
+        mario.style.top = marioY + 'px'
+        document.body.appendChild(mario)
+
+        /*
+        const marioHead = document.createElement('div')
+        marioHead.style.width = '50px'
+        marioHead.style.height = '50px'
+        marioHead.style.backgroundColor = 'gold'
+        marioHead.style.position = 'absolute'
+        marioHead.style.top = '-50px'
+        marioHead.style.left = '25px'
+        mario.appendChild(marioHead)
+        */
+
+        //Enemy Mario
+        
+        let goombaX = 100, goombaY = 500, goombaWidth = 80, goombaHeight = 100, goombaLife = 10
+
+        const goomba = document.createElement('div')
+        goomba.style.width = goombaWidth + 'px'
+        goomba.style.height = goombaHeight + 'px'
+        goomba.style.backgroundColor = 'green'
+        goomba.style.backgroundImage = 'url(https://static.wikia.nocookie.net/mario/images/d/d5/GoombaNSMB.png)'
+        goomba.style.backgroundPosition = 'center'
+        goomba.style.backgroundSize = 'contain'
+        goomba.style.backgroundRepeat = 'no-repeat'
+        goomba.style.position = 'absolute'
+        goomba.style.left = goombaX + 'px'
+        goomba.style.top = goombaY + 'px'
+        document.body.appendChild(goomba)
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowUp')
+                marioY -= step // marioY = marioY - step
+            else if (event.key === 'ArrowDown')
+                marioY += step
+            else if (event.key === 'ArrowLeft')
+                marioX -= step
+            else if (event.key === 'ArrowRight')
+                marioX += step
+
+            mario.style.left = marioX + 'px'
+            mario.style.top = marioY + 'px'
+
+            console.log('mario', marioX, marioY)
+
+            if (event.key === 'w')
+                goombaY -= step 
+            else if (event.key === 's')
+                goombaY += step
+            else if (event.key === 'a')
+                goombaX -= step
+            else if (event.key === 'd')
+                goombaX += step
+
+            goomba.style.left = goombaX + 'px'
+            goomba.style.top = goombaY + 'px'
+
+            console.log('goomba', goombaX, goombaY)
+
+            // detect collision
+
+            let marioXMax = marioX + marioWidth
+            let marioYMax = marioY + marioHeight
+
+            if (marioXMax > goombaX && marioYMax > goombaY) {
+                console.log('collision')
+
+                marioLife--
+                goombaLife--
+
+                if (marioLife < 8 && goombaLife >= 4)
+                mario.style.backgroundColor = 'gold'
+            else if (marioLife < 4)
+                mario.style.backgroundColor = 'tomato'
+
+                if (goombaLife < 8 && goombaLife >= 4)
+                goomba.style.backgroundColor = 'gold'
+                else if (goombaLife < 4)
+                goomba.style.backgroundColor = 'tomato'
+
+}
+        })
+
+
+        /*
+        
+        OTRA FORMA DE HACERLO
+        
+        document.addEventListener('keydown', function (event) {
+                    if (event.key === 'ArrowUp') {
+                        marioY -= step
+                        mario.style.top = marioY + 'px'
+                    }
+                    else if (event.key === 'ArrowDown') {
+                        marioY += step
+                        mario.style.top = marioY + 'px'
+                    }
+                    else if (event.key === 'ArrowLeft') {
+                        marioX -= step
+                        mario.style.left = marioX + 'px'
+                    }
+                    else if (event.key === 'ArrowRight') {
+                        marioX += step
+                        mario.style.left = marioX + 'px'
+                    }
+                })
+        
+        */
+        //console.log('key down')
 
 
     </script>
