@@ -176,6 +176,10 @@
         mario.style.top = marioY + 'px'
         document.body.appendChild(mario)
 
+        mario.addEventListener('click', function() {
+            alert('Ouch!')
+        } )
+
         /*
         const marioHead = document.createElement('div')
         marioHead.style.width = '50px'
@@ -203,6 +207,10 @@
         goomba.style.left = goombaX + 'px'
         goomba.style.top = goombaY + 'px'
         document.body.appendChild(goomba)
+
+        goomba.addEventListener('click', function() {
+            alert('dont touch me!')
+        } )
 
         document.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowUp')
@@ -238,7 +246,7 @@
             let marioXMax = marioX + marioWidth
             let marioYMax = marioY + marioHeight
 
-            if (marioXMax > goombaX && marioYMax > goombaY) {
+            if (marioXMax > goombaX && marioYMax > goombaY /*|| ... || .... ||... */ )  {
                 console.log('collision')
 
                 marioLife--
@@ -257,6 +265,67 @@
 }
         })
 
+// 17 noviembre 2025 -- clock
+
+        const clock = document.createElement('div')
+        clock.style.width = '150px'
+        clock.style.height = '15px'
+        clock.style.backgroundColor = 'black'
+        clock.style.color = 'greenyellow'
+        clock.style.fontFamily = 'Sixtyfour'
+        clock.style.textAlign = 'center'
+        clock.style.padding = '10px'
+        clock.style.borderWidth = '5px'
+        clock.style.borderColor = 'gray'
+        clock.style.borderStyle = 'solid'
+        clock.textContent = 'Loading...'
+
+        document.body.appendChild(clock)
+
+        // contador
+        //let counter = 30
+
+        setInterval(function(){
+            let now = new Date()
+            //clock.textContent = counter ---> contador
+            clock.textContent = now.toLocaleTimeString()
+            //counter--   cuenta atrás
+            console.log(clock.textContent)
+
+        }, 1000)
+
+        /* pointer follower */
+
+        const follower = document.createElement('div')
+        follower.style.width = '50px'
+        follower.style.height = '50px'
+        // follower.style.backgroundColor = 'gold'
+        follower.style.borderRadius = '50%'
+        follower.style.position = 'absolute'
+        follower.style.backgroundImage = 'url(images/crosshair.png)'
+        follower.style.backgroundPosition = 'center'
+        follower.style.backgroundSize = 'contain'
+        follower.style.backgroundRepeat = 'no-repeat'
+
+        document.body.appendChild(follower)
+
+        document.addEventListener('mousemove', function(event) {
+            console.log(event.clientX, event.clientY)
+
+            follower.style.left = event.clientX + 'px'
+            follower.style.top = event.clientY + 'px'
+        })
+
+        // Estilos para <html>
+        document.documentElement.style.height = '100%';
+        document.documentElement.style.margin = '0';
+
+        // Estilos para <body>
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.backgroundColor = 'skyblue';
+        document.body.style.cursor = 'none';
+        document.body.style.height = '100%';
 
         /*
         
