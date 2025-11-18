@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot</title>
+</head>
+
+<body>
+    <script>
+        function Robot(color) {
+            this.container = document.createElement('div')
+
+            this.container.style.backgroundColor = color
+            this.container.style.width = '100px'
+            this.container.style.height = '100px'
+            this.container.style.position = 'absolute'
+            this.x = 100
+            this.y = 100
+            this.container.style.left = this.x + 'px'
+            this.container.style.top = this.y + 'px'
+            this.container.style.transformOrigin = 'center'
+            this.rotation = 0
+            this.container.style.transform = 'rotate(' + this.rotation + 'deg)'
+
+            this.eye = document.createElement('div')
+            this.eye.style.backgroundColor = 'white'
+            this.eye.style.width = '50px'
+            this.eye.style.height = '50px'
+            this.eye.style.position = 'absolute'
+            this.eye.style.left = '25px'
+            this.eye.style.top = '25px'
+            this.container.appendChild(this.eye)
+
+            this.pupil = document.createElement('div')
+            this.pupil.style.backgroundColor = 'black'
+            this.pupil.style.width = '10px'
+            this.pupil.style.height = '10px'
+            this.pupil.style.position = 'absolute'
+            this.pupilX = 20
+            this.pupilY = 20
+            this.pupil.style.left = this.pupilX + 'px'
+            this.pupil.style.top = this.pupilY + 'px'
+            this.eye.appendChild(this.pupil)
+
+            this.rotationIntervalId = null
+        }
+
+        Robot.prototype.setPosition = function (x, y) {
+            this.x = x
+            this.y = y
+            this.container.style.left = this.x + 'px'
+            this.container.style.top = this.y + 'px'
+        }
+
+        Robot.prototype.moveRight = function () {
+            this.x += 10
+            this.container.style.left = this.x + 'px'
+            this.rotation += 20
+            this.container.style.transform = 'rotate(' + this.rotation + 'deg)'
+        }
+
+        Robot.prototype.moveLeft = function () {
+            this.x -= 10
+            this.container.style.left = this.x + 'px'
+            this.rotation -= 20
+            this.container.style.transform = 'rotate(' + this.rotation + 'deg)'
+        }
+
+        Robot.prototype.moveUp = function () {
+            this.y -= 10
+            this.container.style.top = this.y + 'px'
+        }
+
+        Robot.prototype.moveDown = function () {
+            this.y += 10
+            this.container.style.top = this.y + 'px'
+        }
+
+        Robot.prototype.startAutoRotation = function () {
+            const self = this
+
+            if (this.rotationIntervalId === null)
+                this.rotationIntervalId = setInterval(function () {
+                    self.rotation += 20
+                    self.container.style.transform = 'rotate(' + self.rotation + 'deg)'
+                }, 100)
+        }
+
+        Robot.prototype.stopAutoRotation = function () {
+            clearInterval(this.rotationIntervalId)
+            this.rotationIntervalId = null
+
+            this.rotation = 0
+            this.container.style.transform = 'rotate(' + this.rotation + 'deg)'
+        }
+
+        Robot.prototype.movePupilRight = function () {
+            this.pupilX += 10
+            this.pupil.style.left = this.pupilX + 'px'
+        }
+
+        Robot.prototype.movePupilLeft = function () {
+            this.pupilX -= 10
+            this.pupil.style.left = this.pupilX + 'px'
+        }
+
+        Robot.prototype.movePupilUp = function () {
+            this.pupilY -= 10
+            this.pupil.style.top = this.pupilY + 'px'
+        }
+
+        Robot.prototype.movePupilDown = function () {
+            this.pupilY += 10
+            this.pupil.style.top = this.pupilY + 'px'
+        }
+
+        Robot.prototype.roundYourself = function () {
+            this.container.style.borderRadius = '50%'
+        }
+
+        Robot.prototype.rectYourself = function () {
+            this.container.style.borderRadius = '0'
+        }
+
+        const robot = new Robot('tomato')
+        const robot2 = new Robot('dodgerblue')
+        const robot3 = new Robot('gold')
+
+        robot2.setPosition(300, 100)
+        robot3.setPosition(200, 200)
+
+        document.body.appendChild(robot.container)
+        document.body.appendChild(robot2.container)
+        document.body.appendChild(robot3.container)
+
+// robot 1 movimientos
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'ArrowUp')
+                robot.moveUp()
+            else if (event.key === 'ArrowDown')
+                robot.moveDown()
+            else if (event.key === 'ArrowLeft')
+                robot.moveLeft()
+            else if (event.key === 'ArrowRight')
+                robot.moveRight()
+
+// robot 2 movimientos
+
+            if (event.key === 'w')
+                robot2.moveUp()
+            else if (event.key === 's')
+                robot2.moveDown()
+            else if (event.key === 'a')
+                robot2.moveLeft()
+            else if (event.key === 'd')
+                robot2.moveRight()
+
+// robot 3 movimientos
+
+            if (event.key === 'i')
+                robot3.moveUp()
+            else if (event.key === 'k')
+                robot3.moveDown()
+            else if (event.key === 'j')
+                robot3.moveLeft()
+            else if (event.key === 'l')
+                robot3.moveRight()
+        })
+
+    </script>
+</body>
+
+</html>

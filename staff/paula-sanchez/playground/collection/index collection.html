@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection</title>
+</head>
+
+<body style="background-color: black;">
+    <script>
+
+        function Collection() {
+            this.count = 0
+        }
+
+        Collection.prototype.add = function (item) {
+            this[this.count] = item
+            this.count++
+        }
+
+        Collection.prototype.remove = function (item) {
+            for (var i = 0; i < this.count; i++) {
+                if (this[i] === item) {
+                    delete this[i]
+                }
+            }
+        }
+
+        Collection.prototype.removeFirst = function (item) {
+            for (var i = 0; i < this.count; i++) {
+                if (this[i] === item) {
+                    delete this[i]
+                    return
+                }
+            }
+        }
+        //names.update('Sergio', 'Dani') -- cambiar nombres
+
+        Collection.prototype.update = function (target, replacement) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === target)
+                    this[i] = replacement
+        }
+
+        //names.updateFirst('Sergio', 'Dani')
+
+        Collection.prototype.updateFirst = function (target, replacement) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === target)
+                    this[i] = replacement
+        }
+
+        Collection.prototype.push = function(item) {
+            this[this.count] = item
+            this.count++
+
+            return this.count
+        }
+        //nums.push(1000)
+
+        Collection.prototype.pop = function() {
+            const lastItem = this[this.count - 1]
+            //para eliminar una propiedad
+            delete this[this.count -1]
+            this.count--
+            return lastItem
+            //names.pop()
+
+
+        }
+
+        //TODO implement Collection.prototype.includes
+        //TODO implement Collection.prototype.indexOf
+        //TODO implement Collection.prototype.reverse
+        //TODO Jodlin: Collection.prototype.sort
+        //TODO Sergio: Collection.prototype.shift
+   
+
+        // test
+
+        const names = new Collection()
+        names.add('Juan')
+        names.add('Sergio')
+        names.add('Laura')
+        names.add('Albert')
+        names.add('Sergio')
+
+        //names.remove('Sergio')
+
+        const colors = new Collection()
+        colors.add('red')
+        colors.add('green')
+        colors.add('blue')
+
+        const nums = new Collection()
+        nums.add(3.141516) //PI
+        nums.add(666) // (...)
+        nums.add(2000)
+
+
+
+    </script>
+</body>
+
+</html>
