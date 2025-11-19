@@ -51,7 +51,7 @@
                     this[i] = replacement
         }
 
-        Collection.prototype.push = function(item) {
+        Collection.prototype.push = function (item) {
             this[this.count] = item
             this.count++
 
@@ -59,10 +59,10 @@
         }
         //nums.push(1000)
 
-        Collection.prototype.pop = function() {
+        Collection.prototype.pop = function () {
             const lastItem = this[this.count - 1]
             //para eliminar una propiedad
-            delete this[this.count -1]
+            delete this[this.count - 1]
             this.count--
             return lastItem
             //names.pop()
@@ -75,7 +75,135 @@
         //TODO implement Collection.prototype.reverse
         //TODO Jodlin: Collection.prototype.sort
         //TODO Sergio: Collection.prototype.shift
-   
+
+        //--EJERCICIO Sergio: Collection.prototype.shift -- 19 Noviembre 2025
+
+        /* ESTO COMO LO HA HECHO SERGIO
+        
+        Collection.prototype.shift = function() {
+             const firstItem = this[0]
+             delete this[0]
+             this.count--
+             for(let i = 0; i < this.count; i++)
+             this[i] = this[i + 1]
+         
+             delete this[this.count]
+             return firstItem
+         }
+ 
+         //names.shift()
+ */
+
+
+        // Versión de Manu - shift
+
+        Collection.prototype.shift = function () {
+            //Collection {0: 3.141516, 1: 666, 2: 2000, count: 3}
+            //3.141516
+            //Collection {0: 3.141516, 1: 666, 2: 2000, count: 2}
+            //Collection {0: 666, 1: 2000, 2: 2000, count: 2}
+            //Collection {0: 666, 1: 2000, count: 2}
+            //return 3.141516
+
+            const firstItem = this[0]
+
+            this.count--
+
+            for (let i = 0; i < this.count; i++) {
+                const item = this[i + 1]
+
+                this[i] = item
+
+            }
+
+            delete this[this.count]
+
+            return firstItem
+
+        }
+
+        // Versión de Manu - includes
+
+        Collection.prototype.includes = function (searchItem) {
+            //Collection {0: 'red', 1: 'green', 2: 'blue', count: 3}
+            //searchItem is blue
+            //compare value at 0 with searchItem
+            //compare value at 1 with searchItem
+            //compare value at 2 with searchItem
+            //return true (hemos encontrado el azul)
+
+            //searchItem is orange
+            //compare value at 0 with searchItem
+            //compare value at 1 with searchItem
+            //compare value at 2 with searchItem
+            //return false (no hay naranja)
+
+            //searchItem is green
+            //compare value at 0 with searchItem
+            //compare value at 1 with searchItem
+            //return true (hemos encontrado el verde)
+
+            for (let i = 0; i < this.count; i++) {
+                const item = this[i]
+
+                if (item === searchItem) return true
+            }
+
+            return false
+        }
+        //console: colors.includes('color x')
+
+        // Versión de Manu - fromIndex
+
+        //para buscar en la consola numeros: ejemplo [123, 456, 789].includes(123, 1) -- false
+        // [123, 456, 789].includes(456, 2) -- true
+
+        Collection.prototype.includes = function (searchItem, fromIndex) {
+            //Collection {0: 'red', 1: 'green', 2: 'blue', count: 3}
+
+            //searchItem green, fromIndex 0
+            //compare value at 0 with searchItem
+            //compare value at 1 with searchItem
+            //return true
+
+            //searchItem green, fromIndex 1
+            //compare value at 1 with searchItem
+            //return true
+
+            //searchItem green, fromIndex 2
+            //compare value at 2 with searchItem
+            //return false
+            /* más largo
+                        if (fromIndex === undefined)
+                        for (let i = 0; i < this.count; i++) {
+                            const item = this[i]
+            
+                            if (item === searchItem) return true
+                        }
+            
+                        else if (fromIndex >= 0)
+                        for (let i = fromIndex; i < this.count; i++) {
+                            const item = this[i]
+            
+                            if (item === searchItem) return true
+                        }
+            
+                        return false
+                    }
+            
+                    // en la consola, buscar colores: colors.includes('green', 0)
+            
+            */
+            if (fromIndex === undefined) fromIndex = 0
+            
+                for (let i = fromIndex; i < this.count; i++) {
+                    const item = this[i]
+
+                    if (item === searchItem) return true
+                }
+
+            return false
+        }
 
         // test
 
@@ -85,6 +213,7 @@
         names.add('Laura')
         names.add('Albert')
         names.add('Sergio')
+        names.add('Manu')
 
         //names.remove('Sergio')
 
