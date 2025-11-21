@@ -61,7 +61,7 @@
 
         // buscador
 
-        Database.prototype.findOwnerById = function(ownerId) {
+        Database.prototype.findOwnerById = function (ownerId) {
             for (let i = 0; i < this.owners.length; i++) {
                 const owner = this.owners[i] //variable auxiliar
 
@@ -74,14 +74,14 @@
 
         //el null se usa para encontrar algo concreto
 
-        Database.prototype.findPetsByOwnerId = function(ownerId) {
+        Database.prototype.findPetsByOwnerId = function (ownerId) {
             const foundPets = [] //para encontrar todas las mascotas de un usuario
 
             for (let i = 0; i < this.pets.length; i++) {
                 const pet = this.pets[i]
 
                 if (pet.ownerId === ownerId)
-                foundPets.push(pet)
+                    foundPets.push(pet)
             }
 
             return foundPets
@@ -89,19 +89,16 @@
 
         //TODO implement fin-pet-by-id
 
-        Database.prototype.findPetById = function(petId) {
-            for (let i = 0; i < this.pets.lenght; i++) {
+        Database.prototype.findPetById = function (petId) {
+            for (let i = 0; i < this.pets.length; i++) {
                 const pet = this.pets[i]
 
-                if (pet.id === petId) 
-                return pet
+                if (pet.id === petId)
+                    return pet
             }
 
+            return null
         }
-
-        return null
-}
-
 
         //buscar en la consola --> ejemplo: database.findPetsByOwnerId('blablabladni')
 
@@ -144,12 +141,12 @@
         database.pets[1].saveVaccine('uvw-123', '2026-04-04')
         database.pets[1].saveVaccine('xyz-345', '2026-11-01')
 
-// para buscar resultados, en este caso, el usuario de ese dni, que sería:
-// Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com')
+        // para buscar resultados, en este caso, el usuario de ese dni, que sería:
+        // Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com')
 
 
         const owner = database.findOwnerById('2345678980W')
-        console.log(owner) 
+        console.log(owner)
 
         // Owner ('123456789T', 'Laura', 'Chico', 'Mahnattan, 123', '+1(678)123456', 'laura@chico.com')
 
