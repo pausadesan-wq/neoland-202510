@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinary</title>
+</head>
+
+<body style="background-color: black;">
+    <script>
+
+        //esto es guardar una base de datos, como en excel
+
+        function Vaccine(id, name, description) {
+            this.id = id
+            this.name = name
+            this.description = description
+        }
+
+        function Owner(id, name, surname, address, phone, email) {
+            this.id = id
+            this.name = name
+            this.surname = surname
+            this.address = address
+            this.phone = phone
+            this.email = email
+        }
+
+        function Pet(ownerId, id, name, yearOfBirth, species, gender, race, colors) {
+            this.ownerId = ownerId
+            this.id = id
+            this.name = name
+            this.yearOfBirth = yearOfBirth
+            this.species = species
+            this.gender = gender
+            this.race = race
+            this.colors = colors
+            this.vaccines = [] // {vaccineId: 'rst-456', expirationDate: '2026-01-01'}
+        }
+
+        /*function Vaccine(id, name, description) {
+    this.id = id
+    this.name = name
+    this.description = description
+}
+
+            */
+
+
+
+        Pet.prototype.saveVaccine = function (vaccineId, expirationDate) {
+            this.vaccines.push({ vaccineId: vaccineId, expirationDate: expirationDate })
+        }
+
+        function Database() {
+            this.vaccines = []
+            this.owners = []
+            this.pets = []
+        }
+
+        // buscador
+
+        Database.prototype.findOwnerById = function(ownerId) {
+            for (let i = 0; i < this.owners.length; i++) {
+                const owner = this.owners[i] //variable auxiliar
+
+                if (owner.id === ownerId)
+                    return owner
+            }
+
+            return null
+        }
+
+        //el null se usa para encontrar algo concreto
+
+        Database.prototype.findPetsByOwnerId = function(ownerId) {
+            const foundPets = [] //para encontrar todas las mascotas de un usuario
+
+            for (let i = 0; i < this.pets.length; i++) {
+                const pet = this.pets[i]
+
+                if (pet.ownerId === ownerId)
+                foundPets.push(pet)
+            }
+
+            return foundPets
+        }
+
+        //TODO implement fin-pet-by-id
+
+        Database.prototype.findPetById = function(petId) {
+            for (let i = 0; i < this.pets.lenght; i++) {
+                const pet = this.pets[i]
+
+                if (pet.id === petId) 
+                return pet
+            }
+
+        }
+
+        return null
+}
+
+
+        //buscar en la consola --> ejemplo: database.findPetsByOwnerId('blablabladni')
+
+        //datasebase --> objeto que representa la base de datos
+        //findOwnerById --> método/acción para buscar en esa base de datos
+        //ejemplo ('123456789T') --> parámetro
+        //un método es una propiedad con valor función
+
+        //usage
+
+        const database = new Database()
+
+        //para buscar en la consola los datos de alguien, si ha cambiado algo, por ejemplo -- const laura = database.findOwnerById('taltaltal')
+
+        //const pets = []
+
+        //const tobias = new Pet('abc-123', 'Tobías', 2023, ['black']) ---> para hacer las tablas
+        //si hay varios valores, se pone un array
+
+        database.vaccines.push(new Vaccine('xyz-345', 'rabitis', 'blah blah blah 200mg'))
+        database.vaccines.push(new Vaccine('uvw-123', 'mosquitus', 'bleh bleh bleh auch! 100mg'))
+        database.vaccines.push(new Vaccine('rst-456', 'parvovirus', 'blih blih blih 300mg'))
+
+        database.owners.push(new Owner('123456789T', 'Laura', 'Chico', 'Mahnattan, 123', '+1(678)123456', 'laura@chico.com'))
+
+        database.pets.push(new Pet('123456789T', 'abc-123', 'Tobías', 2023, 'canine', 'masculine', 'mix', ['black']))
+        database.pets.push(new Pet('123456789T', 'def-456', 'Pelayo', 2024, 'canine', 'masculine', 'mix', ['brown', 'white']))
+
+        database.owners.push(new Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com'))
+
+        database.pets.push(new Pet('2345678980W', 'ghi-789', 'Dalí', 2022, 'canine', 'masculine', 'american bully', ['gray', 'white']))
+        database.pets.push(new Pet('2345678980W', 'jkl-012', 'Floki', 2017, 'feline', 'masculine', 'bombay', ['black']))
+        database.pets.push(new Pet('2345678980W', 'mno-345', 'Olga', 2017, 'feline', 'feminine', 'siamese', ['gray', 'white', 'brown']))
+
+        database.pets[0].saveVaccine('rst-456', '2026-01-01')
+        database.pets[0].saveVaccine('uvw-123', '2026-02-02')
+        database.pets[0].saveVaccine('xyz-345', '2026-11-01')
+
+        database.pets[1].saveVaccine('rst-456', '2026-03-03')
+        database.pets[1].saveVaccine('uvw-123', '2026-04-04')
+        database.pets[1].saveVaccine('xyz-345', '2026-11-01')
+
+// para buscar resultados, en este caso, el usuario de ese dni, que sería:
+// Owner('2345678980W', 'Juan', 'Indiferente', 'New Jersery, 345', '+1(786)432654', 'juan@indiferente.com')
+
+
+        const owner = database.findOwnerById('2345678980W')
+        console.log(owner) 
+
+        // Owner ('123456789T', 'Laura', 'Chico', 'Mahnattan, 123', '+1(678)123456', 'laura@chico.com')
+
+    </script>
+
+</body>
+
+</html>
