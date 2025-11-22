@@ -191,20 +191,20 @@
 
         Logic.prototype.registerOwner = function (id, name, surname, address, phone, email) {
             // TODO implement me
-        }
+        
 
             if (typeof id !== 'string') return 'invalid id type'
             if (id.length < 1) return 'invalid id length'
 
-            if (typeof name !== 'string') return 'invalidad name type'
+            if (typeof name !== 'string') return 'invalid name type'
             if (name.length < 1) return 'invalid name length'
 
             if (typeof surname !== 'string') return 'invalid surname type'
             if (surname.length < 2) return 'invalid surname length'
             // es decir, tiene que ser un texto y un mínimo de 2 letras
 
-            if (typeof address !== 'string') return 'invalidad address type'
-            if (address.length < 5) return 'invalidad address type'
+            if (typeof address !== 'string') return 'invalid address type'
+            if (address.length < 5) return 'invalid address type'
 
             if (typeof phone !== 'string') return 'invalid phone type'
             if (phone.length < 9) return 'invalid phone length'
@@ -221,7 +221,7 @@
 
             // si lo que encuentra no es nulo (encontró un owner), devolver 'owner alredy exists', aquí !== null significa que no es nulo o lo encontré.
 
-            owner = new Owner('id', name, surname, address, phone, email)
+            owner = new Owner(id, name, surname, address, phone, email)
 
             // esto es para fabricar un nuevo owner
 
