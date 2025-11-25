@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinary</title>
+</head>
+
+<body style="background-color: black;">
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veterinary</title>
+</head>
+
+<body style="background-color: black;">
+    <script>
+        // ====================== CLASES ======================
+
+        function User(id, name, surname, username, password, role) {
+            this.id = id
+            this.name = name
+            this.surname = surname
+            this.username = username
+            this.password = password
+            this.role = role
+        }
+
+        function Vaccine(id, name, description) {
+            this.id = id
+            this.name = name
+            this.description = description
+        }
+
+        function Owner(id, passport, name, surname, address, phone, email) {
+            this.id = id
+            this.passport = passport
+            this.name = name
+            this.surname = surname
+            this.address = address
+            this.phone = phone
+            this.email = email
+            this.active = true
+        }
+
+        function Pet(id, ownerId, passport, name, yearOfBirth, species, gender, race, colors) {
+            this.id = id
+            this.ownerId = ownerId
+            this.passport = passport
+            this.name = name
+            this.yearOfBirth = yearOfBirth
+            this.species = species
+            this.gender = gender
+            this.race = race
+            this.colors = colors
+            this.vaccines = [] // { vaccineId: 'rst-456', expirationDate: '2026-01-01' }
+        }
+
+        Pet.prototype.saveVaccine = function (vaccineId, expirationDate) {
+            this.vaccines.push({ vaccineId: vaccineId, expirationDate: expirationDate })
+        }
+
+        // ====================== DATABASE ======================
+
+        function Database() {
+            this.users = []
+            this.usersCount = 0
+            this.vaccines = []
+            this.owners = []
+            this.ownersCount = 0
+            this.pets = []
+            this.petsCount = 0
+        }
+
+        // ---------- Users ----------
+        Database.prototype.addUser = function (user) {
+            this.users.push(user)
+            this.usersCount++
+        }
+
+        Database.prototype.findUserByUsername = function (username) {
+            for (let i = 0; i < this.users.length; i++) {
+                const user = this.users[i]
+                if (user.username === username) return user
+            }
+            return null
+        }
+
+        // ---------- Vaccines ----------
+        Database.prototype.addVaccine = function (vaccine) {
+            this.vaccines.push(vaccine)
+        }
+
+        // ---------- Owners ----------
+        Database.prototype.addOwner = function (owner) {
+            this.owners.push(owner)
+            this.ownersCount++
+        }
+
+        Database.prototype.findOwnerById = function (ownerId) {
+            for (let i = 0; i < this.owners.length; i++) {
+                const owner = this.owners[i]
+                if (owner.id === ownerId) return owner
+            }
+            return null
+        }
+
+        Database.prototype.findOwnerByPassport = function (passport) {
+            for (let i = 0; i < this.owners.length; i++) {
+                const owner = this.owners[i]
+                if (owner.passport === passport) return owner
+            }
+            return null
+        }
+
+        // ---------- Pets ----------
+        Database.prototype.addPet = function (pet) {
+            this.pets.push(pet)
+            this.petsCount++
+        }
+
+        Database.prototype.findPetsByOwnerId = function (ownerId) {
+            const foundPets = []
+            for (let i = 0; i < this.pets.length; i++) {
+                const pet = this.pets[i]
+                if (pet.ownerId === ownerId) foundPets.push(pet)
+            }
+            return foundPets
+        }
+
+        Database.prototype.findPetById = function (petId) {
+            for (let i = 0; i < this.pets.length; i++) {
+                const pet = this.pets[i]
+                if (pet.id === petId) return pet
+            }
+            return null
+        }
+
+        Database.prototype.findPetByPassport = function (passport) {
+            for (let i = 0; i < this.pets.length; i++) {
+                const pet = this.pets[i]
+                if (pet.passport === passport) return pet
+            }
+            return null
+        }
+
+        const data = new Database()
+
+        // ====================== LOGIC ======================
+
+        function Logic() { }
+
+        // ---------- Register User ----------
+        Logic.prototype.registerUser = function (name, surname, username, password, passwordRepeat, role) {
+            if (typeof name !== 'string') throw new Error('invalid name type')
+            if (name.length < 1) throw new Error('invalid name length')
+
+            if (typeof surname !== 'string') throw new Error('invalid surname type')
+            if (surname.length < 2) throw new Error('invalid surname length')
+
+            if (typeof username !== 'string') throw new Error('invalid username type')
+            if (username.length < 4) throw new Error('invalid username length')
+
+            if (typeof password !== 'string') throw new Error('invalid password type')
+            if (password.length < 8) throw new Error('invalid password length')
+
+            if (typeof passwordRepeat !== 'string') throw new Error('invalid passwordRepeat type')
+            if (passwordRepeat.length < 8) throw new Error('invalid passwordRepeat length')
+
+            if (password !== passwordRepeat) throw new Error('passwords do not match')
+
+            if (typeof role !== 'string') throw new Error('invalid role type')
+            if (role !== 'auxiliar' && role !== 'veterinary') throw new Error('invalid role value')
+
+            let user = data.findUserByUsername(username)
+            if (user !== null) throw new Error('user already exists')
+
+            user = new User('user-' + data.usersCount, name, surname, username, password, role)
+            data.addUser(user)
+        }
+
+        // ---------- Register Owner ----------
+        Logic.prototype.registerOwner = function (passport, name, surname, address, phone, email) {
+            if (typeof passport !== 'string') throw new Error('invalid passport type')
+            if (passport.length < 6) throw new Error('invalid passport length')
+
+            if (typeof name !== 'string') throw new Error('invalid name type')
+            if (name.length < 1) throw new Error('invalid name length')
+
+            if (typeof surname !== 'string') throw new Error('invalid surname type')
+            if (surname.length < 2) throw new Error('invalid surname length')
+
+            if (typeof address !== 'string') throw new Error('invalid address type')
+            if (address.length < 5) throw new Error('invalid address length')
+
+            if (typeof phone !== 'string') throw new Error('invalid phone type')
+            if (phone.length < 5) throw new Error('invalid phone length')
+
+            if (typeof email !== 'string') throw new Error('invalid email type')
+            if (email.length < 6) throw new Error('invalid email length')
+
+            let owner = data.findOwnerByPassport(passport)
+            if (owner !== null) throw new Error('owner already exists')
+
+            owner = new Owner('owner-' + data.ownersCount, passport, name, surname, address, phone, email)
+            data.addOwner(owner)
+        }
+
+        // ---------- Register Pet ----------
+        Logic.prototype.registerPet = function (ownerId, passport, name, yearOfBirth, species, gender, race, colors) {
+            if (typeof ownerId !== 'string') throw new Error('invalid ownerId type')
+            if (ownerId.length < 7) throw new Error('invalid ownerId length')
+
+            if (typeof passport !== 'string') throw new Error('invalid passport type')
+            if (passport.length < 10) throw new Error('invalid passport length')
+
+            if (typeof name !== 'string') throw new Error('invalid name type')
+            if (name.length < 2) throw new Error('invalid name length')
+
+            if (typeof yearOfBirth !== 'number') throw new Error('invalid yearOfBirth type')
+            if (yearOfBirth < 1900) throw new Error('invalid yearOfBirth value')
+
+            if (typeof species !== 'string') throw new Error('invalid species type')
+            if (species.length < 3) throw new Error('invalid species length')
+
+            if (typeof gender !== 'string') throw new Error('invalid gender type')
+            if (gender !== 'female' && gender !== 'male') throw new Error('invalid gender value')
+
+            if (typeof race !== 'string') throw new Error('invalid race type')
+            if (race.length < 3) throw new Error('invalid race length')
+
+            if (!Array.isArray(colors)) throw new Error('invalid colors type')
+            if (colors.length < 1) throw new Error('invalid colors length')
+
+            let pet = data.findPetByPassport(passport)
+            if (pet !== null) throw new Error('pet already exists')
+
+            pet = new Pet('pet-' + data.petsCount, ownerId, passport, name, yearOfBirth, species, gender, race, colors)
+            data.addPet(pet)
+        }
+
+        const logic = new Logic()
+    </script>
+
+</body>
+
+</html>
+</body>
+
+</html>

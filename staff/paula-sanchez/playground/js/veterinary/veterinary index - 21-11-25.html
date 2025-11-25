@@ -19,6 +19,8 @@
             this.role = role
         }
 
+        //instancia: crear objetos a través de una constructora
+        
         function Vaccine(id, name, description) {
             this.id = id
             this.name = name
@@ -137,7 +139,7 @@
 
         // función a logic para registrar usuarios con sus datos
 
-        Logic.prototype.registerUser = function (name, surname, username, password, passwordRepeat) {
+        Logic.prototype.registerUser = function (name, surname, username, password) {
 
             // TODO implement this method
 
@@ -237,7 +239,7 @@
         // usage
 
         // logic.registerUser('Peter', 'Pan', 'peterpan', '123123123', '123123123')
-        // logic.registerUser('Peter', 'Pan', 'peterpan', '123123123', '123123123')
+        // logic.registerUser('Wendy', 'Darling', 'wendydarling', '123123123', '123123123')
 
         // data.addUser(new User('user-1', 'Peter', 'Pan', 'peterpan', '123123123', 'auxiliar'))
         // data.addUser(new User('user-2', 'Wendy', 'Darling', 'wendydarling', '123123123', 'veterinary'))
