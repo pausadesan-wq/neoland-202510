@@ -1,7 +1,7 @@
-// data models
+// models
 
 function User(id, name, email, username, password, role) {
-    this.id = name
+    this.id = id
     this.name = name
     this.email = email
     this.username = username
@@ -9,39 +9,68 @@ function User(id, name, email, username, password, role) {
     this.role = role
 }
 
-function Pet(id, userId, chip, name, gender, birthdate, species, race, colors) {
+function Pet(id, userId, /*chip,*/ name, /*gender,*/ birthdate, weight, /*species, race, colors,*/ image) {
     this.id = id
     this.userId = userId
-    this.chip = chip
+    // this.chip = chip
     this.name = name
-    this.gender = gender
+    // this.gender = gender
     this.birthdate = birthdate
-    this.species = species
-    this.race = race
-    this.colors = colors
+    this.weight = weight
+    // this.species = species
+    // this.race = race
+    // this.colors = colors
+    this.image = image
 }
 
-// manager (manejador de datos)
+// manager
 
 function Data() {
     this.users = []
     this.usersCount = 0
     this.pets = []
     this.petsCount = 0
+    this.loggedInUserId = null
 }
 
-Data.prototype.insertUser = function(user) {
+Data.prototype.insertUser = function (user) {
     this.users.push(user)
     this.usersCount++
 }
 
-Data.prototype.insertPet = function(pet) {
-    this.pets.push(pets)
+Data.prototype.findUserByEmail = function(email) {
+    for (let i = 0; i < this.users.length; i++) {
+        const user = this.users[i]
+
+        if (user.email === email) return user
+    }
+
+    return null
+}
+
+Data.prototype.findUserByUsername = function(username) {
+    for (let i = 0; i < this.users.length; i++) {
+        const user = this.users[i]
+
+        if (user.username === username) return user
+    }
+
+    return null
+}
+
+Data.prototype.insertPet = function (pet) {
+    this.pets.push(pet)
     this.petsCount++
+}
+
+Data.prototype.setLoggedInUserId = function(userId) {
+    this.loggedInUserId = userId
+}
+
+Data.prototype.getLoggedInUserId = function() {
+    return this.loggedInUserId
 }
 
 // instance
 
 const data = new Data()
-
-data.insertUser(new User)
