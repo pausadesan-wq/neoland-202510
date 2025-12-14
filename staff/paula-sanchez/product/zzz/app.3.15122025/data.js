@@ -2,6 +2,8 @@
 
 // Constructor de usuarios
 
+// cambiar a clase 15/12
+
 function User(id, name, email, username, password, role) {
     this.id = id               // Identificador único
     this.name = name           // Nombre real

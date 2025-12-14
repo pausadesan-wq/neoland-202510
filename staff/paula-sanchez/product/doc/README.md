@@ -38,7 +38,12 @@ Veterinary (User)
 
 ### UI/UX design
 
-[Figma](https://www.figma.com/design/bQwD8hU5fid8pmqdBccZ4D/MyPet?node-id=0-1&p=f&t=Bz4ItQHT9dS7p5gN-0)
+[Figma](el del profe)
+https://www.figma.com/design/bQwD8hU5fid8pmqdBccZ4D/MyPet?node-id=0-1&p=f&t=Bz4ItQHT9dS7p5gN-0
+
+el mío
+
+https://www.figma.com/design/gM8ISJ7dkvgGX8jHXNhSQQ/MyPet-2?node-id=0-1&t=39pxmK9q6NNykq8q-1
 
 
 ## Technical description

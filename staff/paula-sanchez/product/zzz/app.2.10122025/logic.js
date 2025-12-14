@@ -1,15 +1,7 @@
-// ==== LOGIC ====
-// 
 function Logic() {
 }
-// Constructor de la capa de lógica. No necesita parámetros
-
-// Registro de usuario
 
 Logic.prototype.registerUser = function (name, email, username, password, passwordRepeat) {
-
-    // Validaciones de tipo y longitud
-
     if (typeof name !== 'string') throw new Error('invalid name type')
     if (name.length < 1) throw new Error('invalid name length')
 
@@ -27,8 +19,6 @@ Logic.prototype.registerUser = function (name, email, username, password, passwo
 
     if (password !== passwordRepeat) throw new Error('passwords do not match')
 
-        // Comprobar duplicados
-
     let user = data.findUserByEmail(email)
 
     if (user !== null) throw new Error('user email already exists')
@@ -37,14 +27,10 @@ Logic.prototype.registerUser = function (name, email, username, password, passwo
 
     if (user !== null) throw new Error('user username already exists')
 
-        // Crear usuario y añadir a data
-
     user = new User('user-' + data.usersCount, name, email, username, password, 'regular')
 
     data.insertUser(user)
 }
-
-// Login de usuario
 
 Logic.prototype.loginUser = function (username, password) {
     if (typeof username !== 'string') throw new Error('invalid username type')
@@ -62,13 +48,10 @@ Logic.prototype.loginUser = function (username, password) {
     data.setLoggedInUserId(user.id)
 }
 
-// Logout
-
 Logic.prototype.logoutUser = function () {
     data.setLoggedInUserId(null)
 }
 
-// Añadir mascota
 
 Logic.prototype.addPet = function (name, birthdate, weight, image) {
 
@@ -80,7 +63,7 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
 
     if (user === null) throw new Error('user not found')
 
-    // Validaciones
+    //hasta aquí
 
     if (typeof name !== 'string') throw new Error('invalid name type')
     if (name.length < 1) throw new Error('invalid name length')
@@ -102,12 +85,12 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
     data.insertPet(pet)
 }
 
-// Obtener mascotas del usuario logueado
-
 Logic.prototype.getPets = function () {
+
     if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
     const user = data.findUserById(data.getLoggedInUserId())
+
     if (user === null) throw new Error('user not found')
 
     // buscar los pets que pertenecen a un usuario
@@ -117,32 +100,6 @@ Logic.prototype.getPets = function () {
     return pets
 }
 
-// Eliminar mascota
-
-Logic.prototype.deletePet = function(petId) {
-    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
-
-    const user = data.findUserById(data.getLoggedInUserId())
-    if (user === null) throw new Error('user not found')
-
-    if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-
-    const petIdRegex = /^pet-[0-9]+$/
-
-    if (!petIdRegex.test(petId)) throw new Error('invalid pet-id format')
-
-    const pet = data.findPetById(petId)
-
-    if (pet === null) throw new Error('pet not found')
-
-    if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
-
-    const petIndex = data.pets.indexOf(pet)
-
-    data.pets.splice(petIndex, 1)
-}
-
-
-// ==== INSTANCE ====
+// instance
 
 const logic = new Logic()
