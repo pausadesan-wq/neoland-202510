@@ -1,32 +1,62 @@
-// function Landing(props) {
-function Landing({ onLoginClick, onRegisterClick }) {
-    console.log('Landing -> call')
+const { useState } = React
 
-    //const onLoginClick = props.onLoginClick
-    //const onRegisterClick = props.onRegisterClick
+function Login({ onGoToHome, onGoToRegister }) {
+    console.log('Login -> call')
 
-    // const { onLoginClick, onRegisterClick } = props
+    const [message, setMessage] = useState('')
+    const [passwordType, setPasswordType] = useState('password')
 
-    const handleLoginClick = event => {
+    const handleLoginSubmit = event => {
         event.preventDefault()
 
-        onLoginClick()
+        const form = event.target
+
+        const username = form.username.value
+        const password = form.password.value
+
+        try {
+            logic.loginUser(username, password)
+
+            form.reset()
+
+            setMessage('')
+            setPasswordType('password')
+
+            onGoToHome()
+        } catch (error) {
+            setMessage(error.message)
+        }
+    }
+
+    const handleTogglePasswordClick = event => {
+        event.preventDefault()
+
+        setPasswordType(passwordType === 'password' ? 'text' : 'password')
     }
 
     const handleRegisterClick = event => {
         event.preventDefault()
 
-        onRegisterClick()
+        onGoToRegister()
     }
 
-    console.log('Landing -> render')
+    console.log('Login -> render')
 
     return <div className="p-4">
         <h1 className="font-bold text-xl">MyPet</h1>
-        <p>Welcome!</p>
 
-        <nav>
-            <a className="cursor-pointer underline font-bold" onClick={handleLoginClick}>Login</a> or <a className="cursor-pointer underline font-bold" onClick={handleRegisterClick}>Register</a>
-        </nav>
+        <h2 className="font-bold">Login</h2>
+
+        <Form onSubmit={handleLoginSubmit}>
+            <Field alias="username" type="text">Username</Field>
+
+            <PasswordField alias="password">Password</PasswordField>
+
+            <Button className="self-center" type="submit">Login</Button>
+        </Form>
+
+        <a className="cursor-pointer underline font-bold" onClick={handleRegisterClick}>Register</a>
+
+        <p>{message}</p>
     </div>
 }
