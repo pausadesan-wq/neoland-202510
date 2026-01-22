@@ -47,15 +47,18 @@ function Login({ onGoToHome, onGoToRegister }) {
 
         <h2 className="font-bold">Login</h2>
 
-        <Form onSubmit={handleLoginSubmit}>
-            <Field alias="username" type="text">Username</Field>
+        <form className="flex flex-col" onSubmit={handleLoginSubmit}>
+            <label htmlFor="username">Username</label>
+            <input id="username" name="username" autoComplete="username" type="text" className="border px-1" />
 
-            <PasswordField alias="password">Password</PasswordField>
+            <label htmlFor="password">Password</label>
+            <input id="password" name="password" autoComplete="off" type={passwordType} className={passwordType === 'password' ? 'border px-1' : 'border px-1 bg-[gold]'} />
+            <button className="self-end" type="button" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
 
             <Button className="self-center" type="submit">Login</Button>
-        </Form>
+        </form>
 
-        <Anchor onClick={handleRegisterClick}>Register</Anchor>
+        <a className="cursor-pointer underline font-bold" onClick={handleRegisterClick}>Register</a>
 
         <p>{message}</p>
     </div>
