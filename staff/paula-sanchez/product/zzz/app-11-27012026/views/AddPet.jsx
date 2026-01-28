@@ -1,13 +1,6 @@
-import { useState } from 'react'
+const { useState } = React
 
-import { Form } from './components/commons/Form'
-import { Field } from './components/commons/Field'
-import { Button } from './components/commons/Button'
-import { Anchor } from './components/commons/Anchor'
-
-import { logic } from '../logic'
-
-export function AddPet({ onGoToHome }) {
+function AddPet({ onGoToHome }) {
     console.log('AddPet -> call')
 
     const [message, setMessage] = useState('')

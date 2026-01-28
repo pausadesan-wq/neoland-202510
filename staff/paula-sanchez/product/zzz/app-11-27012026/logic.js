@@ -1,5 +1,3 @@
-import { data, User, Pet } from './data'
-
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
 const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
@@ -161,4 +159,4 @@ class Logic {
 
 // instance
 
-export const logic = new Logic()
+const logic = new Logic()
