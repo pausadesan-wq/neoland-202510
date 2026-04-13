@@ -1,0 +1,3 @@
+api/src/controllers/auth.controller.js
+api/src/routes/auth.routes.js
+api/src/middlewares/auth.middleware.js

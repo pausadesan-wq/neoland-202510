@@ -1,0 +1,4 @@
+app/src/pages/Login.jsx
+app/src/pages/Register.jsx
+app/src/services/auth.service.js
+app/src/context/auth.context.js
