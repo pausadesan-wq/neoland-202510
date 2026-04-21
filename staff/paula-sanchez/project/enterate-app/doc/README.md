@@ -8,36 +8,25 @@ La plataforma nace como solución a un problema real: la dificultad de enterarse
 
 EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquier usuario puede encontrar o subir planes de forma rápida.
 
-
-![EnTeRaTe](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BsMW1lN3VjbWo4Y2dha24wdnZpczM0MnFzanl4dDN5NzRpNnUwMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xMGh0bajSyNdC/giphy.gif)
-
-
-// https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNnhyY2RiaWd0ZTN4ZW85OXRkZDlqNzA4YXdiaWRvZDU0ZzI2Z3EwdiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/pTvQxc1RsLgqR3W9Ii/giphy.gif
-
-//https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTZxOTRoMmRrc3g2cHEydnhmeHU2ZDJoaTI3NnYwOTc4cDI3bDlkNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y4DARu43ULbu8dodFn/giphy.gif
-
-//https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm80ODY2anNvbDdzNGFkYW82a3djbHdwMWUyMmQxdXM4ZnVnejF5ayZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oxQNfFeMqtTn30Xv2/giphy.gif
-
-//https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXJkYmlvMWdyOGpkOTNzaHVndnpsajU5aGQ5c3lqdWR0cDR4YTdxNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8iR3qjwWnpurm/giphy.gif
-
-https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMmlscWUxODNiNGZuaHNvdTNhZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/21QEFYC8rnm3q08bWF/giphy.gif
-
-//https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDd1NWhpZ3B1aDVlMDkwN2Vmc240MHdraXlpZDExbHYxejAwb2J0byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5wFkqt6A8R4qAqGIFQ/giphy.gif
-
-//https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeG9lZmJyOXRnbG9nZzkzZHFkcWZxd2t2ZzExMHNxbTZpYzlqeGJseCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3iwRj8JrhaBfvQMSx9/giphy.gif
-
-//https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYnlmYXloZXd5MzUwYnZiNHVodmR5NzQ4djBndmVvemU2bmd0ZzJlaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/eKDp7xvUdbCrC/giphy.gif
-
-//https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTJvajIzMTZkZzN5dnAycWJjcncwYXNoNDZra2tzbWpsYWE2YmhpZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2skvQvfiA8vl0V73yl/giphy.gif
 ---
 
-#### User (guest)
+## 🎬 Demo
+
+<p align="center">
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BsMW1lN3VjbWo4Y2dha24wdnZpczM0MnFzanl4dDN5NzRpNnUwMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xMGh0bajSyNdC/giphy.gif" width="500"/>
+</p>
+
+---
+
+## 👤 User Roles
+
+### Guest
 - Browse events without authentication
 - Filter events by category (vibe)
 - Search events
 - View event detail
 
-#### User (authenticated)
+### Authenticated User
 - Register
 - Login / Logout
 - Maintain session (JWT)
@@ -47,7 +36,7 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 - View saved events
 - View own created events
 
-#### Event interaction
+### Event Interaction
 - View event feed
 - Filter by multiple categories (multi-tag system)
 - Join / show interest in events (basic participation)
@@ -87,7 +76,7 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 
 ---
 
-### 📦 Project Structure
+## 📦 Project Structure
 
 - `app/` → frontend (components, pages, logic)
 - `api/` → backend (routes, handlers, logic, models)
@@ -96,7 +85,7 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 
 ---
 
-### 🔐 Authentication
+## 🔐 Authentication
 
 - User registration
 - User login
@@ -106,29 +95,29 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 
 ---
 
-### 📡 API Endpoints (summary)
+## 📡 API Endpoints (summary)
 
-#### Auth
+### Auth
 - POST `/api/auth/register`
 - POST `/api/auth/login`
 - GET `/api/auth/me`
 
-#### Events
+### Events
 - POST `/api/events` → create event
 - GET `/api/events` → list events
 - GET `/api/events/:id` → event detail
 - PUT `/api/events/:id` → update event
 - DELETE `/api/events/:id` → delete event
 
-#### User Events
+### User Events
 - GET `/api/users/me/events` → created events
 - GET `/api/users/me/saved` → saved events
 
 ---
 
-### 🗂️ Data Model
+## 🗂️ Data Model
 
-#### User
+### User
 - id
 - name
 - email
@@ -136,7 +125,7 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 - interests (optional)
 - createdAt
 
-#### Event
+### Event
 - id
 - title
 - description
@@ -189,30 +178,6 @@ Build a real-world full stack application simulating a production-ready product:
 - Notifications system
 
 ---
-
-## 🧪 Development Approach
-
-This project combines:
-
-- Rapid prototyping (Lovable)
-- Iterative refinement (Claude)
-- Manual refactoring and improvements
-
-With the goal of balancing:
-- speed
-- product thinking
-- code quality
-
----
-
-## 🚀 FUTURE IMPROVEMENTS
-
-- Private Events
-- Discounts/Loyalty points system
-- Comment system
-- Share events (internally and externally)
-- Create groups
-- Personalized recommendations based on interests
 
 ## 📎 Tracking
 
