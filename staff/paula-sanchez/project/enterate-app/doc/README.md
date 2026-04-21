@@ -62,7 +62,7 @@ https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExeWM2NmZpcWNvNnV1MWFkeHM5MzdhMm
 
 ## 🎨 UI/UX Design
 
-[Figma Design](https://www.figma.com/design/ApUaZ483AiA3Y1v5fx204m/EnTeRaTe_Event?node-id=0-1&t=5cXEVG55dIeHkU0R-1)
+[Figma Design](https://www.figma.com/design/ApUaZ483AiA3Y1v5fx204m/EnTeRaTe_Event?node-id=8-542&t=5cXEVG55dIeHkU0R-1)
 
 ### Design principles
 
