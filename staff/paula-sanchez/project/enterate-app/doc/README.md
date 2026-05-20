@@ -1,12 +1,20 @@
-# 🎉 EnTeRaTe!
+# 🎉 ENTÉRATE
 
 ## 📌 Intro
 
-EnTeRaTe! es una aplicación web full stack que permite descubrir, compartir y guardar eventos que están ocurriendo en la ciudad de Granada, especialmente aquellos que no aparecen fácilmente en los motores de búsqueda ni en plataformas tradicionales.
+ENTÉRATE es una aplicación web full stack diseñada para descubrir, compartir y guardar eventos que están ocurriendo en la ciudad de Granada, especialmente aquellos que no aparecen fácilmente en motores de búsqueda ni en plataformas tradicionales.
 
-La plataforma nace como solución a un problema real: la dificultad de enterarse de planes interesantes que circulan en redes sociales, carteles o boca a boca, pero que no están centralizados en ningún sitio.
+La plataforma surge como solución a un problema real: la dificultad de enterarse de planes interesantes en la ciudad, que únicamente circulan en redes sociales, carteles o boca a boca, pero que no están centralizados en ningún sitio; obligando al usuario a una sobre información y/o estar pendiente de estas plataformas.
 
-EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquier usuario puede encontrar o subir planes de forma rápida.
+ENTÉRATE funciona como un **feed social de descubrimiento local**, donde cualquier usuario puede explorar o compartir planes de forma rápida y sencilla, unificando esta información en una misma plataforma.
+
+El proyecto comenzó con un enfoque **desktop-first** para asegurar la implementación completa de los flujos principales. Posteriormente, evolucionó hacia un enfoque **mobile-first real**, incorporando:
+
+- Navegación tipo app (tab bar)
+- Onboarding de usuario
+- Sistema de autenticación progresiva (soft auth)
+
+Esto acerca la experiencia a un producto digital real y usable en contexto móvil.
 
 ---
 
@@ -24,42 +32,66 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 - Browse events without authentication
 - Filter events by category (vibe)
 - Search events
-- View event detail
+- View event details
+- Navigate the full app experience
+
+⚠️ Limitations:
+- Cannot save events
+- Cannot join events (“Voy a ir”)
+- Cannot create events
+
+---
 
 ### Authenticated User
-- Register
-- Login / Logout
+- Register / Login
 - Maintain session (JWT)
 - Create events
 - Edit and delete own events
 - Save / bookmark events
+- Join events (“Voy a ir”)
 - View saved events
 - View own created events
 
-### Event Interaction
-- View event feed
-- Filter by multiple categories (multi-tag system)
-- Join / show interest in events (basic participation)
-- View event details:
-  - description
-  - date & time
-  - location
-  - category + tags
-  - source (Instagram, poster, etc.)
+---
+
+## 🚪 Onboarding & Access
+
+La aplicación incluye un sistema de onboarding inspirado en apps móviles:
+
+- Al iniciar por primera vez, se muestra una pantalla de autenticación
+- El usuario puede:
+  - Registrarse o iniciar sesión
+  - Continuar como invitado
+  - Cerrar el onboarding
+
+### 🧠 Interaction Model
+
+ENTÉRATE utiliza un sistema de **autenticación progresiva (soft auth)**:
+
+- El usuario puede explorar libremente sin registrarse
+- Solo se requiere autenticación para acciones clave:
+  - Guardar eventos
+  - Apuntarse a eventos
+  - Crear eventos
+
+Si un usuario intenta realizar una de estas acciones sin estar autenticado, se le invita a registrarse sin bloquear la navegación.
 
 ---
 
 ## 🎨 UI/UX Design
 
-[Figma Design](https://www.figma.com/design/ApUaZ483AiA3Y1v5fx204m/EnTeRaTe_Event?node-id=8-542&t=5cXEVG55dIeHkU0R-1)
+[Figma Design - Desktop-first](https://www.figma.com/design/ApUaZ483AiA3Y1v5fx204m/EnTeRaTe_Event?node-id=8-542&t=5cXEVG55dIeHkU0R-1)
 
 ### Design principles
 
 - Editorial + social feed hybrid
 - Strong typography and visual hierarchy
 - Highlight-based graphic system (stickers, strokes)
-- Mobile-first thinking
+- Mobile-first navigation (tab bar structure)
 - Fast discovery experience (scroll → filter → click)
+- Soft onboarding (non-blocking authentication)
+- Action-based authentication (login required only for interaction)
+- App-like UX patterns (not traditional web navigation)
 
 ---
 
@@ -72,13 +104,13 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 - Database: MongoDB (Mongoose)
 - REST API
 - Authentication: JWT
-- Image storage: cloud storage (external service)
+- Image storage: external cloud service
 
 ---
 
 ## 📦 Project Structure
 
-- `app/` → frontend (components, pages, logic)
+- `app/` → frontend (components, views, logic)
 - `api/` → backend (routes, handlers, logic, models)
 - `com/` → shared utilities (validation, errors, regex)
 - `doc/` → documentation
@@ -103,15 +135,15 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 - GET `/api/auth/me`
 
 ### Events
-- POST `/api/events` → create event
-- GET `/api/events` → list events
-- GET `/api/events/:id` → event detail
-- PUT `/api/events/:id` → update event
-- DELETE `/api/events/:id` → delete event
+- POST `/api/events`
+- GET `/api/events`
+- GET `/api/events/:id`
+- PUT `/api/events/:id`
+- DELETE `/api/events/:id`
 
 ### User Events
-- GET `/api/users/me/events` → created events
-- GET `/api/users/me/saved` → saved events
+- GET `/api/users/me/events`
+- GET `/api/users/me/saved`
 
 ---
 
@@ -120,9 +152,10 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 ### User
 - id
 - name
+- username
 - email
 - password (hashed)
-- interests (optional)
+- image/avatar
 - createdAt
 
 ### Event
@@ -136,9 +169,9 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 - district
 - creatorId
 - mainCategory
-- tags[] (multiple categories)
+- tags[]
 - priceType (free / paid)
-- sourceType (instagram, tiktok, poster, word-of-mouth, web)
+- sourceType (instagram, tiktok, poster, boca a boca, web)
 - sourceUrl (optional)
 - participants[]
 - createdAt
@@ -147,35 +180,42 @@ EnTeRaTe! actúa como un **feed social de descubrimiento local**, donde cualquie
 
 ## 🔍 Key Features
 
-- Multi-category filtering (events can belong to multiple vibes)
+- Multi-category filtering (vibes)
 - Local discovery feed
 - User-generated events
 - Event bookmarking (saved events)
-- Real image upload (not only URLs)
-- Clean navigation with multiple screens (not landing-based)
+- Event participation (“Voy a ir”)
+- Real image upload
+- Mobile-first navigation (tab bar)
+- Soft authentication system
+- Onboarding flow
+- App-like interaction patterns
 
 ---
 
 ## 🎯 Project Goal
 
-Build a real-world full stack application simulating a production-ready product:
+Desarrollar una aplicación full stack realista que simule un producto en producción:
 
-- Authentication system
-- CRUD operations
-- Scalable architecture
-- Real UX flows (not just static UI)
-- Social-driven content model
+- Sistema completo de autenticación
+- CRUD de eventos
+- Arquitectura escalable
+- Flujos de usuario reales
+- Modelo social de contenido
 
 ---
 
 ## 🚀 Future Improvements
 
-- Smart recommendations based on user behavior
-- Map-based event discovery
-- Moderation system for submitted events
-- Comments and interactions
-- Trending / popular events
-- Notifications system
+- Smart recommendations
+- Map-based discovery
+- Moderation system
+- Comments & interactions
+- Trending events
+- Notifications
+- OAuth / social login
+- User profiles (edad, intereses, etc.)
+- Advanced filtering (fecha, ubicación)
 
 ---
 
