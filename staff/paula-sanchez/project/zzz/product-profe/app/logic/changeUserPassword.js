@@ -1,0 +1,37 @@
+import { data } from '../data'
+import { validate, SystemError, AuthError, errorMap } from 'com'
+
+export function changeUserPassword(password, newPassword, newPasswordRepeat) {
+    if (data.getToken() === null) throw new AuthError('user not logged in')
+
+    validate.password(password)
+    validate.password(newPassword, 'newPassword')
+    validate.password(newPasswordRepeat, 'newPasswordRepeat')
+    validate.match(newPassword, newPasswordRepeat, 'newPassword', 'newPasswordRepeat')
+
+    return fetch(`${import.meta.env.VITE_API_URL}/users/me/password`, {
+        method: 'PATCH',
+        headers: {
+            Authorization: `Bearer ${data.getToken()}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password, newPassword, newPasswordRepeat })
+    })
+        .catch(error => { throw new SystemError('connection error') })
+        .then(res => {
+            const { status } = res
+
+            if (status === 204)
+                return
+
+            return res.json()
+                .catch(error => { throw new SystemError('json error') })
+                .then(body => {
+                    const { error, message } = body
+
+                    const constructor = errorMap[error] || SystemError
+
+                    throw new constructor(message)
+                })
+        })
+}
