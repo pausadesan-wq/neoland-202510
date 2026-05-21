@@ -1,224 +1,86 @@
-# 🎉 ENTÉRATE
+# MyPet
 
-## 📌 Intro
+## Introduction
 
-ENTÉRATE es una aplicación web full stack diseñada para descubrir, compartir y guardar eventos que están ocurriendo en la ciudad de Granada, especialmente aquellos que no aparecen fácilmente en motores de búsqueda ni en plataformas tradicionales.
+An for pet owners register their pets and their medical information, to have control on their health history.
 
-La plataforma surge como solución a un problema real: la dificultad de enterarse de planes interesantes en la ciudad, que únicamente circulan en redes sociales, carteles o boca a boca, pero que no están centralizados en ningún sitio; obligando al usuario a una sobre información y/o estar pendiente de estas plataformas.
+![brave cat](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3FleXNvcGhpcXdpdjQ1eTVqd2JleGN2bWN2aXJmbzc3ZnF1OXptNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jpPTyP6YghtiU/giphy.gif)
 
-ENTÉRATE funciona como un **feed social de descubrimiento local**, donde cualquier usuario puede explorar o compartir planes de forma rápida y sencilla, unificando esta información en una misma plataforma.
+## Functional description
 
-El proyecto comenzó con un enfoque **desktop-first** para asegurar la implementación completa de los flujos principales. Posteriormente, evolucionó hacia un enfoque **mobile-first real**, incorporando:
+### Use cases
 
-- Navegación tipo app (tab bar)
-- Onboarding de usuario
-- Sistema de autenticación progresiva (soft auth)
+User
+- register
+- login
+- update credentials (username, password)
+- update profile (name, email, phone, city, role, licensing number)
 
-Esto acerca la experiencia a un producto digital real y usable en contexto móvil.
+Owner (User)
+- add pet
+- remove pet
+- modify pet
+- list pets
+- add comment log for pet
+- remove comment log for pet
+- modify comment log for pet
+- list logs for pet
+- filter veterinaries
+- assign veterinary for pet
+- unassign veterinary for pet
 
----
+Veterinary (User)
+- list assigned pets
+- add action log for pet
+- remove action log for pet
+- modify action log for pet
+- list logs for pet
 
-## 🎬 Demo
+### UI/UX design
 
-<p align="center">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BsMW1lN3VjbWo4Y2dha24wdnZpczM0MnFzanl4dDN5NzRpNnUwMiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xMGh0bajSyNdC/giphy.gif" width="500"/>
-</p>
+[Figma](https://www.figma.com/design/bQwD8hU5fid8pmqdBccZ4D/MyPet?node-id=0-1&p=f&t=Bz4ItQHT9dS7p5gN-0)
 
----
 
-## 👤 User Roles
+## Technical description
 
-### Guest
-- Browse events without authentication
-- Filter events by category (vibe)
-- Search events
-- View event details
-- Navigate the full app experience
+### Blocks
 
-⚠️ Limitations:
-- Cannot save events
-- Cannot join events (“Voy a ir”)
-- Cannot create events
+- App (React)
+- API (Expess)
+- DB (Mongo)
 
----
+### Packages
 
-### Authenticated User
-- Register / Login
-- Maintain session (JWT)
-- Create events
-- Edit and delete own events
-- Save / bookmark events
-- Join events (“Voy a ir”)
-- View saved events
-- View own created events
+- api (handlers, logic, data)
+- app (components, logic, data)
+- com (errors, validate, regex)
+- doc (readme, images)
 
----
+### Data Model
 
-## 🚪 Onboarding & Access
+UserData
+- id (unique, string)
+- name (required, string)
+- email (required, unique, string)
+- username (required, unique, string)
+- pasword (required, hashed, string)
+- image (string)
+- role (required, string, regular | administrator)
 
-La aplicación incluye un sistema de onboarding inspirado en apps móviles:
+PetData
+- id (unique, string)
+- owner (UserData.id, string)
+- name (required, string)
+- birthdate (required, date)
+- weight (required, number)
+- image (required, string)
 
-- Al iniciar por primera vez, se muestra una pantalla de autenticación
-- El usuario puede:
-  - Registrarse o iniciar sesión
-  - Continuar como invitado
-  - Cerrar el onboarding
+### Techs
 
-### 🧠 Interaction Model
+- HTML / JavaScript / CSS / Tailwind / React / React Router
+- Node / Express / Mongo / Mongoose / BCrypt / JWT / curl / Mocha / Chai / Morgan
+- Git / Markdown / VSCode / Sublime Merge
 
-ENTÉRATE utiliza un sistema de **autenticación progresiva (soft auth)**:
+## Tracking
 
-- El usuario puede explorar libremente sin registrarse
-- Solo se requiere autenticación para acciones clave:
-  - Guardar eventos
-  - Apuntarse a eventos
-  - Crear eventos
-
-Si un usuario intenta realizar una de estas acciones sin estar autenticado, se le invita a registrarse sin bloquear la navegación.
-
----
-
-## 🎨 UI/UX Design
-
-[Figma Design - Desktop-first](https://www.figma.com/design/ApUaZ483AiA3Y1v5fx204m/EnTeRaTe_Event?node-id=8-542&t=5cXEVG55dIeHkU0R-1)
-
-### Design principles
-
-- Editorial + social feed hybrid
-- Strong typography and visual hierarchy
-- Highlight-based graphic system (stickers, strokes)
-- Mobile-first navigation (tab bar structure)
-- Fast discovery experience (scroll → filter → click)
-- Soft onboarding (non-blocking authentication)
-- Action-based authentication (login required only for interaction)
-- App-like UX patterns (not traditional web navigation)
-
----
-
-## 🧠 Technical Description
-
-### 🏗️ Architecture
-
-- Frontend: React + Vite
-- Backend: Node.js + Express
-- Database: MongoDB (Mongoose)
-- REST API
-- Authentication: JWT
-- Image storage: external cloud service
-
----
-
-## 📦 Project Structure
-
-- `app/` → frontend (components, views, logic)
-- `api/` → backend (routes, handlers, logic, models)
-- `com/` → shared utilities (validation, errors, regex)
-- `doc/` → documentation
-
----
-
-## 🔐 Authentication
-
-- User registration
-- User login
-- JWT-based authentication
-- Protected routes
-- Session persistence
-
----
-
-## 📡 API Endpoints (summary)
-
-### Auth
-- POST `/api/auth/register`
-- POST `/api/auth/login`
-- GET `/api/auth/me`
-
-### Events
-- POST `/api/events`
-- GET `/api/events`
-- GET `/api/events/:id`
-- PUT `/api/events/:id`
-- DELETE `/api/events/:id`
-
-### User Events
-- GET `/api/users/me/events`
-- GET `/api/users/me/saved`
-
----
-
-## 🗂️ Data Model
-
-### User
-- id
-- name
-- username
-- email
-- password (hashed)
-- image/avatar
-- createdAt
-
-### Event
-- id
-- title
-- description
-- image (URL)
-- date
-- time
-- location
-- district
-- creatorId
-- mainCategory
-- tags[]
-- priceType (free / paid)
-- sourceType (instagram, tiktok, poster, boca a boca, web)
-- sourceUrl (optional)
-- participants[]
-- createdAt
-
----
-
-## 🔍 Key Features
-
-- Multi-category filtering (vibes)
-- Local discovery feed
-- User-generated events
-- Event bookmarking (saved events)
-- Event participation (“Voy a ir”)
-- Real image upload
-- Mobile-first navigation (tab bar)
-- Soft authentication system
-- Onboarding flow
-- App-like interaction patterns
-
----
-
-## 🎯 Project Goal
-
-Desarrollar una aplicación full stack realista que simule un producto en producción:
-
-- Sistema completo de autenticación
-- CRUD de eventos
-- Arquitectura escalable
-- Flujos de usuario reales
-- Modelo social de contenido
-
----
-
-## 🚀 Future Improvements
-
-- Smart recommendations
-- Map-based discovery
-- Moderation system
-- Comments & interactions
-- Trending events
-- Notifications
-- OAuth / social login
-- User profiles (edad, intereses, etc.)
-- Advanced filtering (fecha, ubicación)
-
----
-
-## 📎 Tracking
-
-[Pull Request](https://github.com/b00tc4mp/neoland-202510/pull/30)
+[PR](https://github.com/b00tc4mp/neoland-202510/pull/14)

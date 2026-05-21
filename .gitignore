@@ -138,5 +138,19 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# Dependencias y archivos generados
+**/node_modules/
+**/.vite/
+**/dist/
+**/coverage/
+
+# Variables privadas
+**/.env
+!**/.env.example
+
+# Carpetas utilizadas solamente como referencia
+staff/paula-sanchez/project/zzz/
+staff/paula-sanchez/project/remix-reference/
+
 # macOS
 .DS_Store
