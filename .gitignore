@@ -149,8 +149,8 @@ vite.config.ts.timestamp-*
 !**/.env.example
 
 # Carpetas utilizadas solamente como referencia
-staff/paula-sanchez/project/zzz/
 staff/paula-sanchez/project/remix-reference/
+staff/paula-sanchez/project/zzz/
 
 # macOS
 .DS_Store

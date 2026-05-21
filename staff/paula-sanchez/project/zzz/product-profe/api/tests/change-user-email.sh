@@ -1,1 +1,0 @@
-curl -X PATCH -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWIxYzczNmJlMjdkMDM1ZTAwNGE0OWYiLCJpYXQiOjE3NzMzNDQxMDcsImV4cCI6MTc3MzM0NzcwN30.YHeslHPNZGSdqJe_3MUbRCgkx4SY-Hmf54qIDn7TaxU' -H 'Content-Type: application/json' -d '{"email":"an@drew.com","newEmail":"an@drew2.com","newEmailRepeat":"an@drew2.com"}' http://localhost:8080/users/me/email -v
