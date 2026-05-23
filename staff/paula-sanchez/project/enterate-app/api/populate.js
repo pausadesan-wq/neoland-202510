@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 
 import { database, UserModel, PetModel } from './models.js'
 
-database.connect('mongodb://localhost:27017/product')
+database.connect('mongodb://localhost:27017/enterate')
     .then(() => bcrypt.hash('123123123', 10))
     .then(hash => {
         const wendy = new UserModel({ name: 'Wendy Darling', email: 'wendy@darling.com', username: 'wendydarling', password: hash })

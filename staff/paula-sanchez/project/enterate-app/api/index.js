@@ -3,7 +3,7 @@ import cors from 'cors'
 import morganBody from 'morgan-body'
 
 import { userRouter, petRouter } from './routers/index.js'
-import { errorHandler } from './middelwares/index.js'
+import { errorHandler } from './middlewares/index.js'
 
 import { connect } from './mongoose/index.js'
 

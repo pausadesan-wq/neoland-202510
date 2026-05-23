@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { authMiddleware } from '../middelwares/index.js'
+import { authMiddleware } from '../middlewares/index.js'
 
 import {
     addPetHandler,
