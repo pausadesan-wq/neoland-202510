@@ -1,34 +1,34 @@
 
-import { addPet } from './addPet'
+import { addEvent } from './addEvent'
 import { changeUserEmail } from './changeUserEmail'
 import { changeUserImage } from './changeUserImage'
 import { changeUserName } from './changeUserName'
 import { changeUserPassword } from './changeUserPassword'
 import { changeUserUsername } from './changeUserUsername'
 import { getLoggedInUser } from './getLoggedInUser'
-import { getPet } from './getPet'
-import { getPets } from './getPets'
+import { getEvent } from './getEvent'
+import { getEvents } from './getEvents'
 import { isUserLoggedIn } from './isUserLoggedIn'
 import { loginUser } from './loginUser'
 import { logoutUser } from './logoutUser'
-import { modifyPet } from './modifyPet'
+import { modifyEvent } from './modifyEvent'
 import { registerUser } from './registerUser'
-import { removePet } from './removePet'
+import { removeEvent } from './removeEvent'
 
 export const logic = {
-    addPet,
+    addEvent,
     changeUserEmail,
     changeUserImage,
     changeUserName,
     changeUserPassword,
     changeUserUsername,
     getLoggedInUser,
-    getPet,
-    getPets,
+    getEvent,
+    getEvents,
     isUserLoggedIn,
     loginUser,
     logoutUser,
-    modifyPet,
+    modifyEvent,
     registerUser,
-    removePet
+    removeEvent
 }

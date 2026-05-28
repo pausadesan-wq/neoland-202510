@@ -12,7 +12,7 @@ describe('changeUserUsername', () => {
 
     beforeEach(() => Promise.all([
         data.deleteAllUsers(),
-        data.deleteAllPets(),
+        data.deleteAllEvents(),
         bcrypt.hash('123123123', 10).then(hash => hashed = hash)
     ]))
 
@@ -44,7 +44,7 @@ describe('changeUserUsername', () => {
 
     afterEach(() => Promise.all([
         data.deleteAllUsers(),
-        data.deleteAllPets()
+        data.deleteAllEvents()
     ]))
 
     after(() => disconnect())

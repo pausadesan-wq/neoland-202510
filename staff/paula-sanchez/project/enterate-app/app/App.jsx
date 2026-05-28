@@ -6,10 +6,10 @@ import { Landing } from './views/Landing'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
 import { Home } from './views/Home'
-import { AddPet } from './views/AddPet'
+import { AddEvent } from './views/AddEvent'
 import { Profile } from './views/Profile'
-import { PetDetail } from './views/PetDetail'
-import { ModifyPet } from './views/ModifyPet'
+import { EventDetail } from './views/EventDetail'
+import { ModifyEvent } from './views/ModifyEvent'
 import { Feedback } from './views/components/commons/Feedback'
 import { Context } from './context'
 
@@ -43,13 +43,13 @@ export function App() {
 
     const handleGoToHome = () => clearFeedbackAndNavigate('/')
 
-    const handleGoToAddPet = () => clearFeedbackAndNavigate('/add-pet')
+    const handleGoToAddEvent = () => clearFeedbackAndNavigate('/add-event')
 
     const handleGoToProfile = () => clearFeedbackAndNavigate('/profile')
 
-    const handleGoToPetDetail = petId => clearFeedbackAndNavigate(`/pets/${petId}/detail`)
+    const handleGoToEventDetail = eventId => clearFeedbackAndNavigate(`/events/${eventId}/detail`)
 
-    const handleGoToModifyPet = petId => clearFeedbackAndNavigate(`/pets/${petId}/edit`)
+    const handleGoToModifyEvent = eventId => clearFeedbackAndNavigate(`/events/${eventId}/edit`)
 
     const handleError = error => {
         if (error instanceof AuthError) {
@@ -94,20 +94,20 @@ export function App() {
             <Route path="/" element={!loggedIn ?
                 <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
                 :
-                <Home onGoToAddPet={handleGoToAddPet} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} onGoToPetDetail={handleGoToPetDetail} />
+                <Home onGoToAddEvent={handleGoToAddEvent} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} onGoToEventDetail={handleGoToEventDetail} />
             } />
 
             <Route path="/login" element={!loggedIn ? <Login onUserLoggedIn={handleGoToHome} onGoToRegister={handleGoToRegister} /> : <Navigate to="/" />} />
 
             <Route path="/register" element={!loggedIn ? <Register onGoToLogin={handleGoToLogin} /> : <Navigate to="/" />} />
 
-            <Route path="/add-pet" element={loggedIn ? <AddPet onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
+            <Route path="/add-event" element={loggedIn ? <AddEvent onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
 
             <Route path="/profile" element={loggedIn ? <Profile onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
 
-            <Route path="/pets/:petId/detail" element={loggedIn ? <PetDetail onGoToHome={handleGoToHome} onGoToModifyPet={handleGoToModifyPet} /> : <Navigate to="/login" />} />
+            <Route path="/events/:eventId/detail" element={loggedIn ? <EventDetail onGoToHome={handleGoToHome} onGoToModifyEvent={handleGoToModifyEvent} /> : <Navigate to="/login" />} />
 
-            <Route path="/pets/:petId/edit" element={loggedIn ? <ModifyPet onGoBack={handleGoToPetDetail} /> : <Navigate to="/login" />} />
+            <Route path="/events/:eventId/edit" element={loggedIn ? <ModifyEvent onGoBack={handleGoToEventDetail} /> : <Navigate to="/login" />} />
         </Routes>
     </Context.Provider>
 }

@@ -38,8 +38,8 @@ Veterinary (User)
 
 ### UI/UX design
 
-[Figma](https://www.figma.com/design/bQwD8hU5fid8pmqdBccZ4D/MyPet?node-id=0-1&p=f&t=Bz4ItQHT9dS7p5gN-0)
-
+[Archivo de Figma](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=0-1&t=v1WNCEDL2Nu5R9EY-1)
+[Prototipo navegable](https://www.figma.com/proto/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=0-1&t=v1WNCEDL2Nu5R9EY-1)
 
 ## Technical description
 

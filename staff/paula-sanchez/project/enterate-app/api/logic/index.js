@@ -9,11 +9,11 @@ import { changeUserName } from './changeUserName.js'
 import { changeUserPassword } from './changeUserPassword.js'
 import { changeUserUsername } from './changeUserUsername.js'
 
-import { addPet } from './addPet.js'
-import { getPet } from './getPet.js'
-import { getPets } from './getPets.js'
-import { modifyPet } from './modifyPet.js'
-import { removePet } from './removePet.js'
+import { addEvent } from './addEvent.js'
+import { getEvent } from './getEvent.js'
+import { getEvents } from './getEvents.js'
+import { modifyEvent } from './modifyEvent.js'
+import { removeEvent } from './removeEvent.js'
 
 export const logic = {
     registerUser,
@@ -24,9 +24,9 @@ export const logic = {
     changeUserName,
     changeUserPassword,
     changeUserUsername,
-    addPet,
-    getPet,
-    getPets,
-    modifyPet,
-    removePet
+    addEvent,
+    getEvent,
+    getEvents,
+    modifyEvent,
+    removeEvent
 }

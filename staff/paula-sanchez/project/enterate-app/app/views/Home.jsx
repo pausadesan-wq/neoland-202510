@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { Anchor } from './components/commons/Anchor'
 import { Button } from './components/commons/Button'
 
-import { PetList } from './components/PetList'
+import { EventList } from './components/EventList'
 
 import { useContext } from '../context'
 
@@ -11,7 +11,7 @@ import { logic } from '../logic'
 
 import { logger } from '../logger'
 
-export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDetail }) {
+export function Home({ onGoToAddEvent, onUserLoggedOut, onGoToProfile, onGoToEventDetail }) {
     logger.debug('Home -> call')
 
     const { onError } = useContext()
@@ -34,10 +34,10 @@ export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDe
         }
     }, [])
 
-    const handleAddPetClick = event => {
+    const handleAddEventClick = event => {
         event.preventDefault()
 
-        onGoToAddPet()
+        onGoToAddEvent()
     }
 
     const handleLogoutClick = event => {
@@ -58,7 +58,7 @@ export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDe
         onGoToProfile()
     }
 
-    const handleGoToPetDetail = petId => onGoToPetDetail(petId)
+    const handleGoToEventDetail = eventId => onGoToEventDetail(eventId)
 
     logger.debug('Home -> render')
 
@@ -68,13 +68,13 @@ export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDe
         <h2 className="font-bold flex gap-2 items-center">Hello, {name || 'World'}! <img className="rounded-full w-10 h-10 object-cover" src={image} /></h2>
 
         <div className="flex justify-between">
-            <Anchor onClick={handleAddPetClick}>+ Pet</Anchor>
+            <Anchor onClick={handleAddEventClick}>+ Event</Anchor>
 
             <Anchor onClick={handleProfileClick}>Profile</Anchor>
 
             <Button type="button" onClick={handleLogoutClick}>Logout</Button>
         </div>
 
-        <PetList onGoToPetDetail={handleGoToPetDetail} />
+        <EventList onGoToEventDetail={handleGoToEventDetail} />
     </div>
-} 
+}

@@ -2,7 +2,7 @@ import express, { Router } from 'express'
 import cors from 'cors'
 import morganBody from 'morgan-body'
 
-import { userRouter, petRouter } from './routers/index.js'
+import { userRouter, eventRouter } from './routers/index.js'
 import { errorHandler } from './middlewares/index.js'
 
 import { connect } from './mongoose/index.js'
@@ -27,7 +27,7 @@ connect(process.env.DB_URL)
         api.get('/', (req, res) => res.json({ message: 'Hello! from API ;)' }))
 
         api.use('/users', userRouter)
-        api.use('/pets', petRouter)
+        api.use('/events', eventRouter)
 
         api.use(errorHandler)
 

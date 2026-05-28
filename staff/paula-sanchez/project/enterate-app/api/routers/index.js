@@ -1,2 +1,2 @@
 export * from './userRouter.js'
-export * from './petRouter.js'
+export * from './eventRouter.js'
