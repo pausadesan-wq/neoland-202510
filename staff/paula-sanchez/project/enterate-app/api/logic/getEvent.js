@@ -17,8 +17,8 @@ export function getEvent(userId, eventId) {
 
             if (eventData.ownerId !== userId) throw new OwnershipError('user not owner of event')
 
-            const { id, ownerId, name, birthdate, weight, image } = eventData
+            const { id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl } = eventData
 
-            return new Event(id, ownerId, name, birthdate, weight, image)
+            return new Event(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl)
         })
 }

@@ -1,5 +1,5 @@
 import { ValidationError } from './errors.js'
-import { EMAIL_REGEX, URL_REGEX, ISODATE_REGEX, ID_REGEX } from './regex.js'
+import { EMAIL_REGEX, URL_REGEX, ISODATE_REGEX, ID_REGEX, TIME_REGEX } from './regex.js'
 
 class Validate {
     name(name) {
@@ -44,6 +44,30 @@ class Validate {
 
     number(number, explain = 'number') {
         if (typeof number !== 'number' || isNaN(number)) throw new ValidationError(`invalid ${explain} type`)
+    }
+
+    text(text, explain = 'text', minLength = 1, maxLength = Infinity) {
+        if (typeof text !== 'string') throw new ValidationError(`invalid ${explain} type`)
+        if (text.length < minLength || text.length > maxLength) throw new ValidationError(`invalid ${explain} length`)
+    }
+
+    enum(value, allowed, explain = 'value') {
+        if (typeof value !== 'string') throw new ValidationError(`invalid ${explain} type`)
+        if (!allowed.includes(value)) throw new ValidationError(`invalid ${explain} value`)
+    }
+
+    time(time, explain = 'time') {
+        if (typeof time !== 'string') throw new ValidationError(`invalid ${explain} type`)
+        if (!TIME_REGEX.test(time)) throw new ValidationError(`invalid ${explain} format`)
+    }
+
+    tags(tags, explain = 'tags', minLength = 1, maxLength = 5) {
+        if (!Array.isArray(tags)) throw new ValidationError(`invalid ${explain} type`)
+        if (tags.length < minLength || tags.length > maxLength) throw new ValidationError(`invalid ${explain} length`)
+
+        tags.forEach(tag => {
+            if (typeof tag !== 'string' || tag.length < 1) throw new ValidationError(`invalid ${explain} item`)
+        })
     }
 }
 

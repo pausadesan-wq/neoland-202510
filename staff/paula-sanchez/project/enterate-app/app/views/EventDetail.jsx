@@ -31,8 +31,8 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
         }
     }, [])
 
-    const handleBackClick = event => {
-        event.preventDefault()
+    const handleBackClick = e => {
+        e.preventDefault()
 
         onGoToHome()
     }
@@ -51,17 +51,28 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
         </div>
 
         {event ? (() => {
-            const zuluDate = new Date(event.birthdate)
-            const locaDateString = zuluDate.toLocaleDateString()
+            const localDateString = new Date(event.date).toLocaleDateString()
 
             return <div className="flex flex-col items-center gap-4">
-                <img src={event.image} className="rounded-full w-40 h-40 object-cover" />
+                <img src={event.image} className="w-full max-w-md object-cover" />
 
-                <p>{event.name}</p>
+                <h3 className="font-bold text-lg">{event.title}</h3>
 
-                <p>{event.weight}kg</p>
+                <p>{event.description}</p>
 
-                <p>{locaDateString}</p>
+                <p>{localDateString} · {event.time}</p>
+
+                <p>{event.location}{event.district ? ` — ${event.district}` : ''}</p>
+
+                {event.address && <p>{event.address}</p>}
+
+                <p>Category: {event.category}</p>
+
+                <p>Tags: {(event.tags || []).join(', ')}</p>
+
+                <p>Price: {event.priceType}{event.price ? ` (${event.price})` : ''}</p>
+
+                <p>Source: {event.sourceType}{event.sourceUrl ? ` · ${event.sourceUrl}` : ''}</p>
 
                 <Button onClick={handleGoToModifyEvent}>Modify</Button>
             </div>

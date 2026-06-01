@@ -1,10 +1,20 @@
 export class Event {
-    constructor(id, ownerId, name, birthdate, weight, image) {
+    constructor(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl) {
         this.id = id
         this.ownerId = ownerId
-        this.name = name
-        this.birthdate = birthdate
-        this.weight = weight
+        this.title = title
+        this.description = description
+        this.date = date
+        this.time = time
+        this.location = location
+        this.address = address
+        this.district = district
+        this.category = category
+        this.tags = tags
+        this.priceType = priceType
+        this.price = price
         this.image = image
+        this.sourceType = sourceType
+        this.sourceUrl = sourceUrl
     }
 }

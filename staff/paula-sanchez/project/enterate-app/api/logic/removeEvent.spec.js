@@ -5,6 +5,27 @@ import { data, UserData, EventData } from '../data/index.js'
 import { logic } from './index.js'
 import { ExistenceError, OwnershipError } from 'com'
 
+function sampleEventData(ownerId) {
+    return new EventData(
+        null,
+        ownerId,
+        'Concierto en la Carbonería',
+        'Concierto acústico en la sala Carbonería del Realejo.',
+        new Date('2026-03-15'),
+        '21:00',
+        'Sala Carbonería',
+        'Calle Cardenal Parrado 8',
+        'Realejo',
+        'Música',
+        ['Interior', 'Noche', 'Adultos'],
+        'De pago',
+        '10',
+        'https://images.unsplash.com/photo-1',
+        'Instagram',
+        'https://instagram.com/carboneria'
+    )
+}
+
 describe('removeEvent', () => {
     before(() => connect(process.env.TEST_DB_URL))
 
@@ -20,7 +41,7 @@ describe('removeEvent', () => {
         return data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular'))
             .then(() => data.findUserByEmail('mi@ke.com'))
             .then(userData => {
-                return data.insertEvent(new EventData(null, userData.id, 'Tor Tuga', '2026-01-10', 2, 'https://image.com/123'))
+                return data.insertEvent(sampleEventData(userData.id))
                     .then(() => data.findEventsByUserId(userData.id))
                     .then(eventsData => {
                         const [eventData] = eventsData
@@ -65,7 +86,7 @@ describe('removeEvent', () => {
         ])
             .then(() => data.findUserByEmail('mi@ke2.com'))
             .then(userData2 => {
-                return data.insertEvent(new EventData(null, userData2.id, 'Tor Tuga', '2026-01-10', 2, 'https://image.com/123'))
+                return data.insertEvent(sampleEventData(userData2.id))
                     .then(() => data.findEventsByUserId(userData2.id))
                     .then(eventsData => {
                         const [eventData] = eventsData

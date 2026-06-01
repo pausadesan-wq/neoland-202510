@@ -1,13 +1,44 @@
 import { data } from '../data'
-import { validate, SystemError, AuthError, errorMap } from 'com'
+import { validate, SystemError, AuthError, ValidationError, errorMap, EVENT_CATEGORIES, EVENT_PRICE_TYPES, EVENT_SOURCE_TYPES } from 'com'
 
-export function addEvent(name, birthdate, weight, image) {
+export function addEvent(title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl) {
     if (data.getToken() === null) throw new AuthError('user not logged in')
 
-    validate.name(name)
-    validate.date(birthdate, 'birthdate')
-    validate.number(weight, 'weight')
+    validate.text(title, 'title', 4, 120)
+    validate.text(description, 'description', 20, 800)
+    validate.date(date, 'date')
+    validate.time(time, 'time')
+    validate.text(location, 'location', 2, 120)
+    if (address !== null && address !== undefined && address !== '') validate.text(address, 'address', 1, 160)
+    if (district !== null && district !== undefined && district !== '') validate.text(district, 'district', 1, 80)
+    validate.enum(category, EVENT_CATEGORIES, 'category')
+    validate.tags(tags, 'tags', 1, 5)
+    validate.enum(priceType, EVENT_PRICE_TYPES, 'priceType')
+
+    if (priceType === 'De pago') {
+        if (typeof price !== 'string' || price.trim().length === 0) throw new ValidationError('invalid price length')
+    }
+
     validate.url(image, 'image')
+    validate.enum(sourceType, EVENT_SOURCE_TYPES, 'sourceType')
+    if (sourceUrl !== null && sourceUrl !== undefined && sourceUrl !== '') validate.url(sourceUrl, 'sourceUrl')
+
+    const body = {
+        title,
+        description,
+        date,
+        time,
+        location,
+        address: address || null,
+        district: district || null,
+        category,
+        tags,
+        priceType,
+        price: priceType === 'De pago' ? price : null,
+        image,
+        sourceType,
+        sourceUrl: sourceUrl || null
+    }
 
     return fetch(`${import.meta.env.VITE_API_URL}/events`, {
         method: 'POST',
@@ -15,7 +46,7 @@ export function addEvent(name, birthdate, weight, image) {
             Authorization: `Bearer ${data.getToken()}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, birthdate, weight, image })
+        body: JSON.stringify(body)
     })
         .catch(error => { throw new SystemError('connection error') })
         .then(res => {

@@ -5,6 +5,27 @@ import { data, UserData, EventData } from '../data/index.js'
 import { logic, Event } from './index.js'
 import { ExistenceError } from 'com'
 
+function sampleEventData(ownerId) {
+    return new EventData(
+        null,
+        ownerId,
+        'Concierto en la Carbonería',
+        'Concierto acústico en la sala Carbonería del Realejo.',
+        new Date('2026-03-15'),
+        '21:00',
+        'Sala Carbonería',
+        'Calle Cardenal Parrado 8',
+        'Realejo',
+        'Música',
+        ['Interior', 'Noche', 'Adultos'],
+        'De pago',
+        '10',
+        'https://images.unsplash.com/photo-1',
+        'Instagram',
+        'https://instagram.com/carboneria'
+    )
+}
+
 describe('getEvents', () => {
     before(() => connect(process.env.TEST_DB_URL))
 
@@ -20,7 +41,7 @@ describe('getEvents', () => {
         return data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular'))
             .then(() => data.findUserByEmail('mi@ke.com'))
             .then(userData => {
-                return data.insertEvent(new EventData(null, userData.id, 'Tor Tuga', '2026-01-10', 2, 'https://image.com/123'))
+                return data.insertEvent(sampleEventData(userData.id))
                     .then(() => logic.getEvents(userData.id))
                     .then(events => {
                         expect(events).to.have.lengthOf(1)
@@ -28,12 +49,9 @@ describe('getEvents', () => {
                         const [event] = events
                         expect(event).instanceOf(Event)
                         expect(event.ownerId).to.equal(userData.id)
-                        expect(event.name).to.equal('Tor Tuga')
-                        expect(event.birthdate.getFullYear()).to.equal(2026)
-                        expect(event.birthdate.getMonth()).to.equal(0)
-                        expect(event.birthdate.getDate()).to.equal(10)
-                        expect(event.weight).to.equal(2)
-                        expect(event.image).to.equal('https://image.com/123')
+                        expect(event.title).to.equal('Concierto en la Carbonería')
+                        expect(event.category).to.equal('Música')
+                        expect(event.priceType).to.equal('De pago')
                     })
             })
     })
