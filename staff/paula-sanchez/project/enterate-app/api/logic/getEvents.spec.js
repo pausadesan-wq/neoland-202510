@@ -3,13 +3,12 @@ import { expect } from 'chai'
 import { connect, disconnect } from '../mongoose/index.js'
 import { data, UserData, EventData } from '../data/index.js'
 import { logic, Event } from './index.js'
-import { ExistenceError } from 'com'
 
-function sampleEventData(ownerId) {
+function sampleEventData(ownerId, title = 'Concierto en la Carbonería') {
     return new EventData(
         null,
         ownerId,
-        'Concierto en la Carbonería',
+        title,
         'Concierto acústico en la sala Carbonería del Realejo.',
         new Date('2026-03-15'),
         '21:00',
@@ -37,34 +36,31 @@ describe('getEvents', () => {
         bcrypt.hash('123123123', 10).then(hash => hashed = hash)
     ]))
 
-    it('succeeds on existing user and event', () => {
-        return data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular'))
-            .then(() => data.findUserByEmail('mi@ke.com'))
-            .then(userData => {
-                return data.insertEvent(sampleEventData(userData.id))
-                    .then(() => logic.getEvents(userData.id))
-                    .then(events => {
-                        expect(events).to.have.lengthOf(1)
-
-                        const [event] = events
-                        expect(event).instanceOf(Event)
-                        expect(event.ownerId).to.equal(userData.id)
-                        expect(event.title).to.equal('Concierto en la Carbonería')
-                        expect(event.category).to.equal('Música')
-                        expect(event.priceType).to.equal('De pago')
-                    })
+    it('returns all events (public, no auth needed)', () => {
+        return Promise.all([
+            data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular')),
+            data.insertUser(new UserData(null, 'Mi Ke 2', 'mi@ke2.com', 'mike2', hashed, null, 'regular'))
+        ])
+            .then(() => Promise.all([
+                data.findUserByEmail('mi@ke.com'),
+                data.findUserByEmail('mi@ke2.com')
+            ]))
+            .then(([u1, u2]) => Promise.all([
+                data.insertEvent(sampleEventData(u1.id, 'Evento uno')),
+                data.insertEvent(sampleEventData(u2.id, 'Evento dos'))
+            ]))
+            .then(() => logic.getEvents())
+            .then(events => {
+                expect(events).to.have.lengthOf(2)
+                events.forEach(e => expect(e).to.be.instanceOf(Event))
+                const titles = events.map(e => e.title).sort()
+                expect(titles).to.deep.equal(['Evento dos', 'Evento uno'])
             })
     })
 
-    it('fails on non-existing user', () => {
-        let caught = null
-
-        return logic.getEvents('012345678901234567890123')
-            .catch(error => caught = error)
-            .finally(() => {
-                expect(caught).to.be.instanceOf(ExistenceError)
-                expect(caught.message).to.equal('user not found')
-            })
+    it('returns empty array when no events exist', () => {
+        return logic.getEvents()
+            .then(events => expect(events).to.deep.equal([]))
     })
 
     afterEach(() => Promise.all([

@@ -4,9 +4,9 @@ import { logic } from '../../logic/index.js'
 
 export const authenticateUserHandler = (req, res, next) => {
     try {
-        const { username, password } = req.body
+        const { email, password } = req.body
 
-        logic.authenticateUser(username, password)
+        logic.authenticateUser(email, password)
             .then(userId => {
                 const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET, { expiresIn: '1h' })
 

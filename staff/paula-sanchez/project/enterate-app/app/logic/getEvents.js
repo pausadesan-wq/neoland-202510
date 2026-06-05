@@ -1,14 +1,13 @@
 import { data } from '../data'
-import { SystemError, AuthError, errorMap } from 'com'
+import { SystemError, errorMap } from 'com'
 
 export function getEvents() {
-    if (data.getToken() === null) throw new AuthError('user not logged in')
+    const token = data.getToken()
+    const headers = token ? { Authorization: `Bearer ${token}` } : {}
 
     return fetch(`${import.meta.env.VITE_API_URL}/events`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${data.getToken()}`
-        }
+        headers
     })
         .catch(error => { throw new SystemError('connection error') })
         .then(res => {

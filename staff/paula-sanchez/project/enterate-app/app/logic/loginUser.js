@@ -1,8 +1,8 @@
 import { data } from '../data'
 import { validate, SystemError, errorMap } from 'com'
 
-export function loginUser(username, password) {
-    validate.username(username)
+export function loginUser(email, password) {
+    validate.email(email)
     validate.password(password)
 
     return fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
@@ -10,7 +10,7 @@ export function loginUser(username, password) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
     })
         .catch(error => { throw new SystemError('connection error') })
         .then(res => {

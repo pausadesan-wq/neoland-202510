@@ -21,11 +21,11 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
 
         const form = event.target
 
-        const username = form.username.value
+        const email = form.email.value
         const password = form.password.value
 
         try {
-            logic.loginUser(username, password)
+            logic.loginUser(email, password)
                 .then(() => onUserLoggedIn())
                 .catch(error => onError(error))
         } catch (error) {
@@ -47,7 +47,7 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
         <h2 className="font-bold">Login</h2>
 
         <Form onSubmit={handleLoginSubmit}>
-            <Field alias="username" type="text">Username</Field>
+            <Field alias="email" type="email">Email</Field>
 
             <PasswordField alias="password">Password</PasswordField>
 

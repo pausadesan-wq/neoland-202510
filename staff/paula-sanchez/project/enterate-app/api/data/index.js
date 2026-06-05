@@ -8,6 +8,7 @@ import { updateUser } from './updateUser.js'
 import { deleteAllUsers } from './deleteAllUsers.js'
 
 import { insertEvent } from './insertEvent.js'
+import { findEvents } from './findEvents.js'
 import { findEventById } from './findEventById.js'
 import { findEventsByUserId } from './findEventsByUserId.js'
 import { updateEvent } from './updateEvent.js'
@@ -22,10 +23,10 @@ export const data = {
     updateUser,
     deleteAllUsers,
     insertEvent,
+    findEvents,
     findEventById,
     findEventsByUserId,
     updateEvent,
     deleteEvent,
     deleteAllEvents
 }
-
