@@ -48,25 +48,28 @@ export function Register({ onGoToLogin }) {
 
     logger.debug('Register -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
+    return <div className="mx-auto max-w-md py-8">
+        <h1 className="text-3xl font-extrabold">Crear cuenta</h1>
+        <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">Únete a ENTÉRATE y comparte planes en Granada.</p>
 
-        <h2 className="font-bold">Register</h2>
+        <div className="mt-6">
+            <Form onSubmit={handleRegisterSubmit}>
+                <Field alias="name" type="text">Nombre</Field>
 
-        <Form onSubmit={handleRegisterSubmit}>
-            <Field alias="name" type="text">Name</Field>
+                <Field alias="email" type="email">Email</Field>
 
-            <Field alias="email" type="email">E-mail</Field>
+                <Field alias="username" type="text">Usuario</Field>
 
-            <Field alias="username" type="text">Username</Field>
+                <PasswordField alias="password">Contraseña</PasswordField>
 
-            <PasswordField alias="password">Password</PasswordField>
+                <PasswordField alias="passwordRepeat">Repite la contraseña</PasswordField>
 
-            <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
+                <Button className="mt-2" type="submit">Crear cuenta</Button>
+            </Form>
+        </div>
 
-            <Button className="self-center" type="submit">Register</Button>
-        </Form>
-
-        <Anchor onClick={handleLoginClick}>Login</Anchor>
+        <p className="mt-6 text-sm">
+            ¿Ya tienes cuenta? <Anchor onClick={handleLoginClick}>Entrar</Anchor>
+        </p>
     </div>
 }

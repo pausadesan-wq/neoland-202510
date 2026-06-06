@@ -57,13 +57,11 @@ export function AddEvent({ onGoToHome }) {
 
     logger.debug('AddEvent -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
+    return <div className="mx-auto max-w-2xl py-6">
+        <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-extrabold">Subir plan</h1>
 
-        <div className="flex justify-between">
-            <h2 className="font-bold">Add Event</h2>
-
-            <Anchor onClick={handleBackClick}>&lt; Back</Anchor>
+            <Anchor onClick={handleBackClick}>&lt; Volver</Anchor>
         </div>
 
         <Form onSubmit={handleAddEventSubmit}>
@@ -110,7 +108,7 @@ export function AddEvent({ onGoToHome }) {
 
             <Field alias="sourceUrl" type="url">Source URL (optional)</Field>
 
-            <Button className="self-center mt-4" type="submit">Add Event</Button>
+            <Button className="mt-4" type="submit">Publicar plan</Button>
         </Form>
     </div>
 }

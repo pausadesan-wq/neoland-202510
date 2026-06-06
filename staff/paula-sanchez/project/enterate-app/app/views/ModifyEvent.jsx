@@ -72,13 +72,11 @@ export function ModifyEvent({ onGoBack }) {
 
     logger.debug('ModifyEvent -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
+    return <div className="mx-auto max-w-2xl py-6">
+        <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-extrabold">Editar plan</h1>
 
-        <div className="flex justify-between">
-            <h2 className="font-bold">Modify Event</h2>
-
-            <Anchor onClick={handleBackClick}>&lt; Back</Anchor>
+            <Anchor onClick={handleBackClick}>&lt; Volver</Anchor>
         </div>
 
         {event ? (() => {
@@ -131,7 +129,7 @@ export function ModifyEvent({ onGoBack }) {
 
                 <Field alias="sourceUrl" type="url" defaultValue={event.sourceUrl ?? ''}>Source URL (optional)</Field>
 
-                <Button className="self-center mt-4" type="submit">Modify Event</Button>
+                <Button className="mt-4" type="submit">Guardar cambios</Button>
             </Form>
         })() : <Spinner />}
     </div>

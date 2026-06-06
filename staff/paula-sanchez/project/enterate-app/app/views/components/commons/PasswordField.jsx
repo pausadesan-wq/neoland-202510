@@ -12,9 +12,15 @@ export function PasswordField({ alias, children }) {
         setType(type === 'password' ? 'text' : 'password')
     }
 
-    return <div className="flex flex-col">
+    return <div>
         <Label alias={alias}>{children}</Label>
-        <Input alias={alias} type={type} autoComplete="off" className={type === 'password'? '' : 'bg-[gold]'} />
-        <button className="self-end" type="button" onClick={handleTogglePasswordClick}>{type === 'password' ? 'Show' : 'Hide'}</button>
+        <Input alias={alias} type={type} autoComplete="off" />
+        <button
+            type="button"
+            onClick={handleTogglePasswordClick}
+            className="mt-1 text-xs font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
+        >
+            {type === 'password' ? 'Mostrar' : 'Ocultar'}
+        </button>
     </div>
 }

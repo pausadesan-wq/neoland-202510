@@ -1,0 +1,66 @@
+/* === TOKENS ENTÉRATE ===
+   Inspirado en remix-reference/src/styles.css (Lovable).
+   Se usan como CSS variables consumidas con clases Tailwind arbitrarias:
+     bg-[color:var(--brand-yellow)]  text-[color:var(--foreground)]
+*/
+
+:root {
+    --brand-yellow: #FFE44D;
+    --brand-blue: #2F6BFF;
+    --brand-purple: #7B5CFF;
+    --brand-coral: #FF6B4A;
+    --brand-orange: #FF9538;
+    --brand-red: #E9483B;
+    --brand-pink: #E23AA9;
+    --brand-green: #4FA870;
+    --brand-neon: #A3FF3F;
+
+    --background: #FBF9F1;
+    --foreground: #1A1A1A;
+    --muted: #F1EFE7;
+    --muted-foreground: #6B6B62;
+    --border: #E5E2D6;
+    --card: #FFFFFF;
+    --card-foreground: #1A1A1A;
+    --destructive: #E9483B;
+
+    --radius: 0.875rem;
+
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-display: 'Inter Tight', 'Inter', system-ui, sans-serif;
+}
+
+html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.035em;
+    font-weight: 800;
+}
+
+.font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.035em;
+}
+
+/* Marker amarillo estilo Lovable — resalta la sílaba TÉ del logo */
+.mark-yellow {
+    background-image: linear-gradient(120deg, var(--brand-yellow), var(--brand-yellow));
+    background-repeat: no-repeat;
+    background-size: 100% 55%;
+    background-position: 0 80%;
+    padding: 0 0.15em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}

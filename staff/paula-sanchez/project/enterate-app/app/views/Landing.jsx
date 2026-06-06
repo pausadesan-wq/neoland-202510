@@ -19,12 +19,16 @@ export function Landing({ onGoToLogin, onGoToRegister }) {
 
     logger.debug('Landing -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
-        <p>Welcome!</p>
+    return <div className="py-8">
+        <h1 className="text-4xl font-extrabold">Planes y cultura en Granada</h1>
+        <p className="mt-3 text-[color:var(--muted-foreground)]">
+            ENTÉRATE de todo lo que pasa en Granada. Descubre planes, sube los tuyos y comparte.
+        </p>
 
-        <nav>
-            <Anchor onClick={handleLoginClick}>Login</Anchor> or <Anchor onClick={handleRegisterClick}>Register</Anchor>
+        <nav className="mt-6 flex gap-3">
+            <Anchor onClick={handleLoginClick}>Entrar</Anchor>
+            <span className="text-[color:var(--muted-foreground)]">o</span>
+            <Anchor onClick={handleRegisterClick}>Crear cuenta</Anchor>
         </nav>
     </div>
 }

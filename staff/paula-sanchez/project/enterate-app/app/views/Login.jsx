@@ -41,19 +41,22 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
 
     logger.debug('Login -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
+    return <div className="mx-auto max-w-md py-8">
+        <h1 className="text-3xl font-extrabold">Entrar</h1>
+        <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">Accede con tu email y contraseña.</p>
 
-        <h2 className="font-bold">Login</h2>
+        <div className="mt-6">
+            <Form onSubmit={handleLoginSubmit}>
+                <Field alias="email" type="email">Email</Field>
 
-        <Form onSubmit={handleLoginSubmit}>
-            <Field alias="email" type="email">Email</Field>
+                <PasswordField alias="password">Contraseña</PasswordField>
 
-            <PasswordField alias="password">Password</PasswordField>
+                <Button className="mt-2" type="submit">Entrar</Button>
+            </Form>
+        </div>
 
-            <Button className="self-center" type="submit">Login</Button>
-        </Form>
-
-        <Anchor onClick={handleRegisterClick}>Register</Anchor>
+        <p className="mt-6 text-sm">
+            ¿Sin cuenta? <Anchor onClick={handleRegisterClick}>Crear cuenta</Anchor>
+        </p>
     </div>
 }

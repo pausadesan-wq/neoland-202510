@@ -61,21 +61,19 @@ export function Profile({ onGoToHome }) {
 
     logger.debug('Profile -> render')
 
-    return <div className="p-4">
-        <h1 className="font-bold text-xl">MyPet</h1>
+    return <div className="mx-auto max-w-2xl py-6">
+        <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-extrabold">Perfil</h1>
 
-        <div className="flex justify-between">
-            <h2 className="font-bold">Profile</h2>
-
-            <Anchor onClick={handleBackClick}>&lt; Back</Anchor>
+            <Anchor onClick={handleBackClick}>&lt; Volver</Anchor>
         </div>
 
-        <ul>
-            <li><Anchor onClick={handleChangeNameClick}>Change name</Anchor></li>
-            <li><Anchor onClick={handleChangeEmailClick}>Change e-mail</Anchor></li>
-            <li><Anchor onClick={handleChangeUsernameClick}>Change username</Anchor></li>
-            <li><Anchor onClick={handlePasswordClick}>Change password</Anchor></li>
-            <li><Anchor onClick={handleImageClick}>Change image</Anchor></li>
+        <ul className="mt-6 flex flex-col gap-2">
+            <li><Anchor onClick={handleChangeNameClick}>Cambiar nombre</Anchor></li>
+            <li><Anchor onClick={handleChangeEmailClick}>Cambiar email</Anchor></li>
+            <li><Anchor onClick={handleChangeUsernameClick}>Cambiar usuario</Anchor></li>
+            <li><Anchor onClick={handlePasswordClick}>Cambiar contraseña</Anchor></li>
+            <li><Anchor onClick={handleImageClick}>Cambiar imagen</Anchor></li>
         </ul>
 
         {view === 'change-name' && <ChangeUserName />}
