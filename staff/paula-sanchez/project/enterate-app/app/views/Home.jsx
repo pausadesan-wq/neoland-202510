@@ -1,28 +1,39 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 
-import { EventList } from './components/EventList'
+import { EventCard } from './components/EventCard'
 
 import { useContext } from '../context'
 
 import { logic } from '../logic'
 
+import {
+    startOfDay,
+    eventDate,
+    isFuture,
+    thisWeekEvents,
+    hiddenGems
+} from './lib/events'
+
 import { logger } from '../logger'
 
-// Home mínimo — el rediseño completo (hero, "esta semana", descubrimiento…) llega en la Fase 6.
+// Home pública — funciona con y sin login. Datos reales vía GET /events.
 
-export function Home({ onGoToEventDetail }) {
+export function Home() {
     logger.debug('Home -> call')
 
     const { onError } = useContext()
 
-    const [name, setName] = useState(null)
+    const [events, setEvents] = useState([])
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
-        logger.debug('Home -> useEffect')
-
         try {
-            logic.getLoggedInUser()
-                .then(user => setName(user.name))
+            logic.getEvents()
+                .then(events => {
+                    setEvents(events)
+                    setLoaded(true)
+                })
                 .catch(error => onError(error))
         } catch (error) {
             onError(error)
@@ -31,14 +42,173 @@ export function Home({ onGoToEventDetail }) {
 
     logger.debug('Home -> render')
 
-    return <div className="py-6">
-        <h1 className="text-3xl font-extrabold">
-            Hola{name ? `, ${name}` : ''} 👋
-        </h1>
-        <p className="mt-1 text-[color:var(--muted-foreground)]">Estos son los planes en Granada.</p>
+    // === Stats derivadas ===
+    const today = startOfDay(new Date())
+    const dayMs = 24 * 60 * 60 * 1000
+    const weekEnd = new Date(today.getTime() + 7 * dayMs)
+    const monthEnd = new Date(today.getTime() + 30 * dayMs)
 
-        <div className="mt-6">
-            <EventList onGoToEventDetail={onGoToEventDetail} />
+    const future = events.filter(e => isFuture(e, today))
+
+    const stats = {
+        totalActive: future.length,
+        todayCount: future.filter(e => startOfDay(eventDate(e.date)).getTime() === today.getTime()).length,
+        thisWeekCount: future.filter(e => startOfDay(eventDate(e.date)) <= weekEnd).length,
+        thisMonthCount: future.filter(e => startOfDay(eventDate(e.date)) <= monthEnd).length,
+        freeCount: future.filter(e => e.priceType === 'Gratis').length,
+        paidCount: future.filter(e => e.priceType !== 'Gratis').length
+    }
+
+    const weekList = thisWeekEvents(events, today).slice(0, 3)
+    const gemsList = hiddenGems(events, today).slice(0, 2)
+
+    return <div className="-mx-4 md:mx-0">
+        {/* === HERO === */}
+        <section className="px-4 pb-3 pt-3">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--muted)]/60 px-2 py-0.5 text-[10.5px] font-medium text-[color:var(--foreground)]/70">
+                <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[color:var(--brand-neon)]" />
+                granada ahora · <span className="font-semibold text-[color:var(--foreground)]/80">{stats.totalActive}</span> planes activos
+            </p>
+
+            <h1 className="mt-2 font-display text-[28px] font-extrabold leading-[0.95] tracking-tight md:text-4xl">
+                ¿No te has <span className="mark-yellow">enterao</span>?
+            </h1>
+
+            <p className="mt-1.5 text-[13px] leading-snug text-[color:var(--muted-foreground)] md:text-base">
+                Planes y eventos actuales en Granada — pa' que te enteres de to'! 👀
+            </p>
+
+            <div className="mt-4 flex items-center gap-2.5">
+                <Link
+                    to="/explorar"
+                    className="inline-flex min-h-9 flex-[1.5] items-center justify-center rounded-full bg-[color:var(--brand-blue)] px-3 py-1 text-[13px] font-extrabold text-white transition active:scale-[0.98]"
+                >
+                    Cotillea qué pasa →
+                </Link>
+                <Link
+                    to="/crear"
+                    className="inline-flex min-h-9 flex-1 items-center justify-center rounded-full border-[3px] border-[color:var(--foreground)] bg-[color:var(--background)] px-3 py-1 text-[13px] font-extrabold shadow-[3px_3px_0_var(--foreground)] active:scale-[0.98]"
+                >
+                    Subir plan
+                </Link>
+            </div>
+        </section>
+
+        {/* === STATS STRIP === */}
+        <section className="border-b border-[color:var(--border)] px-4 pb-3 pt-1">
+            <div className="flex gap-2.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <StatChip n={stats.totalActive} label="activos" />
+                <StatChip n={stats.thisMonthCount} label="este mes" accent="var(--brand-pink)" />
+                <StatChip n={stats.thisWeekCount} label="esta semana" accent="var(--brand-purple)" />
+                <StatChip n={stats.todayCount} label="hoy" accent="var(--brand-coral)" />
+                <StatChip n={stats.freeCount} label="gratis" accent="var(--brand-green)" />
+                <StatChip n={stats.paidCount} label="de pago" accent="var(--brand-blue)" />
+            </div>
+        </section>
+
+        {/* === ESTA SEMANA === */}
+        <section className="px-4 pb-5 pt-5">
+            <div className="mb-2.5 flex items-baseline justify-between">
+                <h2 className="font-display text-[18px] font-extrabold leading-tight md:text-2xl">
+                    Esta <span className="mark-yellow">semana</span>
+                </h2>
+                <Link to="/explorar" className="text-[12px] font-bold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]">
+                    Toda la agenda →
+                </Link>
+            </div>
+
+            {loaded && weekList.length === 0
+                ? <p className="text-sm text-[color:var(--muted-foreground)]">No hay planes esta semana. <Link to="/explorar" className="font-semibold underline">Explora la agenda completa</Link>.</p>
+                : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {weekList.map(e => <EventCard key={e.id} event={e} />)}
+                </div>
+            }
+        </section>
+
+        {/* === COSITAS OCULTAS === */}
+        <section className="border-t border-[color:var(--border)] bg-[color:var(--muted)]/40 px-4 pb-6 pt-5">
+            <div className="mb-2.5">
+                <span
+                    className="inline-flex h-5 items-center rounded-md bg-[color:var(--brand-coral)] px-2 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm"
+                    style={{ transform: 'rotate(-3deg)', transformOrigin: 'center' }}
+                >
+                    cositas ocultas
+                </span>
+                <div className="mt-2 flex items-start justify-between gap-3">
+                    <h2 className="font-display text-[18px] font-extrabold leading-tight md:text-2xl">
+                        ¿No te has enterao de{' '}
+                        <span className="italic underline decoration-[color:var(--brand-coral)] decoration-2 underline-offset-4">
+                            esto
+                        </span>
+                        ?
+                    </h2>
+                    <Link to="/explorar" className="shrink-0 pt-0.5 text-[12px] font-bold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]">
+                        Ver todos →
+                    </Link>
+                </div>
+                <p className="mt-1 text-[12.5px] text-[color:var(--muted-foreground)]">
+                    Eventos más adelante o con menos gente.
+                </p>
+            </div>
+
+            {loaded && gemsList.length === 0
+                ? <p className="text-sm text-[color:var(--muted-foreground)]">Nada oculto por descubrir por ahora.</p>
+                : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {gemsList.map(e => <EventCard key={e.id} event={e} />)}
+                </div>
+            }
+        </section>
+
+        {/* === CÓMO FUNCIONA === */}
+        <section className="border-t border-[color:var(--border)] bg-[color:var(--card)] px-4 py-6">
+            <span
+                className="inline-flex h-5 items-center rounded-md bg-[color:var(--brand-yellow)] px-2 text-[10px] font-extrabold uppercase tracking-wider text-[color:var(--foreground)] shadow-sm"
+                style={{ transform: 'rotate(-3deg)', transformOrigin: 'center' }}
+            >
+                cómo va la cosa
+            </span>
+
+            <h2 className="mt-2.5 font-display text-[20px] font-extrabold md:text-2xl">
+                Cómo funciona ENTÉRATE
+            </h2>
+
+            <div className="mt-6 space-y-3">
+                <HowStep n="01" color="var(--brand-blue)" title="Planes que no salen en Google" emoji="👀" />
+                <HowStep n="02" color="var(--brand-coral)" title="Lo que ves en redes o de boca en boca, todo aquí" emoji="📡" />
+                <HowStep n="03" color="var(--brand-purple)" title="¿Te has enterao de algo? Compártelo con el resto" emoji="✍️" />
+            </div>
+        </section>
+    </div>
+}
+
+// === Subcomponentes locales ===
+
+function StatChip({ n, label, accent }) {
+    return <div className="inline-flex min-h-7 shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--border)] bg-[color:var(--muted)]/50 px-2.5 text-[11.5px] font-medium leading-none text-[color:var(--foreground)]/70">
+        <span
+            className="font-display text-[13.5px] font-extrabold tabular-nums"
+            style={{ color: accent || 'var(--foreground)' }}
+        >
+            {n}
+        </span>
+        <span>{label}</span>
+    </div>
+}
+
+function HowStep({ n, color, title, emoji }) {
+    return <div className="relative overflow-hidden rounded-2xl border-2 border-[color:var(--foreground)] bg-[color:var(--card)] px-4 py-3.5 shadow-[2px_2px_0_0_var(--foreground)]">
+        <div className="flex items-start gap-3">
+            <span
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-xl font-display text-[13px] font-extrabold text-white"
+                style={{ backgroundColor: color }}
+            >
+                {n}
+            </span>
+            <div className="min-w-0 flex-1">
+                <p className="font-display text-[15px] font-extrabold leading-tight">
+                    {title} <span className="ml-0.5">{emoji}</span>
+                </p>
+            </div>
         </div>
     </div>
 }

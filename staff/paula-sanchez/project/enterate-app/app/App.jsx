@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { Routes, Route, useNavigate, Navigate } from 'react-router'
 
-import { Landing } from './views/Landing'
 import { Login } from './views/Login'
 import { Register } from './views/Register'
 import { Home } from './views/Home'
@@ -90,10 +89,7 @@ export function App() {
         <Routes>
             <Route element={<Layout />}>
                 {/* === RUTAS PÚBLICAS === */}
-                <Route path="/" element={!loggedIn
-                    ? <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
-                    : <Home onGoToAddEvent={handleGoToAddEvent} onUserLoggedOut={handleGoToLogin} onGoToProfile={handleGoToProfile} onGoToEventDetail={handleGoToEventDetail} />
-                } />
+                <Route path="/" element={<Home />} />
                 <Route path="/explorar" element={<Explorar />} />
                 <Route path="/evento/:eventId" element={<EventDetail onGoToHome={handleGoToHome} onGoToModifyEvent={handleGoToModifyEvent} />} />
 
