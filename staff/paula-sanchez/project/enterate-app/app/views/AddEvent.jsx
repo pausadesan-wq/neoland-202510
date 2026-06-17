@@ -1,53 +1,50 @@
-import { Form } from './components/commons/Form'
-import { Field } from './components/commons/Field'
-import { Button } from './components/commons/Button'
-import { Anchor } from './components/commons/Anchor'
+import { useNavigate } from 'react-router'
+
+import { EventForm } from './components/EventForm'
+import { Icon } from './components/Icon'
 
 import { useContext } from '../context'
 
 import { logic } from '../logic'
 
-import { EVENT_CATEGORIES, EVENT_PRICE_TYPES, EVENT_SOURCE_TYPES } from 'com'
-
 import { logger } from '../logger'
 
-export function AddEvent({ onGoToHome }) {
+// === CREAR EVENTO ===
+// Envuelve EventForm en modo "create". Al éxito navega a /evento/:id (id que devuelve POST /events).
+
+export function AddEvent() {
     logger.debug('AddEvent -> call')
 
-    const { onError } = useContext()
+    const { onSuccess, onError } = useContext()
 
-    const handleBackClick = event => {
-        event.preventDefault()
+    const navigate = useNavigate()
 
-        onGoToHome()
+    const handleBackClick = e => {
+        e.preventDefault()
+        navigate(-1)
     }
 
-    const handleAddEventSubmit = event => {
-        event.preventDefault()
-
-        const form = event.target
-
-        const title = form.title.value
-        const description = form.description.value
-        const date = form.date.value
-        const time = form.time.value
-        const location = form.location.value
-        const address = form.address.value
-        const district = form.district.value
-        const category = form.category.value
-        const tags = form.tags.value.split(',').map(t => t.trim()).filter(t => t.length > 0)
-        const priceType = form.priceType.value
-        const price = form.price.value
-        const image = form.image.value
-        const sourceType = form.sourceType.value
-        const sourceUrl = form.sourceUrl.value
-
+    const handleSubmit = payload => {
         try {
-            logic.addEvent(title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl)
-                .then(() => {
-                    form.reset()
-
-                    onGoToHome()
+            return logic.addEvent(
+                payload.title,
+                payload.description,
+                payload.date,
+                payload.time,
+                payload.location,
+                payload.address,
+                payload.district,
+                payload.category,
+                payload.tags,
+                payload.priceType,
+                payload.price,
+                payload.image,
+                payload.sourceType,
+                payload.sourceUrl
+            )
+                .then(eventId => {
+                    onSuccess('¡Plan publicado!')
+                    navigate(`/evento/${eventId}`)
                 })
                 .catch(error => onError(error))
         } catch (error) {
@@ -57,58 +54,24 @@ export function AddEvent({ onGoToHome }) {
 
     logger.debug('AddEvent -> render')
 
-    return <div className="mx-auto max-w-2xl py-6">
-        <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-extrabold">Subir plan</h1>
+    return <div className="mx-auto max-w-2xl py-4 md:py-8">
+        <button
+            onClick={handleBackClick}
+            className="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
+        >
+            <Icon name="back" className="h-4 w-4" /> Volver
+        </button>
 
-            <Anchor onClick={handleBackClick}>&lt; Volver</Anchor>
+        <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+            Sube tu <span className="mark-yellow">plan</span>
+        </h1>
+
+        <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">
+            Comparte lo que está pasando en Granada.
+        </p>
+
+        <div className="mt-6">
+            <EventForm mode="create" onSubmit={handleSubmit} />
         </div>
-
-        <Form onSubmit={handleAddEventSubmit}>
-            <Field alias="title" type="text">Title</Field>
-
-            <Field alias="description" type="text">Description</Field>
-
-            <Field alias="date" type="date">Date</Field>
-
-            <Field alias="time" type="time">Time</Field>
-
-            <Field alias="location" type="text">Location</Field>
-
-            <Field alias="address" type="text">Address (optional)</Field>
-
-            <Field alias="district" type="text">District (optional)</Field>
-
-            <label className="flex flex-col">
-                Category
-                <select name="category" defaultValue={EVENT_CATEGORIES[0]}>
-                    {EVENT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-            </label>
-
-            <Field alias="tags" type="text">Tags (comma separated)</Field>
-
-            <label className="flex flex-col">
-                Price type
-                <select name="priceType" defaultValue={EVENT_PRICE_TYPES[0]}>
-                    {EVENT_PRICE_TYPES.map(p => <option key={p} value={p}>{p}</option>)}
-                </select>
-            </label>
-
-            <Field alias="price" type="text">Price (only if "De pago")</Field>
-
-            <Field alias="image" type="url">Image URL</Field>
-
-            <label className="flex flex-col">
-                Source type
-                <select name="sourceType" defaultValue={EVENT_SOURCE_TYPES[0]}>
-                    {EVENT_SOURCE_TYPES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-            </label>
-
-            <Field alias="sourceUrl" type="url">Source URL (optional)</Field>
-
-            <Button className="mt-4" type="submit">Publicar plan</Button>
-        </Form>
     </div>
 }

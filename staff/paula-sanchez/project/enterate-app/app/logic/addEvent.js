@@ -53,7 +53,9 @@ export function addEvent(title, description, date, time, location, address, dist
             const { status } = res
 
             if (status === 201)
-                return
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => body.id)
 
             return res.json()
                 .catch(error => { throw new SystemError('json error') })

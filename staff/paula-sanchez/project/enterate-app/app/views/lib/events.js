@@ -69,6 +69,26 @@ export function categoryMeta(name) {
     return CATEGORIES.find(c => c.name === name) || CATEGORIES[0]
 }
 
+// Tags curados que sugerimos en el formulario. Se usan para el chip picker.
+// El usuario puede añadir tags libres (validación 1-5 con regex simple).
+export const TAG_SUGGESTIONS = [
+    'Aire libre',
+    'Interior',
+    'Familiar',
+    'Adultos',
+    'Tranquilo',
+    'Conocer gente',
+    'Accesible',
+    'Local',
+    'En grupo',
+    'Noche',
+    'Popular',
+    'Nuevo'
+]
+
+// Regex sencilla para tags: letras, números, espacios y guiones. 2-30 caracteres.
+export const TAG_REGEX = /^[\p{L}\p{N} '\-]{2,30}$/u
+
 // La categoría Mercadillos usa un amarillo claro que necesita texto oscuro; el resto texto blanco.
 export function categoryTextColor(name) {
     return name === 'Mercadillos' ? 'var(--foreground)' : 'white'

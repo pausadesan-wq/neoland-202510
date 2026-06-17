@@ -38,7 +38,11 @@ describe('addEvent', () => {
                     'Instagram',
                     'https://instagram.com/carboneria'
                 )
-                    .then(() => data.findEventsByUserId(userData.id))
+                    .then(eventId => {
+                        expect(eventId).to.be.a('string')
+                        expect(eventId).to.have.lengthOf(24)
+                        return data.findEventsByUserId(userData.id)
+                    })
                     .then(events => {
                         expect(events).to.have.lengthOf(1)
 

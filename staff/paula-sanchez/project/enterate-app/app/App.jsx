@@ -91,11 +91,11 @@ export function App() {
                 {/* === RUTAS PÚBLICAS === */}
                 <Route path="/" element={<Home />} />
                 <Route path="/explorar" element={<Explorar />} />
-                <Route path="/evento/:eventId" element={<EventDetail onGoToHome={handleGoToHome} onGoToModifyEvent={handleGoToModifyEvent} />} />
+                <Route path="/evento/:eventId" element={<EventDetail />} />
 
                 {/* === RUTAS PROTEGIDAS === */}
-                <Route path="/crear" element={loggedIn ? <AddEvent onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
-                <Route path="/evento/:eventId/editar" element={loggedIn ? <ModifyEvent onGoBack={handleGoToEventDetail} /> : <Navigate to="/login" />} />
+                <Route path="/crear" element={loggedIn ? <AddEvent /> : <Navigate to="/login" />} />
+                <Route path="/evento/:eventId/editar" element={loggedIn ? <ModifyEvent /> : <Navigate to="/login" />} />
                 <Route path="/guardados" element={loggedIn ? <Guardados /> : <Navigate to="/login" />} />
                 <Route path="/perfil" element={loggedIn ? <Profile onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
 

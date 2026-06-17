@@ -1,29 +1,31 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
-import { Form } from './components/commons/Form'
-import { Field } from './components/commons/Field'
-import { Button } from './components/commons/Button'
-import { Anchor } from './components/commons/Anchor'
+import { EventForm } from './components/EventForm'
 import { Spinner } from './components/Spinner'
+import { Icon } from './components/Icon'
 
 import { useContext } from '../context'
 
 import { logic } from '../logic'
 
-import { EVENT_CATEGORIES, EVENT_PRICE_TYPES, EVENT_SOURCE_TYPES } from 'com'
-
 import { logger } from '../logger'
 
-export function ModifyEvent({ onGoBack }) {
+// === EDITAR EVENTO ===
+// Precarga con GET /events/:id, edita con EventForm mode="edit", envía PUT.
+// El backend valida ownership (403 si no es del usuario).
+
+export function ModifyEvent() {
     logger.debug('ModifyEvent -> call')
 
     const { onSuccess, onError } = useContext()
 
-    const [event, setEvent] = useState(null)
+    const navigate = useNavigate()
 
     const { eventId } = useParams()
+
+    const [event, setEvent] = useState(null)
 
     useEffect(() => {
         try {
@@ -33,37 +35,36 @@ export function ModifyEvent({ onGoBack }) {
         } catch (error) {
             onError(error)
         }
-    }, [])
+    }, [eventId])
 
     const handleBackClick = e => {
         e.preventDefault()
-
-        onGoBack(eventId)
+        navigate(`/evento/${eventId}`)
     }
 
-    const handleModifyEventSubmit = e => {
-        e.preventDefault()
-
-        const form = e.target
-
-        const title = form.title.value
-        const description = form.description.value
-        const date = form.date.value
-        const time = form.time.value
-        const location = form.location.value
-        const address = form.address.value
-        const district = form.district.value
-        const category = form.category.value
-        const tags = form.tags.value.split(',').map(t => t.trim()).filter(t => t.length > 0)
-        const priceType = form.priceType.value
-        const price = form.price.value
-        const image = form.image.value
-        const sourceType = form.sourceType.value
-        const sourceUrl = form.sourceUrl.value
-
+    const handleSubmit = payload => {
         try {
-            logic.modifyEvent(eventId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl)
-                .then(() => onSuccess('event successfully modified'))
+            return logic.modifyEvent(
+                eventId,
+                payload.title,
+                payload.description,
+                payload.date,
+                payload.time,
+                payload.location,
+                payload.address,
+                payload.district,
+                payload.category,
+                payload.tags,
+                payload.priceType,
+                payload.price,
+                payload.image,
+                payload.sourceType,
+                payload.sourceUrl
+            )
+                .then(() => {
+                    onSuccess('Cambios guardados')
+                    navigate(`/evento/${eventId}`)
+                })
                 .catch(error => onError(error))
         } catch (error) {
             onError(error)
@@ -72,65 +73,22 @@ export function ModifyEvent({ onGoBack }) {
 
     logger.debug('ModifyEvent -> render')
 
-    return <div className="mx-auto max-w-2xl py-6">
-        <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-extrabold">Editar plan</h1>
+    return <div className="mx-auto max-w-2xl py-4 md:py-8">
+        <button
+            onClick={handleBackClick}
+            className="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
+        >
+            <Icon name="back" className="h-4 w-4" /> Volver
+        </button>
 
-            <Anchor onClick={handleBackClick}>&lt; Volver</Anchor>
+        <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+            Editar plan
+        </h1>
+
+        <div className="mt-6">
+            {event
+                ? <EventForm mode="edit" initialEvent={event} onSubmit={handleSubmit} />
+                : <Spinner />}
         </div>
-
-        {event ? (() => {
-            const zuluDate = new Date(event.date)
-            const offsetMillis = zuluDate.getTimezoneOffset() * 60 * 1000
-            const localDate = new Date(zuluDate.getTime() - offsetMillis)
-            const localDateString = localDate.toISOString().split('T')[0]
-
-            return <Form onSubmit={handleModifyEventSubmit}>
-                <Field alias="title" type="text" defaultValue={event.title}>Title</Field>
-
-                <Field alias="description" type="text" defaultValue={event.description}>Description</Field>
-
-                <Field alias="date" type="date" defaultValue={localDateString}>Date</Field>
-
-                <Field alias="time" type="time" defaultValue={event.time}>Time</Field>
-
-                <Field alias="location" type="text" defaultValue={event.location}>Location</Field>
-
-                <Field alias="address" type="text" defaultValue={event.address ?? ''}>Address (optional)</Field>
-
-                <Field alias="district" type="text" defaultValue={event.district ?? ''}>District (optional)</Field>
-
-                <label className="flex flex-col">
-                    Category
-                    <select name="category" defaultValue={event.category}>
-                        {EVENT_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-                    </select>
-                </label>
-
-                <Field alias="tags" type="text" defaultValue={(event.tags || []).join(', ')}>Tags (comma separated)</Field>
-
-                <label className="flex flex-col">
-                    Price type
-                    <select name="priceType" defaultValue={event.priceType}>
-                        {EVENT_PRICE_TYPES.map(p => <option key={p} value={p}>{p}</option>)}
-                    </select>
-                </label>
-
-                <Field alias="price" type="text" defaultValue={event.price ?? ''}>Price (only if "De pago")</Field>
-
-                <Field alias="image" type="url" defaultValue={event.image}>Image URL</Field>
-
-                <label className="flex flex-col">
-                    Source type
-                    <select name="sourceType" defaultValue={event.sourceType}>
-                        {EVENT_SOURCE_TYPES.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                </label>
-
-                <Field alias="sourceUrl" type="url" defaultValue={event.sourceUrl ?? ''}>Source URL (optional)</Field>
-
-                <Button className="mt-4" type="submit">Guardar cambios</Button>
-            </Form>
-        })() : <Spinner />}
     </div>
 }

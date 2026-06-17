@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 
 import { Spinner } from './components/Spinner'
 import { Icon } from './components/Icon'
@@ -20,28 +20,40 @@ import {
 import { logger } from '../logger'
 
 // Detalle real de evento. Público — funciona sin login.
-// Descarga: 1) evento actual con GET /events/:id; 2) todos con GET /events para relacionados.
+// Descarga: 1) evento actual con GET /events/:id; 2) todos con GET /events para relacionados;
+// 3) el usuario logueado (si hay) para saber si es el propietario y mostrar OwnerActions.
 
-export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
+export function EventDetail() {
     logger.debug('EventDetail -> call')
 
-    const { onError } = useContext()
+    const { onSuccess, onError } = useContext()
+
+    const navigate = useNavigate()
 
     const { eventId } = useParams()
 
     const [event, setEvent] = useState(null)
     const [allEvents, setAllEvents] = useState([])
+    const [currentUserId, setCurrentUserId] = useState(null)
+    const [confirmingDelete, setConfirmingDelete] = useState(false)
+    const [deleting, setDeleting] = useState(false)
 
     const loggedIn = logic.isUserLoggedIn()
 
     useEffect(() => {
         setEvent(null)
+        setConfirmingDelete(false)
 
         try {
-            Promise.all([logic.getEvent(eventId), logic.getEvents()])
-                .then(([one, all]) => {
+            const promises = [logic.getEvent(eventId), logic.getEvents()]
+
+            if (loggedIn) promises.push(logic.getLoggedInUser())
+
+            Promise.all(promises)
+                .then(([one, all, user]) => {
                     setEvent(one)
                     setAllEvents(all)
+                    if (user) setCurrentUserId(user.id)
                 })
                 .catch(error => onError(error))
         } catch (error) {
@@ -49,13 +61,33 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
         }
     }, [eventId])
 
-    const handleBackClick = e => {
+    const handleBack = e => {
         e.preventDefault()
-
-        onGoToHome()
+        navigate('/')
     }
 
-    const handleGoToModifyEvent = () => onGoToModifyEvent(eventId)
+    const handleEdit = () => navigate(`/evento/${eventId}/editar`)
+
+    const handleAskDelete = () => setConfirmingDelete(true)
+
+    const handleCancelDelete = () => setConfirmingDelete(false)
+
+    const handleConfirmDelete = () => {
+        setDeleting(true)
+
+        try {
+            logic.removeEvent(eventId)
+                .then(() => {
+                    onSuccess('Plan eliminado')
+                    navigate('/')
+                })
+                .catch(error => onError(error))
+                .finally(() => setDeleting(false))
+        } catch (error) {
+            setDeleting(false)
+            onError(error)
+        }
+    }
 
     logger.debug('EventDetail -> render')
 
@@ -64,6 +96,7 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
     const meta = categoryMeta(event.category)
     const price = priceLabel(event)
     const related = relatedEvents(allEvents, event)
+    const isOwner = loggedIn && currentUserId && currentUserId === event.ownerId
 
     // Chips secundarios: quitar los que ya salen (categoría, precio o priceType)
     const excluded = new Set([event.category.toLowerCase(), event.priceType.toLowerCase(), price.toLowerCase()])
@@ -79,7 +112,7 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
             />
 
             <button
-                onClick={handleBackClick}
+                onClick={handleBack}
                 aria-label="Volver"
                 className="absolute left-2.5 top-2.5 grid h-9 w-9 place-items-center rounded-full bg-[color:var(--background)]/95 text-[color:var(--foreground)] backdrop-blur transition active:scale-95"
             >
@@ -161,14 +194,48 @@ export function EventDetail({ onGoToHome, onGoToModifyEvent }) {
                 </p>
             </div>
 
-            {/* === EDITAR (solo logueados; el backend valida ownership) === */}
-            {loggedIn && <div className="mt-6">
-                <button
-                    onClick={handleGoToModifyEvent}
-                    className="inline-flex items-center gap-1.5 rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-4 py-2 text-sm font-bold text-[color:var(--foreground)] transition hover:-translate-y-0.5"
-                >
-                    Editar plan
-                </button>
+            {/* === OWNER ACTIONS === */}
+            {isOwner && <div className="mt-8 border-t border-[color:var(--border)] pt-6">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-[color:var(--muted-foreground)]">
+                    Este plan es tuyo
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                        onClick={handleEdit}
+                        className="inline-flex items-center gap-1.5 rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-4 py-2 text-sm font-bold text-[color:var(--foreground)] transition hover:-translate-y-0.5"
+                    >
+                        Editar plan
+                    </button>
+
+                    {!confirmingDelete && <button
+                        onClick={handleAskDelete}
+                        className="inline-flex items-center gap-1.5 rounded-full border-2 border-[color:var(--destructive)] bg-[color:var(--background)] px-4 py-2 text-sm font-bold text-[color:var(--destructive)] transition hover:bg-[color:var(--destructive)] hover:text-white"
+                    >
+                        Eliminar
+                    </button>}
+                </div>
+
+                {confirmingDelete && <div className="mt-3 rounded-xl border border-[color:var(--destructive)] bg-[color:var(--card)] p-3">
+                    <p className="text-sm font-semibold">¿Seguro que quieres eliminar este plan?</p>
+                    <p className="mt-1 text-xs text-[color:var(--muted-foreground)]">Esta acción no se puede deshacer.</p>
+                    <div className="mt-3 flex gap-2">
+                        <button
+                            onClick={handleConfirmDelete}
+                            disabled={deleting}
+                            className="inline-flex items-center rounded-full bg-[color:var(--destructive)] px-4 py-2 text-xs font-bold text-white disabled:opacity-60"
+                        >
+                            {deleting ? 'Eliminando…' : 'Sí, eliminar'}
+                        </button>
+                        <button
+                            onClick={handleCancelDelete}
+                            disabled={deleting}
+                            className="inline-flex items-center rounded-full border-2 border-[color:var(--border)] bg-[color:var(--background)] px-4 py-2 text-xs font-semibold disabled:opacity-60"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>}
             </div>}
         </div>
 

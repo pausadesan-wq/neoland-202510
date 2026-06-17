@@ -24,5 +24,5 @@ export function insertEvent(eventData) {
 
     return eventModel.save()
         .catch(error => { throw new SystemError(error.message) })
-        .then(eventModel => { })
+        .then(eventModel => eventModel.id)
 }
