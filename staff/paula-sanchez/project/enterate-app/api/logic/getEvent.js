@@ -9,8 +9,8 @@ export function getEvent(eventId) {
         .then(eventData => {
             if (!eventData) throw new ExistenceError('event not found')
 
-            const { id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl } = eventData
+            const { id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl, attendees } = eventData
 
-            return new Event(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl)
+            return new Event(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl, attendees)
         })
 }

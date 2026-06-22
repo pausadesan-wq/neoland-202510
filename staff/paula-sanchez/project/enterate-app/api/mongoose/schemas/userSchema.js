@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { EMAIL_REGEX, URL_REGEX } from 'com'
 
-const { Schema } = mongoose
+const { Schema, ObjectId } = mongoose
 
 export const userSchema = new Schema({
     name: {
@@ -42,5 +42,10 @@ export const userSchema = new Schema({
         enum: ['regular', 'administrator'],
         default: 'regular',
         required: true
+    },
+
+    savedEvents: {
+        type: [{ type: ObjectId, ref: 'Event' }],
+        default: []
     }
 })

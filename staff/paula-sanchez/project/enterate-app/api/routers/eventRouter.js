@@ -7,7 +7,9 @@ import {
     getEventsHandler,
     removeEventHandler,
     getEventHandler,
-    modifyEventHandler
+    modifyEventHandler,
+    joinEventHandler,
+    leaveEventHandler
 } from './handlers/index.js'
 
 export const eventRouter = new Router()
@@ -20,3 +22,7 @@ eventRouter.get('/:eventId', getEventHandler)
 eventRouter.post('', authMiddleware, addEventHandler)
 eventRouter.put('/:eventId', authMiddleware, modifyEventHandler)
 eventRouter.delete('/:eventId', authMiddleware, removeEventHandler)
+
+// === ASISTENCIA ===
+eventRouter.post('/:eventId/attendees/me', authMiddleware, joinEventHandler)
+eventRouter.delete('/:eventId/attendees/me', authMiddleware, leaveEventHandler)

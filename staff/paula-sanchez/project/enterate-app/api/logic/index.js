@@ -15,6 +15,14 @@ import { getEvents } from './getEvents.js'
 import { modifyEvent } from './modifyEvent.js'
 import { removeEvent } from './removeEvent.js'
 
+import { saveEvent } from './saveEvent.js'
+import { unsaveEvent } from './unsaveEvent.js'
+import { getSavedEvents } from './getSavedEvents.js'
+import { joinEvent } from './joinEvent.js'
+import { leaveEvent } from './leaveEvent.js'
+import { getJoinedEvents } from './getJoinedEvents.js'
+import { getCreatedEvents } from './getCreatedEvents.js'
+
 export const logic = {
     registerUser,
     authenticateUser,
@@ -28,5 +36,12 @@ export const logic = {
     getEvent,
     getEvents,
     modifyEvent,
-    removeEvent
+    removeEvent,
+    saveEvent,
+    unsaveEvent,
+    getSavedEvents,
+    joinEvent,
+    leaveEvent,
+    getJoinedEvents,
+    getCreatedEvents
 }

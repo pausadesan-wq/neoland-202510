@@ -1,5 +1,5 @@
 export class UserData {
-    constructor(id, name, email, username, password, image, role) {
+    constructor(id, name, email, username, password, image, role, savedEvents = []) {
         this.id = id
         this.name = name
         this.email = email
@@ -7,5 +7,6 @@ export class UserData {
         this.password = password
         this.image = image
         this.role = role
+        this.savedEvents = savedEvents
     }
 }

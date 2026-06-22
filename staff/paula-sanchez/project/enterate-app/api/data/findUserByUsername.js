@@ -8,8 +8,8 @@ export function findUserByUsername(username) {
         .then(userModel => {
             if (!userModel) return null
 
-            const { id, name, email, username, password, image, role } = userModel
+            const { id, name, email, username, password, image, role, savedEvents } = userModel
 
-            return new UserData(id, name, email, username, password, image, role)
+            return new UserData(id, name, email, username, password, image, role, savedEvents.map(s => s.toString()))
         })
 }

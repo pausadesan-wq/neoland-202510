@@ -1,5 +1,5 @@
 export class EventData {
-    constructor(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl) {
+    constructor(id, ownerId, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl, attendees = []) {
         this.id = id
         this.ownerId = ownerId
         this.title = title
@@ -16,5 +16,6 @@ export class EventData {
         this.image = image
         this.sourceType = sourceType
         this.sourceUrl = sourceUrl
+        this.attendees = attendees
     }
 }

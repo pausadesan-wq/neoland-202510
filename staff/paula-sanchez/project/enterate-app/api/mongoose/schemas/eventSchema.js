@@ -93,5 +93,10 @@ export const eventSchema = new Schema({
         type: String,
         match: URL_REGEX,
         default: null
+    },
+
+    attendees: {
+        type: [{ type: ObjectId, ref: 'User' }],
+        default: []
     }
 }, { timestamps: true })

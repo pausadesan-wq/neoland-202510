@@ -6,8 +6,8 @@ export function findEventsByUserId(userId) {
     return EventModel.find({ owner: userId })
         .catch(error => { throw new SystemError(error.message) })
         .then(eventModels => eventModels.map(eventModel => {
-            const { id, owner, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl } = eventModel
+            const { id, owner, title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl, attendees } = eventModel
 
-            return new EventData(id, owner.toString(), title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl)
+            return new EventData(id, owner.toString(), title, description, date, time, location, address, district, category, tags, priceType, price, image, sourceType, sourceUrl, attendees.map(a => a.toString()))
         }))
 }
