@@ -144,6 +144,21 @@ connect('mongodb://localhost:27017/enterate')
                 ]
 
                 return Promise.all(events.map(event => event.save()))
+                    .then(saved => {
+                        // === RELACIONES DEMO (Fase 8) ===
+                        // Wendy guarda 2 y va a 3. Peter guarda 1 y va a 2.
+                        const wendySaves = [saved[1].id, saved[5].id] // Senderismo + Mercado
+                        const wendyGoing = [saved[0].id, saved[2].id, saved[6].id] // Paseo + Yoga + Concierto
+                        const peterSaves = [saved[4].id] // Feria del vino
+                        const peterGoing = [saved[3].id, saved[7].id] // Tapas + Exposición
+
+                        return Promise.all([
+                            UserModel.updateOne({ _id: wendy.id }, { $addToSet: { savedEvents: { $each: wendySaves } } }),
+                            UserModel.updateOne({ _id: peter.id }, { $addToSet: { savedEvents: { $each: peterSaves } } }),
+                            ...wendyGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: wendy.id } })),
+                            ...peterGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: peter.id } }))
+                        ]).then(() => saved)
+                    })
             })
             .then(events => console.log(`events created: ${events.length}`))
     })

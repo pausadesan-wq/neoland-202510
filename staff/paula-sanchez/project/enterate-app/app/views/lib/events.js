@@ -161,15 +161,17 @@ export function thisWeekEvents(events, today = startOfDay(new Date())) {
     }))
 }
 
-// "Cositas ocultas": eventos futuros pero después de esta semana. Bootcamp-simple.
+// "Cositas ocultas": eventos futuros con menos gente apuntada. Los ordenamos por asistencia
+// ascendente para destacar los que menos gente conoce. Inspirado en getDiscoveryEvents de Lovable.
 export function hiddenGems(events, today = startOfDay(new Date())) {
-    const weekEnd = new Date(today)
-    weekEnd.setDate(today.getDate() + 7)
+    const future = events.filter(e => startOfDay(eventDate(e.date)) >= today)
 
-    return sortByDate(events.filter(e => {
-        const d = startOfDay(eventDate(e.date))
-        return d > weekEnd
-    }))
+    return [...future].sort((a, b) => {
+        const countA = (a.attendees || []).length
+        const countB = (b.attendees || []).length
+        if (countA !== countB) return countA - countB
+        return eventDate(a.date) - eventDate(b.date)
+    })
 }
 
 // Eventos relacionados: misma categoría, futuros, distinto id. Máx 3.

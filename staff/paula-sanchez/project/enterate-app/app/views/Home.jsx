@@ -60,7 +60,8 @@ export function Home() {
     }
 
     const weekList = thisWeekEvents(events, today).slice(0, 3)
-    const gemsList = hiddenGems(events, today).slice(0, 2)
+    const weekIds = new Set(weekList.map(e => e.id))
+    const gemsList = hiddenGems(events, today).filter(e => !weekIds.has(e.id)).slice(0, 2)
 
     return <div className="-mx-4 md:mx-0">
         {/* === HERO === */}
