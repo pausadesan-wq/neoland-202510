@@ -12,16 +12,16 @@ connect('mongodb://localhost:27017/enterate')
     ]))
     .then(() => bcrypt.hash('123123123', 10))
     .then(hash => {
-        const wendy = new UserModel({ name: 'Wendy Darling', email: 'wendy@darling.com', username: 'wendydarling', password: hash })
-        const peter = new UserModel({ name: 'Peter Pan', email: 'peter@pan.com', username: 'peterpan', password: hash })
+        const lucia = new UserModel({ name: 'Lucía Martín', email: 'lucia@example.com', username: 'lucia', password: hash })
+        const marcos = new UserModel({ name: 'Marcos Ruiz', email: 'marcos@example.com', username: 'marcos', password: hash })
 
-        return Promise.all([wendy.save(), peter.save()])
-            .then(([wendy, peter]) => {
-                console.log('users:', wendy.username, peter.username)
+        return Promise.all([lucia.save(), marcos.save()])
+            .then(([lucia, marcos]) => {
+                console.log('users:', lucia.username, marcos.username)
 
                 const events = [
                     new EventModel({
-                        owner: wendy.id,
+                        owner: lucia.id,
                         title: 'Paseo por el Parque Federico García Lorca',
                         description: 'Un paseo tranquilo por uno de los parques más bonitos de Granada. Quedamos a la entrada y caminamos sin prisa.',
                         date: new Date('2026-08-02'),
@@ -35,7 +35,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceType: 'Boca a boca'
                     }),
                     new EventModel({
-                        owner: peter.id,
+                        owner: marcos.id,
                         title: 'Senderismo en Los Cahorros de Monachil',
                         description: 'Ruta clásica por Los Cahorros de Monachil. Puentes colgantes, río y desayuno en grupo al volver.',
                         date: new Date('2026-08-13'),
@@ -51,7 +51,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceUrl: 'https://instagram.com/granadatrails'
                     }),
                     new EventModel({
-                        owner: wendy.id,
+                        owner: lucia.id,
                         title: 'Yoga en Parque Tico Medina',
                         description: 'Clase de yoga al aire libre, todos los niveles. Trae tu esterilla y agua.',
                         date: new Date('2026-08-05'),
@@ -65,7 +65,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceType: 'Cartel'
                     }),
                     new EventModel({
-                        owner: peter.id,
+                        owner: marcos.id,
                         title: 'Ruta de tapas escondidas por el centro',
                         description: 'Cuatro bares que casi nadie conoce, con la mejor relación tapa/precio del centro. Plazas limitadas.',
                         date: new Date('2026-08-07'),
@@ -81,7 +81,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceType: 'Boca a boca'
                     }),
                     new EventModel({
-                        owner: wendy.id,
+                        owner: lucia.id,
                         title: 'Feria del vino de Granada',
                         description: 'Más de 30 bodegas pequeñas de Granada y alrededores. Copa incluida con la entrada.',
                         date: new Date('2026-08-18'),
@@ -97,7 +97,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceUrl: 'https://feriadelvinogranada.com'
                     }),
                     new EventModel({
-                        owner: peter.id,
+                        owner: marcos.id,
                         title: 'Mercado de artesanía en San Nicolás',
                         description: 'Más de 20 puestos de artesanía local con vistas a la Alhambra. Música en directo al atardecer.',
                         date: new Date('2026-08-23'),
@@ -111,7 +111,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceType: 'Cartel'
                     }),
                     new EventModel({
-                        owner: wendy.id,
+                        owner: lucia.id,
                         title: 'Concierto acústico en la Carbonería',
                         description: 'Noche de acústico con artistas locales. Consumición mínima. Aforo limitado, mejor llegar pronto.',
                         date: new Date('2026-08-28'),
@@ -128,7 +128,7 @@ connect('mongodb://localhost:27017/enterate')
                         sourceUrl: 'https://instagram.com/lacarboneriagranada'
                     }),
                     new EventModel({
-                        owner: peter.id,
+                        owner: marcos.id,
                         title: 'Exposición de fotografía en Gran Capitán',
                         description: 'Muestra colectiva de fotografía documental sobre los barrios de Granada. Entrada libre.',
                         date: new Date('2026-09-15'),
@@ -146,17 +146,17 @@ connect('mongodb://localhost:27017/enterate')
                 return Promise.all(events.map(event => event.save()))
                     .then(saved => {
                         // === RELACIONES DEMO (Fase 8) ===
-                        // Wendy guarda 2 y va a 3. Peter guarda 1 y va a 2.
-                        const wendySaves = [saved[1].id, saved[5].id] // Senderismo + Mercado
-                        const wendyGoing = [saved[0].id, saved[2].id, saved[6].id] // Paseo + Yoga + Concierto
-                        const peterSaves = [saved[4].id] // Feria del vino
-                        const peterGoing = [saved[3].id, saved[7].id] // Tapas + Exposición
+                        // Lucía guarda 2 y va a 3. Marcos guarda 1 y va a 2.
+                        const luciaSaves = [saved[1].id, saved[5].id] // Senderismo + Mercado
+                        const luciaGoing = [saved[0].id, saved[2].id, saved[6].id] // Paseo + Yoga + Concierto
+                        const marcosSaves = [saved[4].id] // Feria del vino
+                        const marcosGoing = [saved[3].id, saved[7].id] // Tapas + Exposición
 
                         return Promise.all([
-                            UserModel.updateOne({ _id: wendy.id }, { $addToSet: { savedEvents: { $each: wendySaves } } }),
-                            UserModel.updateOne({ _id: peter.id }, { $addToSet: { savedEvents: { $each: peterSaves } } }),
-                            ...wendyGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: wendy.id } })),
-                            ...peterGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: peter.id } }))
+                            UserModel.updateOne({ _id: lucia.id }, { $addToSet: { savedEvents: { $each: luciaSaves } } }),
+                            UserModel.updateOne({ _id: marcos.id }, { $addToSet: { savedEvents: { $each: marcosSaves } } }),
+                            ...luciaGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: lucia.id } })),
+                            ...marcosGoing.map(eid => EventModel.updateOne({ _id: eid }, { $addToSet: { attendees: marcos.id } }))
                         ]).then(() => saved)
                     })
             })

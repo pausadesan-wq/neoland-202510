@@ -1,40 +1,29 @@
-# MyPet
+# ENTÉRATE
 
 ## Introduction
 
-An for pet owners register their pets and their medical information, to have control on their health history.
-
-![brave cat](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ3FleXNvcGhpcXdpdjQ1eTVqd2JleGN2bWN2aXJmbzc3ZnF1OXptNiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/jpPTyP6YghtiU/giphy.gif)
+Aplicación web para descubrir planes y eventos culturales en Granada. Cualquiera puede consultar los eventos; los usuarios registrados pueden crear, guardar y apuntarse a planes.
 
 ## Functional description
 
 ### Use cases
 
+Invitado
+- ver home
+- explorar eventos con búsqueda, categorías y filtros de fecha
+- ver detalle de un evento
+
 User
 - register
-- login
-- update credentials (username, password)
-- update profile (name, email, phone, city, role, licensing number)
-
-Owner (User)
-- add pet
-- remove pet
-- modify pet
-- list pets
-- add comment log for pet
-- remove comment log for pet
-- modify comment log for pet
-- list logs for pet
-- filter veterinaries
-- assign veterinary for pet
-- unassign veterinary for pet
-
-Veterinary (User)
-- list assigned pets
-- add action log for pet
-- remove action log for pet
-- modify action log for pet
-- list logs for pet
+- login / logout
+- ver perfil
+- cambiar nombre, username, email, contraseña e imagen
+- crear evento
+- editar evento propio
+- eliminar evento propio
+- guardar / desguardar evento
+- apuntarse / cancelar asistencia
+- ver Mis planes (Guardados, Voy, Creados, Pasados)
 
 ### UI/UX design
 
@@ -46,14 +35,14 @@ Veterinary (User)
 ### Blocks
 
 - App (React)
-- API (Expess)
+- API (Express)
 - DB (Mongo)
 
 ### Packages
 
 - api (handlers, logic, data)
 - app (components, logic, data)
-- com (errors, validate, regex)
+- com (errors, validate, regex, constants)
 - doc (readme, images)
 
 ### Data Model
@@ -63,17 +52,29 @@ UserData
 - name (required, string)
 - email (required, unique, string)
 - username (required, unique, string)
-- pasword (required, hashed, string)
+- password (required, hashed, string)
 - image (string)
 - role (required, string, regular | administrator)
+- savedEvents (array of Event ids)
 
-PetData
+EventData
 - id (unique, string)
-- owner (UserData.id, string)
-- name (required, string)
-- birthdate (required, date)
-- weight (required, number)
-- image (required, string)
+- owner (User.id, required)
+- title (required, string, 4-120)
+- description (required, string, 20-800)
+- date (required, Date)
+- time (required, string HH:MM)
+- location (required, string)
+- address (string, optional)
+- district (string, optional)
+- category (required, enum)
+- tags (array of strings, 1-5)
+- priceType (required, enum: Gratis | De pago | Donativo)
+- price (string, required cuando priceType = De pago)
+- image (required, url)
+- sourceType (required, enum: Instagram | TikTok | Web | Cartel | Boca a boca)
+- sourceUrl (string, opcional)
+- attendees (array of User ids)
 
 ### Techs
 
