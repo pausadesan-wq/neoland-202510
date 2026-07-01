@@ -1,9 +1,10 @@
 
+import { Link, useNavigate, useSearchParams } from 'react-router'
+
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
-import { Anchor } from './components/commons/Anchor'
 
 import { useContext } from '../context'
 
@@ -11,10 +12,18 @@ import { logic } from '../logic'
 
 import { logger } from '../logger'
 
-export function Login({ onUserLoggedIn, onGoToRegister }) {
+// Login lee ?redirect= para volver a la ruta original tras autenticarse.
+
+export function Login() {
     logger.debug('Login -> call')
 
     const { onError } = useContext()
+
+    const navigate = useNavigate()
+
+    const [searchParams] = useSearchParams()
+    const redirect = searchParams.get('redirect') || '/'
+    const encodedRedirect = encodeURIComponent(redirect)
 
     const handleLoginSubmit = event => {
         event.preventDefault()
@@ -26,17 +35,11 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
 
         try {
             logic.loginUser(email, password)
-                .then(() => onUserLoggedIn())
+                .then(() => navigate(redirect, { replace: true }))
                 .catch(error => onError(error))
         } catch (error) {
             onError(error)
         }
-    }
-
-    const handleRegisterClick = event => {
-        event.preventDefault()
-
-        onGoToRegister()
     }
 
     logger.debug('Login -> render')
@@ -56,7 +59,7 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
         </div>
 
         <p className="mt-6 text-sm">
-            ¿Sin cuenta? <Anchor onClick={handleRegisterClick}>Crear cuenta</Anchor>
+            ¿Sin cuenta? <Link to={`/register?redirect=${encodedRedirect}`} className="font-semibold text-[color:var(--foreground)] underline underline-offset-4 hover:text-[color:var(--brand-blue)]">Crear cuenta</Link>
         </p>
     </div>
 }

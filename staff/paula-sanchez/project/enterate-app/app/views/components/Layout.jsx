@@ -2,10 +2,11 @@ import { Outlet } from 'react-router'
 
 import { Header } from './Header'
 import { MobileTabBar } from './MobileTabBar'
+import { OnboardingModal } from './OnboardingModal'
 
 // === LAYOUT PRINCIPAL ===
 // Header sticky arriba, contenido en el medio, MobileTabBar fija abajo (móvil).
-// pb-20 reserva espacio para la tab bar en móvil.
+// OnboardingModal se muestra sobre todo si el usuario es invitado y no lo ha descartado.
 
 export function Layout() {
     return <div className="min-h-screen pb-20 md:pb-0">
@@ -16,5 +17,7 @@ export function Layout() {
         </main>
 
         <MobileTabBar />
+
+        <OnboardingModal />
     </div>
 }

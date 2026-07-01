@@ -1,9 +1,10 @@
 
+import { Link, useNavigate, useSearchParams } from 'react-router'
+
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
-import { Anchor } from './components/commons/Anchor'
 
 import { useContext } from '../context'
 
@@ -11,10 +12,18 @@ import { logic } from '../logic'
 
 import { logger } from '../logger'
 
-export function Register({ onGoToLogin }) {
+// Register conserva ?redirect= y lo propaga al login tras crear la cuenta.
+
+export function Register() {
     logger.debug('Register -> call')
 
     const { onError } = useContext()
+
+    const navigate = useNavigate()
+
+    const [searchParams] = useSearchParams()
+    const redirect = searchParams.get('redirect') || '/'
+    const encodedRedirect = encodeURIComponent(redirect)
 
     const handleRegisterSubmit = event => {
         event.preventDefault()
@@ -31,19 +40,12 @@ export function Register({ onGoToLogin }) {
             logic.registerUser(name, email, username, password, passwordRepeat)
                 .then(() => {
                     form.reset()
-
-                    onGoToLogin()
+                    navigate(`/login?redirect=${encodedRedirect}`, { replace: true })
                 })
                 .catch(error => onError(error))
         } catch (error) {
             onError(error)
         }
-    }
-
-    const handleLoginClick = event => {
-        event.preventDefault()
-
-        onGoToLogin()
     }
 
     logger.debug('Register -> render')
@@ -69,7 +71,7 @@ export function Register({ onGoToLogin }) {
         </div>
 
         <p className="mt-6 text-sm">
-            ¿Ya tienes cuenta? <Anchor onClick={handleLoginClick}>Entrar</Anchor>
+            ¿Ya tienes cuenta? <Link to={`/login?redirect=${encodedRedirect}`} className="font-semibold text-[color:var(--foreground)] underline underline-offset-4 hover:text-[color:var(--brand-blue)]">Entrar</Link>
         </p>
     </div>
 }

@@ -11,6 +11,7 @@ import { EventDetail } from './views/EventDetail'
 import { ModifyEvent } from './views/ModifyEvent'
 import { Explorar } from './views/Explorar'
 import { Guardados } from './views/Guardados'
+import { NotLogged } from './views/NotLogged'
 
 import { Layout } from './views/components/Layout'
 import { Feedback } from './views/components/commons/Feedback'
@@ -34,19 +35,6 @@ export function App() {
     } catch (error) {
         setFeedback({ message: error.message, level: 'error' })
     }
-
-    const clearFeedbackAndNavigate = path => {
-        setFeedback(null)
-        navigate(path)
-    }
-
-    const handleGoToLogin = () => clearFeedbackAndNavigate('/login')
-    const handleGoToRegister = () => clearFeedbackAndNavigate('/register')
-    const handleGoToHome = () => clearFeedbackAndNavigate('/')
-    const handleGoToAddEvent = () => clearFeedbackAndNavigate('/crear')
-    const handleGoToProfile = () => clearFeedbackAndNavigate('/perfil')
-    const handleGoToEventDetail = eventId => clearFeedbackAndNavigate(`/evento/${eventId}`)
-    const handleGoToModifyEvent = eventId => clearFeedbackAndNavigate(`/evento/${eventId}/editar`)
 
     const handleError = error => {
         if (error instanceof AuthError) {
@@ -93,15 +81,23 @@ export function App() {
                 <Route path="/explorar" element={<Explorar />} />
                 <Route path="/evento/:eventId" element={<EventDetail />} />
 
-                {/* === RUTAS PROTEGIDAS === */}
-                <Route path="/crear" element={loggedIn ? <AddEvent /> : <Navigate to="/login" />} />
-                <Route path="/evento/:eventId/editar" element={loggedIn ? <ModifyEvent /> : <Navigate to="/login" />} />
-                <Route path="/guardados" element={loggedIn ? <Guardados /> : <Navigate to="/login" />} />
-                <Route path="/perfil" element={loggedIn ? <Profile onGoToHome={handleGoToHome} /> : <Navigate to="/login" />} />
+                {/* === RUTAS PROTEGIDAS (invitado ve NotLogged con redirect) === */}
+                <Route path="/crear" element={loggedIn
+                    ? <AddEvent />
+                    : <NotLogged redirect="/crear" title="Sube tu plan" description="Comparte lo que está pasando en Granada. Necesitas una cuenta para publicar." />} />
+                <Route path="/evento/:eventId/editar" element={loggedIn
+                    ? <ModifyEvent />
+                    : <NotLogged title="Edita tu plan" description="Solo el propietario puede editar un evento." />} />
+                <Route path="/guardados" element={loggedIn
+                    ? <Guardados />
+                    : <NotLogged redirect="/guardados" title="Mis planes" description="Guarda, apúntate y organiza tus planes desde tu cuenta." />} />
+                <Route path="/perfil" element={loggedIn
+                    ? <Profile />
+                    : <NotLogged redirect="/perfil" title="Tu perfil" description="Gestiona tus datos y tu actividad en ENTÉRATE." />} />
 
                 {/* === AUTH === */}
-                <Route path="/login" element={!loggedIn ? <Login onUserLoggedIn={handleGoToHome} onGoToRegister={handleGoToRegister} /> : <Navigate to="/" />} />
-                <Route path="/register" element={!loggedIn ? <Register onGoToLogin={handleGoToLogin} /> : <Navigate to="/" />} />
+                <Route path="/login" element={!loggedIn ? <Login /> : <Navigate to="/" />} />
+                <Route path="/register" element={!loggedIn ? <Register /> : <Navigate to="/" />} />
             </Route>
         </Routes>
     </Context.Provider>

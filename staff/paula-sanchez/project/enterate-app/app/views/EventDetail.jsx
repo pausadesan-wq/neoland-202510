@@ -97,7 +97,7 @@ export function EventDetail() {
     }
 
     const handleToggleSave = () => {
-        if (!loggedIn) return navigate('/login')
+        if (!loggedIn) return navigate(`/login?redirect=${encodeURIComponent(`/evento/${eventId}`)}`)
 
         if (savePending) return
 
@@ -127,7 +127,7 @@ export function EventDetail() {
     }
 
     const handleToggleJoin = () => {
-        if (!loggedIn) return navigate('/login')
+        if (!loggedIn) return navigate(`/login?redirect=${encodeURIComponent(`/evento/${eventId}`)}`)
 
         if (joinPending) return
 
