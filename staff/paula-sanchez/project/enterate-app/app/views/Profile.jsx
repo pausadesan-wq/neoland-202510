@@ -21,11 +21,15 @@ export function Profile() {
     const navigate = useNavigate()
 
     const [user, setUser] = useState(null)
+    const [avatarBroken, setAvatarBroken] = useState(false)
 
     const load = () => {
         try {
             logic.getLoggedInUser()
-                .then(u => setUser(u))
+                .then(u => {
+                    setUser(u)
+                    setAvatarBroken(false)
+                })
                 .catch(error => onError(error))
         } catch (error) {
             onError(error)
@@ -59,8 +63,13 @@ export function Profile() {
         <section className="mt-6 rounded-2xl border-2 border-[color:var(--foreground)] bg-[color:var(--card)] p-4 shadow-[4px_4px_0_0_var(--foreground)] md:p-6">
             <div className="flex items-start gap-3">
                 <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl border-2 border-[color:var(--foreground)] bg-[color:var(--brand-yellow)] font-display text-lg font-extrabold">
-                    {user.image
-                        ? <img src={user.image} alt="Avatar" className="h-full w-full object-cover" />
+                    {user.image && !avatarBroken
+                        ? <img
+                            src={user.image}
+                            alt="Avatar"
+                            onError={() => setAvatarBroken(true)}
+                            className="h-full w-full object-cover"
+                        />
                         : initials}
                 </div>
                 <div className="min-w-0 flex-1">

@@ -72,7 +72,7 @@ export function App() {
     }
 
     return <Context.Provider value={contextValue}>
-        {feedback && <Feedback feedback={feedback} />}
+        {feedback && <Feedback feedback={feedback} onClose={handleClear} />}
 
         <Routes>
             <Route element={<Layout />}>

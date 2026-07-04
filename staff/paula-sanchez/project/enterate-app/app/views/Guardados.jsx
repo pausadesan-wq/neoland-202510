@@ -52,10 +52,13 @@ export function Guardados() {
 
     const today = startOfDay(new Date())
 
+    // Guardados solo muestra planes que todavía se pueden hacer, aunque la referencia
+    // siga guardada en Mongo. Voy/Pasados parten de los mismos eventos apuntados.
+    const savedUpcoming = useMemo(() => (saved || []).filter(e => startOfDay(eventDate(e.date)) >= today), [saved])
     const upcoming = useMemo(() => (joined || []).filter(e => startOfDay(eventDate(e.date)) >= today), [joined])
     const past = useMemo(() => (joined || []).filter(e => startOfDay(eventDate(e.date)) < today), [joined])
 
-    const list = tab === 'guardados' ? saved
+    const list = tab === 'guardados' ? savedUpcoming
         : tab === 'voy' ? upcoming
             : tab === 'creados' ? created
                 : past
@@ -84,7 +87,7 @@ export function Guardados() {
 
         {/* === TABS === */}
         <div className="mt-4 grid grid-cols-4 gap-1 rounded-full border border-[color:var(--border)] bg-[color:var(--muted)]/40 p-1 md:mt-6 md:max-w-2xl md:gap-1.5">
-            <TabBtn active={tab === 'guardados'} onClick={() => setTab('guardados')} label="Guardados" count={saved.length} />
+            <TabBtn active={tab === 'guardados'} onClick={() => setTab('guardados')} label="Guardados" count={savedUpcoming.length} />
             <TabBtn active={tab === 'voy'} onClick={() => setTab('voy')} label="Voy" count={upcoming.length} />
             <TabBtn active={tab === 'creados'} onClick={() => setTab('creados')} label="Creados" count={created.length} />
             <TabBtn active={tab === 'pasados'} onClick={() => setTab('pasados')} label="Pasados" count={past.length} />

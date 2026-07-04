@@ -12,6 +12,7 @@ import { logic } from '../logic'
 import {
     categoryMeta,
     categoryTextColor,
+    FALLBACK_IMAGE,
     formatLongEventDate,
     priceLabel,
     relatedEvents
@@ -68,9 +69,12 @@ export function EventDetail() {
         }
     }, [eventId])
 
+    // Vuelve a la pantalla anterior (explorar, mis planes…) y cae a Home si se entró por enlace directo.
     const handleBack = e => {
         e.preventDefault()
-        navigate('/')
+
+        if (window.history.length > 1) navigate(-1)
+        else navigate('/')
     }
 
     const handleEdit = () => navigate(`/evento/${eventId}/editar`)
@@ -178,6 +182,9 @@ export function EventDetail() {
             <img
                 src={event.image}
                 alt={event.title}
+                onError={e => {
+                    if (e.currentTarget.src !== FALLBACK_IMAGE) e.currentTarget.src = FALLBACK_IMAGE
+                }}
                 className="h-full w-full object-cover"
             />
 
@@ -246,7 +253,7 @@ export function EventDetail() {
                 <span className="inline-flex items-center gap-1.5">
                     <Icon name="users" className="h-4 w-4 text-[color:var(--brand-blue)]" />
                     <span className="font-bold text-[color:var(--foreground)]">{attendeesCount}</span>
-                    <span>{attendeesCount === 1 ? 'persona va' : 'personas van'}</span>
+                    <span>{attendeesCount === 1 ? 'apuntado' : 'apuntados'}</span>
                 </span>
             </div>
 

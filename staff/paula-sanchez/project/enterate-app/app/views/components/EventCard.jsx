@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 import { Icon } from './Icon'
 
-import { categoryMeta, categoryTextColor, formatEventDate, priceLabel } from '../lib/events'
+import { categoryMeta, categoryTextColor, FALLBACK_IMAGE, formatEventDate, priceLabel } from '../lib/events'
 
 // Card visual estilo Lovable — sin bookmark/apuntarme (Fase 8).
 // Enlaza a /evento/:eventId. CTA "Ver plan →" en la esquina inferior derecha.
@@ -10,6 +10,11 @@ import { categoryMeta, categoryTextColor, formatEventDate, priceLabel } from '..
 export function EventCard({ event, compact = false }) {
     const meta = categoryMeta(event.category)
     const price = priceLabel(event)
+    const attendeesCount = (event.attendees || []).length
+
+    const handleImageError = e => {
+        if (e.currentTarget.src !== FALLBACK_IMAGE) e.currentTarget.src = FALLBACK_IMAGE
+    }
 
     // Muestra un tag secundario si no repite categoría ni "Gratis" (que ya sale como price).
     const secondaryTag = (event.tags || []).find(t => t.toLowerCase() !== event.category.toLowerCase() && t.toLowerCase() !== 'gratis') || null
@@ -23,6 +28,7 @@ export function EventCard({ event, compact = false }) {
                 src={event.image}
                 alt={event.title}
                 loading="lazy"
+                onError={handleImageError}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
             />
 
@@ -57,6 +63,12 @@ export function EventCard({ event, compact = false }) {
             </div>
 
             {!compact && <div className="mt-auto flex items-center gap-2.5 pt-2 md:border-t md:border-[color:var(--border)]">
+                <span className="flex shrink-0 items-center gap-1.5 text-[12px] font-medium leading-none text-[color:var(--foreground)]/80">
+                    <Icon name="users" className="h-4 w-4 text-[color:var(--brand-blue)]" />
+                    <span className="font-bold text-[color:var(--foreground)]">{attendeesCount}</span>
+                    <span>{attendeesCount === 1 ? 'apuntado' : 'apuntados'}</span>
+                </span>
+
                 {event.priceType !== 'Gratis' && <span className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[12px] font-extrabold leading-none ${event.priceType === 'Donativo' ? 'border border-[color:var(--border)] bg-[color:var(--background)] text-[color:var(--foreground)]' : 'bg-[color:var(--foreground)] text-[color:var(--background)]'}`}>
                     {price}
                 </span>}

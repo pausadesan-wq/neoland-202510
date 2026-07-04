@@ -36,6 +36,10 @@ export function formatShortDate(value) {
     return `${day}/${month}/${d.getFullYear()}`
 }
 
+// === Imagen ===
+// Respaldo cuando la URL que puso el usuario no carga.
+export const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80'
+
 // === Precio ===
 
 export function priceLabel(event) {
