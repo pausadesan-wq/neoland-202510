@@ -28,17 +28,18 @@ export function formatLongEventDate(value) {
     return `${d.getDate()} de ${MONTHS_LONG[d.getMonth()]} de ${d.getFullYear()}`
 }
 
-// Formato numérico español: "02/08/2026"
-export function formatShortDate(value) {
-    const d = eventDate(value)
-    const day = String(d.getDate()).padStart(2, '0')
-    const month = String(d.getMonth() + 1).padStart(2, '0')
-    return `${day}/${month}/${d.getFullYear()}`
-}
-
 // === Imagen ===
-// Respaldo cuando la URL que puso el usuario no carga.
-export const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80'
+// Respaldo local (app/public/) para cuando una imagen ya guardada no carga.
+// La imagen sigue siendo obligatoria por URL al crear o editar un evento.
+export const FALLBACK_IMAGE = '/event-fallback.svg'
+
+// Manejador de <img onError>. Comprobamos con endsWith porque img.src devuelve
+// la URL absoluta ya resuelta, así el respaldo no vuelve a dispararse a sí mismo.
+export function handleImageError(event) {
+    const img = event.currentTarget
+
+    if (!img.src.endsWith(FALLBACK_IMAGE)) img.src = FALLBACK_IMAGE
+}
 
 // === Precio ===
 

@@ -45,8 +45,17 @@ export function Login() {
     logger.debug('Login -> render')
 
     return <div className="mx-auto max-w-md py-8">
-        <h1 className="text-3xl font-extrabold">Entrar</h1>
-        <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">Accede con tu email y contraseña.</p>
+        <span className="inline-block rotate-[-2deg] rounded-full bg-[color:var(--brand-yellow)] px-3 py-1 text-[11px] font-extrabold uppercase">
+            de vuelta
+        </span>
+
+        <h1 className="mt-2 font-display text-[23px] font-extrabold leading-tight md:text-4xl">
+            Bienvenidx a <span className="mark-yellow">ENTÉRATE</span>
+        </h1>
+
+        <p className="mt-1 text-[13px] text-[color:var(--muted-foreground)] md:text-sm">
+            Entra para guardar planes y subir los tuyos.
+        </p>
 
         <div className="mt-6">
             <Form onSubmit={handleLoginSubmit}>
@@ -58,8 +67,8 @@ export function Login() {
             </Form>
         </div>
 
-        <p className="mt-6 text-sm">
-            ¿Sin cuenta? <Link to={`/register?redirect=${encodedRedirect}`} className="font-semibold text-[color:var(--foreground)] underline underline-offset-4 hover:text-[color:var(--brand-blue)]">Crear cuenta</Link>
+        <p className="mt-6 text-center text-[13px] text-[color:var(--muted-foreground)] md:text-sm">
+            ¿Aún no tienes cuenta? <Link to={`/register?redirect=${encodedRedirect}`} className="font-semibold text-[color:var(--foreground)] underline-offset-4 hover:underline">Crear cuenta</Link>
         </p>
     </div>
 }

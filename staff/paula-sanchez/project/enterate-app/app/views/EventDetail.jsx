@@ -12,8 +12,8 @@ import { logic } from '../logic'
 import {
     categoryMeta,
     categoryTextColor,
-    FALLBACK_IMAGE,
     formatLongEventDate,
+    handleImageError,
     priceLabel,
     relatedEvents
 } from './lib/events'
@@ -182,9 +182,7 @@ export function EventDetail() {
             <img
                 src={event.image}
                 alt={event.title}
-                onError={e => {
-                    if (e.currentTarget.src !== FALLBACK_IMAGE) e.currentTarget.src = FALLBACK_IMAGE
-                }}
+                onError={handleImageError}
                 className="h-full w-full object-cover"
             />
 

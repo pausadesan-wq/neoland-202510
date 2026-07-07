@@ -169,14 +169,14 @@ export function Home() {
                 cómo va la cosa
             </span>
 
-            <h2 className="mt-2.5 font-display text-[20px] font-extrabold md:text-2xl">
-                Cómo funciona ENTÉRATE
+            <h2 className="mt-2.5 font-display text-[20px] font-extrabold leading-[1.05] md:text-2xl">
+                Cómo funciona EN<span className="mark-yellow">TÉ</span>RATE
             </h2>
 
             <div className="mt-6 space-y-3">
-                <HowStep n="01" color="var(--brand-blue)" title="Planes que no salen en Google" emoji="👀" />
-                <HowStep n="02" color="var(--brand-coral)" title="Lo que ves en redes o de boca en boca, todo aquí" emoji="📡" />
-                <HowStep n="03" color="var(--brand-purple)" title="¿Te has enterao de algo? Compártelo con el resto" emoji="✍️" />
+                <HowStep n="01" color="var(--brand-blue)" title="Planes que no salen en motores de búsqueda" emoji="👀" />
+                <HowStep n="02" color="var(--brand-coral)" title="Lo que ves en redes o de boca en boca, todo aquí." emoji="📡" />
+                <HowStep n="03" color="var(--brand-purple)" title="¿Te has enterao de algo? Compártelo con el resto." emoji="✍️" />
             </div>
         </section>
     </div>

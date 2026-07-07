@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 import { Icon } from './Icon'
 
-import { categoryMeta, categoryTextColor, FALLBACK_IMAGE, formatEventDate, priceLabel } from '../lib/events'
+import { categoryMeta, categoryTextColor, formatEventDate, handleImageError, priceLabel } from '../lib/events'
 
 // Card visual estilo Lovable — sin bookmark/apuntarme (Fase 8).
 // Enlaza a /evento/:eventId. CTA "Ver plan →" en la esquina inferior derecha.
@@ -11,10 +11,6 @@ export function EventCard({ event, compact = false }) {
     const meta = categoryMeta(event.category)
     const price = priceLabel(event)
     const attendeesCount = (event.attendees || []).length
-
-    const handleImageError = e => {
-        if (e.currentTarget.src !== FALLBACK_IMAGE) e.currentTarget.src = FALLBACK_IMAGE
-    }
 
     // Muestra un tag secundario si no repite categoría ni "Gratis" (que ya sale como price).
     const secondaryTag = (event.tags || []).find(t => t.toLowerCase() !== event.category.toLowerCase() && t.toLowerCase() !== 'gratis') || null
