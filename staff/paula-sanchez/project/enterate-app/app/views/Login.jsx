@@ -59,11 +59,11 @@ export function Login() {
 
         <div className="mt-6">
             <Form onSubmit={handleLoginSubmit}>
-                <Field alias="email" type="email">Email</Field>
+                <Field alias="email" type="email" placeholder="tu@email.com">Email</Field>
 
-                <PasswordField alias="password">Contraseña</PasswordField>
+                <PasswordField alias="password" placeholder="Tu contraseña">Contraseña</PasswordField>
 
-                <Button className="mt-2" type="submit">Entrar</Button>
+                <Button variant="brand" className="mt-1" type="submit">Entrar</Button>
             </Form>
         </div>
 

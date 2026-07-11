@@ -84,7 +84,7 @@ export function Explorar() {
 
     return <div className="-mx-4 md:mx-0">
         {/* === CABECERA === */}
-        <section className="sticky top-14 z-30 border-b border-[color:var(--border)] bg-[color:var(--background)]/95 px-4 pb-3 pt-3 backdrop-blur md:static md:py-8">
+        <section className="sticky top-[var(--header-offset)] z-30 border-b border-[color:var(--border)] bg-[color:var(--background)]/95 px-4 pb-3 pt-3 backdrop-blur md:static md:py-8">
             <h1 className="hidden font-display text-3xl font-extrabold tracking-tight md:block">
                 Explora y <span className="mark-yellow">entérate</span>
             </h1>

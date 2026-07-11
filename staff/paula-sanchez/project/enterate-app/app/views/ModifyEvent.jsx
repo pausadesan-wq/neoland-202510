@@ -26,13 +26,21 @@ export function ModifyEvent() {
     const { eventId } = useParams()
 
     const [event, setEvent] = useState(null)
+    const [loadFailed, setLoadFailed] = useState(false)
 
     useEffect(() => {
         try {
             logic.getEvent(eventId)
                 .then(event => setEvent(event))
-                .catch(error => onError(error))
+                .catch(error => {
+                    // Terminamos la carga aunque falle: si no, la vista se queda en el Spinner.
+                    setLoadFailed(true)
+
+                    onError(error)
+                })
         } catch (error) {
+            setLoadFailed(true)
+
             onError(error)
         }
     }, [eventId])
@@ -86,9 +94,11 @@ export function ModifyEvent() {
         </h1>
 
         <div className="mt-6">
-            {event
-                ? <EventForm mode="edit" initialEvent={event} onSubmit={handleSubmit} />
-                : <Spinner />}
+            {loadFailed
+                ? <p className="text-sm text-[color:var(--muted-foreground)]">No hemos podido cargar este plan.</p>
+                : event
+                    ? <EventForm mode="edit" initialEvent={event} onSubmit={handleSubmit} />
+                    : <Spinner />}
         </div>
     </div>
 }

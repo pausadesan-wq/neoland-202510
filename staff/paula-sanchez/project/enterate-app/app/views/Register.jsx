@@ -65,17 +65,17 @@ export function Register() {
 
         <div className="mt-6">
             <Form onSubmit={handleRegisterSubmit}>
-                <Field alias="name" type="text">Nombre</Field>
+                <Field alias="name" type="text" placeholder="Cómo quieres que te llamen">Nombre</Field>
 
-                <Field alias="email" type="email">Email</Field>
+                <Field alias="email" type="email" placeholder="tu@email.com">Email</Field>
 
-                <Field alias="username" type="text">Usuario</Field>
+                <Field alias="username" type="text" placeholder="tu_usuario">Usuario</Field>
 
-                <PasswordField alias="password">Contraseña</PasswordField>
+                <PasswordField alias="password" placeholder="Mínimo 8 caracteres, con letras y números">Contraseña</PasswordField>
 
-                <PasswordField alias="passwordRepeat">Repite la contraseña</PasswordField>
+                <PasswordField alias="passwordRepeat" placeholder="Repite la contraseña">Repite la contraseña</PasswordField>
 
-                <Button className="mt-2" type="submit">Crear cuenta</Button>
+                <Button variant="brand" className="mt-1" type="submit">Crear cuenta</Button>
             </Form>
         </div>
 

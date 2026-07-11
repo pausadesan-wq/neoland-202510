@@ -161,7 +161,9 @@ export function Home() {
         </section>
 
         {/* === CÓMO FUNCIONA === */}
-        <section className="border-t border-[color:var(--border)] bg-[color:var(--card)] px-4 py-6">
+        {/* El ::after prolonga el fondo blanco sobre el hueco que el Layout reserva abajo,
+            para que la sección llegue hasta el borde de la MobileTabBar sin franja crema. */}
+        <section className="relative border-t border-[color:var(--border)] bg-[color:var(--card)] px-4 py-6 after:absolute after:inset-x-0 after:top-full after:h-[var(--content-bottom)] after:bg-[color:var(--card)] after:content-['']">
             <span
                 className="inline-flex h-5 items-center rounded-md bg-[color:var(--brand-yellow)] px-2 text-[10px] font-extrabold uppercase tracking-wider text-[color:var(--foreground)] shadow-sm"
                 style={{ transform: 'rotate(-3deg)', transformOrigin: 'center' }}

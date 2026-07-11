@@ -26,8 +26,29 @@
 
     --radius: 0.875rem;
 
+    /* Espacio sobre el contenido del Header: un mínimo fijo que siempre se ve, más el
+       hueco del notch/Dynamic Island (0 en pantallas sin él). */
+    --header-pad-top: calc(0.5rem + env(safe-area-inset-top));
+
+    /* Alto real del Header sticky: 3.5rem de contenido + 1px de borde inferior + ese espacio.
+       Las cabeceras sticky (Explorar) se enganchan justo debajo con
+       top-[var(--header-offset)] para que no quede ni salto ni solape. */
+    --header-offset: calc(3.5rem + 1px + var(--header-pad-top));
+
+    /* Hueco que el Layout reserva al final del contenido para que la MobileTabBar fija no
+       tape nada: el pb-6 de <main> más el pb-20 del contenedor. Las secciones que deben
+       llegar hasta la barra lo pintan con su propio fondo. */
+    --content-bottom: calc(1.5rem + 5rem);
+
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-display: 'Inter Tight', 'Inter', system-ui, sans-serif;
+}
+
+/* En desktop no hay MobileTabBar (el Layout usa md:pb-0), así que solo queda el pb-6. */
+@media (min-width: 768px) {
+    :root {
+        --content-bottom: 1.5rem;
+    }
 }
 
 html {

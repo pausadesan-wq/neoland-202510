@@ -42,7 +42,14 @@ export function Guardados() {
                     setJoined(j)
                     setCreated(c)
                 })
-                .catch(error => onError(error))
+                .catch(error => {
+                    // Terminamos la carga aunque falle: si no, la vista se queda en el Spinner.
+                    setSaved([])
+                    setJoined([])
+                    setCreated([])
+
+                    onError(error)
+                })
         } catch (error) {
             onError(error)
         }

@@ -46,7 +46,7 @@ export function OnboardingModal() {
         aria-labelledby="onboarding-title"
         className="fixed inset-0 z-[100] flex flex-col bg-[color:var(--background)]"
     >
-        <header className="px-5 pt-6">
+        <header className="px-5 pt-[max(1.5rem,env(safe-area-inset-top))]">
             <Logo />
         </header>
 
@@ -94,7 +94,7 @@ export function OnboardingModal() {
             </div>
         </main>
 
-        <footer className="px-5 pb-6 pt-2 text-center text-[11px] text-[color:var(--muted-foreground)]">
+        <footer className="px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2 text-center text-[11px] text-[color:var(--muted-foreground)]">
             Al continuar aceptas nuestras condiciones de uso.
         </footer>
     </div>

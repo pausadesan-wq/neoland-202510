@@ -36,8 +36,14 @@ export function App() {
         setFeedback({ message: error.message, level: 'error' })
     }
 
+    // Sesión muerta: el token sigue en sessionStorage pero el usuario ya no existe en la base
+    // de datos (p. ej. después de ejecutar populate). La API responde 404 'user not found',
+    // así que lo tratamos igual que un token inválido: cerrar sesión y volver a login.
+    const isDeadSession = error => error instanceof AuthError
+        || (error instanceof ExistenceError && error.message === 'user not found')
+
     const handleError = error => {
-        if (error instanceof AuthError) {
+        if (isDeadSession(error)) {
             try {
                 logic.logoutUser()
 
@@ -81,19 +87,21 @@ export function App() {
                 <Route path="/explorar" element={<Explorar />} />
                 <Route path="/evento/:eventId" element={<EventDetail />} />
 
-                {/* === RUTAS PROTEGIDAS (invitado ve NotLogged con redirect) === */}
+                {/* === RUTAS PROTEGIDAS === */}
+                {/* Todas comparten la misma pantalla genérica de área privada (NotLogged).
+                    Solo cambia `redirect`, para volver a la ruta original tras autenticarse. */}
                 <Route path="/crear" element={loggedIn
                     ? <AddEvent />
-                    : <NotLogged redirect="/crear" title="Sube tu plan" description="Comparte lo que está pasando en Granada. Necesitas una cuenta para publicar." />} />
+                    : <NotLogged redirect="/crear" />} />
                 <Route path="/evento/:eventId/editar" element={loggedIn
                     ? <ModifyEvent />
-                    : <NotLogged title="Edita tu plan" description="Solo el propietario puede editar un evento." />} />
+                    : <NotLogged />} />
                 <Route path="/guardados" element={loggedIn
                     ? <Guardados />
-                    : <NotLogged redirect="/guardados" title="Mis planes" description="Guarda, apúntate y organiza tus planes desde tu cuenta." />} />
+                    : <NotLogged redirect="/guardados" />} />
                 <Route path="/perfil" element={loggedIn
                     ? <Profile />
-                    : <NotLogged redirect="/perfil" title="Tu perfil" description="Gestiona tus datos y tu actividad en ENTÉRATE." />} />
+                    : <NotLogged redirect="/perfil" />} />
 
                 {/* === AUTH === */}
                 <Route path="/login" element={!loggedIn ? <Login /> : <Navigate to="/" />} />

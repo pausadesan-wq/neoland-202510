@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 
 import { Spinner } from './components/Spinner'
 import { Icon } from './components/Icon'
@@ -41,12 +41,14 @@ export function EventDetail() {
     const [deleting, setDeleting] = useState(false)
     const [savePending, setSavePending] = useState(false)
     const [joinPending, setJoinPending] = useState(false)
+    const [loadFailed, setLoadFailed] = useState(false)
 
     const loggedIn = logic.isUserLoggedIn()
 
     useEffect(() => {
         setEvent(null)
         setConfirmingDelete(false)
+        setLoadFailed(false)
 
         try {
             const promises = [logic.getEvent(eventId), logic.getEvents()]
@@ -63,8 +65,15 @@ export function EventDetail() {
                     if (user) setCurrentUserId(user.id)
                     if (saved) setSavedIds(new Set(saved.map(e => e.id)))
                 })
-                .catch(error => onError(error))
+                .catch(error => {
+                    // Terminamos la carga aunque falle: si no, la vista se queda en el Spinner.
+                    setLoadFailed(true)
+
+                    onError(error)
+                })
         } catch (error) {
+            setLoadFailed(true)
+
             onError(error)
         }
     }, [eventId])
@@ -161,6 +170,13 @@ export function EventDetail() {
     }
 
     logger.debug('EventDetail -> render')
+
+    if (loadFailed) return <div className="py-16 text-center">
+        <h1 className="font-display text-2xl font-extrabold md:text-4xl">Evento no encontrado</h1>
+        <Link to="/explorar" className="mt-6 inline-block font-semibold text-[color:var(--brand-blue)] underline underline-offset-4">
+            Ver otros planes
+        </Link>
+    </div>
 
     if (!event) return <Spinner />
 

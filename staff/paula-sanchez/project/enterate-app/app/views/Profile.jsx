@@ -22,6 +22,7 @@ export function Profile() {
 
     const [user, setUser] = useState(null)
     const [avatarBroken, setAvatarBroken] = useState(false)
+    const [loadFailed, setLoadFailed] = useState(false)
 
     const load = () => {
         try {
@@ -30,8 +31,15 @@ export function Profile() {
                     setUser(u)
                     setAvatarBroken(false)
                 })
-                .catch(error => onError(error))
+                .catch(error => {
+                    // Terminamos la carga aunque falle: si no, la vista se queda en el Spinner.
+                    setLoadFailed(true)
+
+                    onError(error)
+                })
         } catch (error) {
+            setLoadFailed(true)
+
             onError(error)
         }
     }
@@ -50,6 +58,9 @@ export function Profile() {
     }
 
     logger.debug('Profile -> render')
+
+    // Si la carga falla ya se ha avisado por el banner (y una sesión inválida redirige a login).
+    if (loadFailed) return null
 
     if (!user) return <Spinner />
 
