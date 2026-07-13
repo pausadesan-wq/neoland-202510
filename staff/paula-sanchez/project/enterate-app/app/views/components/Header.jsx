@@ -25,14 +25,14 @@ export function Header() {
         navigate('/')
     }
 
-    // El padding superior reserva el hueco del notch/Dynamic Island (0 en pantallas sin él),
-    // igual que hace MobileTabBar abajo. min-h-9 mantiene el alto del Header estable aunque
-    // la lupa no se pinte (en Explorar), para que la cabecera sticky no baile.
+    // El aire extra va SOLO arriba: --header-pad-top = mínimo fijo + notch (0 si no hay).
+    // El alto del contenido es fijo (h-14 = 3.5rem), no depende de qué hijos se pinten, así que
+    // el Header mide lo mismo en todas las rutas y --header-offset siempre cuadra.
     return <header
-        className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--background)]/85 backdrop-blur"
-        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        className="sticky top-0 z-40 border-b border-[color:var(--border)] bg-[color:var(--background)]"
+        style={{ paddingTop: 'var(--header-pad-top)' }}
     >
-        <div className="mx-auto flex min-h-9 max-w-7xl items-center gap-2 px-4 py-2.5 sm:gap-3 md:gap-5 md:px-8 md:py-3">
+        <div className="mx-auto flex h-14 max-w-7xl items-center gap-2 px-4 sm:gap-3 md:h-[3.75rem] md:gap-5 md:px-8">
             <Logo />
 
             {/* === NAV DESKTOP === */}

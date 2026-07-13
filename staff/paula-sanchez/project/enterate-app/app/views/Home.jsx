@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
 import { EventCard } from './components/EventCard'
+import { Spinner } from './components/Spinner'
 
 import { useContext } from '../context'
 
@@ -24,23 +25,29 @@ export function Home() {
 
     const { onError } = useContext()
 
-    const [events, setEvents] = useState([])
-    const [loaded, setLoaded] = useState(false)
+    // null = todavía cargando. [] = la API ha respondido y no hay eventos.
+    // Distinguirlos evita pintar contadores a 0 y estados vacíos antes de tener datos.
+    const [events, setEvents] = useState(null)
 
     useEffect(() => {
         try {
             logic.getEvents()
-                .then(events => {
-                    setEvents(events)
-                    setLoaded(true)
+                .then(events => setEvents(events))
+                .catch(error => {
+                    setEvents([])
+
+                    onError(error)
                 })
-                .catch(error => onError(error))
         } catch (error) {
+            setEvents([])
+
             onError(error)
         }
     }, [])
 
     logger.debug('Home -> render')
+
+    if (!events) return <Spinner />
 
     // === Stats derivadas ===
     const today = startOfDay(new Date())
@@ -63,7 +70,9 @@ export function Home() {
     const weekIds = new Set(weekList.map(e => e.id))
     const gemsList = hiddenGems(events, today).filter(e => !weekIds.has(e.id)).slice(0, 2)
 
-    return <div className="-mx-4 md:mx-0">
+    // -mt-6 cancela el py-6 de <main> en móvil: en remix-reference el hero arranca pegado
+    // al Header, sin ese hueco extra. En desktop se mantiene el espaciado actual.
+    return <div className="-mx-4 -mt-6 md:mx-0 md:mt-0">
         {/* === HERO === */}
         <section className="px-4 pb-3 pt-3">
             <p className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--muted)]/60 px-2 py-0.5 text-[10.5px] font-medium text-[color:var(--foreground)]/70">
@@ -118,7 +127,7 @@ export function Home() {
                 </Link>
             </div>
 
-            {loaded && weekList.length === 0
+            {weekList.length === 0
                 ? <p className="text-sm text-[color:var(--muted-foreground)]">No hay planes esta semana. <Link to="/explorar" className="font-semibold underline">Explora la agenda completa</Link>.</p>
                 : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {weekList.map(e => <EventCard key={e.id} event={e} />)}
@@ -152,7 +161,7 @@ export function Home() {
                 </p>
             </div>
 
-            {loaded && gemsList.length === 0
+            {gemsList.length === 0
                 ? <p className="text-sm text-[color:var(--muted-foreground)]">Nada oculto por descubrir por ahora.</p>
                 : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     {gemsList.map(e => <EventCard key={e.id} event={e} />)}

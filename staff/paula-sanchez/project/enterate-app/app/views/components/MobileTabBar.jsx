@@ -1,9 +1,10 @@
-import { Link, NavLink, useLocation, useNavigate } from 'react-router'
+import { NavLink, useLocation, useNavigate } from 'react-router'
 
 import { Icon } from './Icon'
 
 // === MOBILE TAB BAR ===
 // Barra inferior fija (solo móvil). Oculta en /login y /register.
+// La pestaña activa lleva pastilla amarilla detrás del icono, como en remix-reference.
 
 export function MobileTabBar() {
     const location = useLocation()
@@ -13,27 +14,15 @@ export function MobileTabBar() {
 
     if (isAuthScreen) return null
 
-    const linkClass = ({ isActive }) => `group flex h-full flex-1 flex-col items-center justify-center gap-0.5 text-[10px] transition ${isActive ? 'font-extrabold text-[color:var(--foreground)]' : 'font-semibold text-[color:var(--muted-foreground)]'}`
-
     return <nav
         aria-label="Navegación principal"
         className="fixed inset-x-0 bottom-0 z-50 border-t border-[color:var(--border)] bg-[color:var(--background)]/95 backdrop-blur md:hidden"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
         <ul className="mx-auto flex h-16 max-w-md items-stretch">
-            <li className="flex flex-1">
-                <NavLink to="/" end className={linkClass}>
-                    <Icon name="home" className="h-5 w-5" />
-                    <span className="leading-none">Inicio</span>
-                </NavLink>
-            </li>
+            <Tab to="/" end icon="home" label="Inicio" />
 
-            <li className="flex flex-1">
-                <NavLink to="/explorar" className={linkClass}>
-                    <Icon name="compass" className="h-5 w-5" />
-                    <span className="leading-none">Explorar</span>
-                </NavLink>
-            </li>
+            <Tab to="/explorar" icon="compass" label="Explorar" />
 
             {/* Botón central Subir plan */}
             <li className="flex flex-1 items-center justify-center">
@@ -47,19 +36,32 @@ export function MobileTabBar() {
                 </button>
             </li>
 
-            <li className="flex flex-1">
-                <NavLink to="/guardados" className={linkClass}>
-                    <Icon name="calendar" className="h-5 w-5" />
-                    <span className="leading-none">Mis planes</span>
-                </NavLink>
-            </li>
+            <Tab to="/guardados" icon="calendar" label="Mis planes" />
 
-            <li className="flex flex-1">
-                <NavLink to="/perfil" className={linkClass}>
-                    <Icon name="user" className="h-5 w-5" />
-                    <span className="leading-none">Perfil</span>
-                </NavLink>
-            </li>
+            <Tab to="/perfil" icon="user" label="Perfil" />
         </ul>
     </nav>
+}
+
+// === Subcomponente local ===
+
+function Tab({ to, end, icon, label }) {
+    const linkClass = ({ isActive }) => `flex h-full flex-1 flex-col items-center justify-center gap-0.5 text-[10px] transition ${isActive
+        ? 'font-extrabold text-[color:var(--foreground)]'
+        : 'font-semibold text-[color:var(--muted-foreground)]'}`
+
+    return <li className="flex flex-1">
+        <NavLink to={to} end={end} className={linkClass}>
+            {({ isActive }) => <>
+                <span className={`grid h-7 w-12 place-items-center rounded-full transition-colors ${isActive ? 'bg-[color:var(--brand-yellow)]/25' : ''}`}>
+                    <Icon
+                        name={icon}
+                        strokeWidth={2.25}
+                        className={`h-[19px] w-[19px] transition-all ${isActive ? 'scale-110 fill-[color:var(--brand-yellow)] [stroke:oklch(0.45_0.16_85)]' : ''}`}
+                    />
+                </span>
+                <span className="leading-none">{label}</span>
+            </>}
+        </NavLink>
+    </li>
 }

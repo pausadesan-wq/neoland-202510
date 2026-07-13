@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { EventCard } from './components/EventCard'
 import { Icon } from './components/Icon'
+import { Spinner } from './components/Spinner'
 
 import { useContext } from '../context'
 
@@ -33,7 +34,9 @@ export function Explorar() {
 
     const { onError } = useContext()
 
-    const [events, setEvents] = useState([])
+    // null = todavía cargando. [] = la API ha respondido y no hay eventos.
+    // Distinguirlos evita pintar "0 planes" y el estado vacío antes de tener datos.
+    const [events, setEvents] = useState(null)
     const [query, setQuery] = useState('')
     const [submittedQuery, setSubmittedQuery] = useState('')
     const [category, setCategory] = useState('Todos')
@@ -43,8 +46,14 @@ export function Explorar() {
         try {
             logic.getEvents()
                 .then(events => setEvents(events))
-                .catch(error => onError(error))
+                .catch(error => {
+                    setEvents([])
+
+                    onError(error)
+                })
         } catch (error) {
+            setEvents([])
+
             onError(error)
         }
     }, [])
@@ -69,10 +78,11 @@ export function Explorar() {
 
     const hasActiveFilters = submittedQuery.length > 0 || category !== 'Todos' || dateFilter !== null
 
+    // El useMemo también corre en el primer render, cuando events todavía es null.
     const list = useMemo(() => {
         const today = startOfDay(new Date())
 
-        return sortByDate(events.filter(e =>
+        return sortByDate((events || []).filter(e =>
             (dateFilter || isFuture(e, today))
             && matchesCategory(e, category)
             && matchesDateFilter(e, dateFilter)
@@ -82,9 +92,14 @@ export function Explorar() {
 
     logger.debug('Explorar -> render')
 
-    return <div className="-mx-4 md:mx-0">
+    // Después de los hooks, para no romper el orden de llamada.
+    if (!events) return <Spinner />
+
+    // -mt-6 cancela el py-6 de <main> en móvil: en remix-reference la barra de búsqueda
+    // arranca pegada al Header. En desktop se mantiene el espaciado actual.
+    return <div className="-mx-4 -mt-6 md:mx-0 md:mt-0">
         {/* === CABECERA === */}
-        <section className="sticky top-[var(--header-offset)] z-30 border-b border-[color:var(--border)] bg-[color:var(--background)]/95 px-4 pb-3 pt-3 backdrop-blur md:static md:py-8">
+        <section className="sticky top-[var(--header-offset)] z-30 border-b border-[color:var(--border)] bg-[color:var(--background)] px-4 pb-2 pt-2 md:static md:py-8">
             <h1 className="hidden font-display text-3xl font-extrabold tracking-tight md:block">
                 Explora y <span className="mark-yellow">entérate</span>
             </h1>
@@ -96,7 +111,7 @@ export function Explorar() {
             {/* === BUSCADOR === */}
             <form
                 onSubmit={handleSubmit}
-                className="mt-3 flex h-10 w-full items-center gap-2 rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 shadow-[2px_2px_0_0_var(--foreground)] transition focus-within:-translate-y-0.5 md:mt-6 md:h-auto md:px-5 md:py-2.5"
+                className="mt-2 flex h-10 w-full items-center gap-2 rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 shadow-[2px_2px_0_0_var(--foreground)] transition focus-within:-translate-y-0.5 md:mt-6 md:h-auto md:px-5 md:py-2.5"
             >
                 <Icon name="search" className="h-4 w-4 shrink-0 text-[color:var(--muted-foreground)]" />
                 <input
@@ -123,7 +138,7 @@ export function Explorar() {
             </form>
 
             {/* === CHIPS CATEGORÍA === */}
-            <div className="-mx-4 mt-3 flex gap-2.5 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-4 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
+            <div className="-mx-4 mt-2 flex gap-2.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-4 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
                 {CATEGORIES.map(c => {
                     const active = category === c.name
 
@@ -144,11 +159,12 @@ export function Explorar() {
                     </button>
                 })}
             </div>
-        </section>
 
-        {/* === FILTROS TEMPORALES + LISTADO === */}
-        <section className="px-4 pb-8 pt-4 md:pt-6">
-            <div className="mb-4 flex gap-2">
+            {/* === FILTROS TEMPORALES === */}
+            {/* Van dentro del bloque sticky, junto al buscador y las categorías.
+                "Limpiar filtros" cierra la misma fila para no añadir altura; la fila
+                scrollea en horizontal porque no cabe entera a 390 px. */}
+            <div className="-mx-4 mt-1 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-4 md:flex-wrap md:overflow-visible md:px-0">
                 {DATE_FILTERS.map(f => {
                     const active = dateFilter === f.value
 
@@ -162,20 +178,22 @@ export function Explorar() {
                         {f.label}
                     </button>
                 })}
-            </div>
 
-            <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-[12px] font-semibold text-[color:var(--muted-foreground)] md:text-sm">
-                    {list.length} {list.length === 1 ? 'plan' : 'planes'}
-                </p>
                 {hasActiveFilters && <button
                     type="button"
                     onClick={handleClearFilters}
-                    className="inline-flex h-8 items-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 text-[11px] font-bold text-[color:var(--foreground)] transition active:scale-[0.97]"
+                    className="flex h-7 shrink-0 items-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 text-[11px] font-bold text-[color:var(--foreground)] transition active:scale-[0.97] md:h-8"
                 >
                     Limpiar filtros
                 </button>}
             </div>
+        </section>
+
+        {/* === LISTADO === */}
+        <section className="px-4 pb-8 pt-4 md:pt-6">
+            <p className="mb-3 text-[12px] font-semibold text-[color:var(--muted-foreground)] md:text-sm">
+                {list.length} {list.length === 1 ? 'plan' : 'planes'}
+            </p>
 
             {list.length > 0 ? <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                 {list.map(e => <EventCard key={e.id} event={e} />)}

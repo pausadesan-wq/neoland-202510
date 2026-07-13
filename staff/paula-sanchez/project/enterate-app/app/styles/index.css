@@ -51,17 +51,21 @@
     }
 }
 
+/* `overflow-x: clip` en vez de `hidden`: hidden convierte html/body en contenedor de scroll
+   (el overflow-y pasa de visible a auto) y eso ROMPE position: sticky en los descendientes.
+   `clip` recorta igual el desbordamiento horizontal pero no crea contenedor de scroll,
+   así que el Header y la cabecera de Explorar pueden quedarse pegados arriba. */
 html {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body {
     background-color: var(--background);
     color: var(--foreground);
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 h1, h2, h3, h4 {
