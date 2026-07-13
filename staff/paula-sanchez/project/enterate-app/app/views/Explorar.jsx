@@ -162,9 +162,17 @@ export function Explorar() {
 
             {/* === FILTROS TEMPORALES === */}
             {/* Van dentro del bloque sticky, junto al buscador y las categorías.
-                "Limpiar filtros" cierra la misma fila para no añadir altura; la fila
-                scrollea en horizontal porque no cabe entera a 390 px. */}
+                "Limpiar filtros" abre la misma fila para que se vea sin deslizar y no añade
+                altura; la fila scrollea en horizontal porque no cabe entera a 390 px. */}
             <div className="-mx-4 mt-1 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-4 md:flex-wrap md:overflow-visible md:px-0">
+                {hasActiveFilters && <button
+                    type="button"
+                    onClick={handleClearFilters}
+                    className="flex h-7 shrink-0 items-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 text-[11px] font-bold text-[color:var(--foreground)] transition active:scale-[0.97] md:h-8"
+                >
+                    Limpiar filtros
+                </button>}
+
                 {DATE_FILTERS.map(f => {
                     const active = dateFilter === f.value
 
@@ -178,14 +186,6 @@ export function Explorar() {
                         {f.label}
                     </button>
                 })}
-
-                {hasActiveFilters && <button
-                    type="button"
-                    onClick={handleClearFilters}
-                    className="flex h-7 shrink-0 items-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 text-[11px] font-bold text-[color:var(--foreground)] transition active:scale-[0.97] md:h-8"
-                >
-                    Limpiar filtros
-                </button>}
             </div>
         </section>
 

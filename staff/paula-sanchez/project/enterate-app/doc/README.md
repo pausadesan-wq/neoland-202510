@@ -27,8 +27,8 @@ User
 
 ### UI/UX design
 
-[Archivo de Figma](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=0-1&t=v1WNCEDL2Nu5R9EY-1)
-[Prototipo navegable](https://www.figma.com/proto/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=0-1&t=v1WNCEDL2Nu5R9EY-1)
+[Archivo de Figma - vistas completas](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=2052-95)
+[Prototipo navegable](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=2038-1139)
 
 ## Technical description
 
