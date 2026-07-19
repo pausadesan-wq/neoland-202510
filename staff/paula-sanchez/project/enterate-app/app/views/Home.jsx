@@ -16,6 +16,8 @@ import {
     hiddenGems
 } from './lib/events'
 
+import { useSavedEvents } from './lib/useSavedEvents'
+
 import { logger } from '../logger'
 
 // Home pública — funciona con y sin login. Datos reales vía GET /events.
@@ -24,6 +26,8 @@ export function Home() {
     logger.debug('Home -> call')
 
     const { onError } = useContext()
+
+    const { savedIds, toggleSave, pendingId } = useSavedEvents()
 
     // null = todavía cargando. [] = la API ha respondido y no hay eventos.
     // Distinguirlos evita pintar contadores a 0 y estados vacíos antes de tener datos.
@@ -130,7 +134,7 @@ export function Home() {
             {weekList.length === 0
                 ? <p className="text-sm text-[color:var(--muted-foreground)]">No hay planes esta semana. <Link to="/explorar" className="font-semibold underline">Explora la agenda completa</Link>.</p>
                 : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {weekList.map(e => <EventCard key={e.id} event={e} />)}
+                    {weekList.map(e => <EventCard key={e.id} event={e} saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />)}
                 </div>
             }
         </section>
@@ -164,7 +168,7 @@ export function Home() {
             {gemsList.length === 0
                 ? <p className="text-sm text-[color:var(--muted-foreground)]">Nada oculto por descubrir por ahora.</p>
                 : <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {gemsList.map(e => <EventCard key={e.id} event={e} />)}
+                    {gemsList.map(e => <EventCard key={e.id} event={e} saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />)}
                 </div>
             }
         </section>
@@ -172,7 +176,7 @@ export function Home() {
         {/* === CÓMO FUNCIONA === */}
         {/* El ::after prolonga el fondo blanco sobre el hueco que el Layout reserva abajo,
             para que la sección llegue hasta el borde de la MobileTabBar sin franja crema. */}
-        <section className="relative border-t border-[color:var(--border)] bg-[color:var(--card)] px-4 py-6 after:absolute after:inset-x-0 after:top-full after:h-[var(--content-bottom)] after:bg-[color:var(--card)] after:content-['']">
+        <section className="relative border-t border-[color:var(--border)] bg-[color:var(--surface-warm)] px-4 py-6 after:absolute after:inset-x-0 after:top-full after:h-[var(--content-bottom)] after:bg-[color:var(--surface-warm)] after:content-['']">
             <span
                 className="inline-flex h-5 items-center rounded-md bg-[color:var(--brand-yellow)] px-2 text-[10px] font-extrabold uppercase tracking-wider text-[color:var(--foreground)] shadow-sm"
                 style={{ transform: 'rotate(-3deg)', transformOrigin: 'center' }}

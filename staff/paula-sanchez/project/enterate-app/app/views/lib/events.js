@@ -105,6 +105,11 @@ export function isFuture(event, today = startOfDay(new Date())) {
     return startOfDay(eventDate(event.date)) >= today
 }
 
+// Último día del mes natural en curso.
+function endOfMonth(today) {
+    return new Date(today.getFullYear(), today.getMonth() + 1, 0)
+}
+
 export function matchesDateFilter(event, filter) {
     if (!filter) return true
 
@@ -113,17 +118,18 @@ export function matchesDateFilter(event, filter) {
 
     if (filter === 'hoy') return d.getTime() === today.getTime()
 
+    // Esta semana: los próximos 7 días.
     if (filter === 'semana') {
         const end = new Date(today)
         end.setDate(today.getDate() + 7)
         return d >= today && d <= end
     }
 
-    if (filter === 'treinta') {
-        const end = new Date(today)
-        end.setDate(today.getDate() + 30)
-        return d >= today && d <= end
-    }
+    // Este mes: desde hoy hasta el último día del mes natural.
+    if (filter === 'mes') return d >= today && d <= endOfMonth(today)
+
+    // Más adelante: a partir del mes que viene.
+    if (filter === 'adelante') return d > endOfMonth(today)
 
     return true
 }
@@ -179,11 +185,15 @@ export function hiddenGems(events, today = startOfDay(new Date())) {
     })
 }
 
-// Eventos relacionados: misma categoría, futuros, distinto id. Máx 3.
+// Eventos relacionados. Misma regla que remix-reference: comparten al menos un tag
+// con el evento actual y no son él mismo. Añadimos solo el descarte de los ya pasados,
+// porque nuestro dataset sí tiene eventos antiguos y no sirven como sugerencia.
 export function relatedEvents(events, current, today = startOfDay(new Date())) {
-    return sortByDate(events.filter(e =>
+    const tags = current.tags || []
+
+    return events.filter(e =>
         e.id !== current.id
-        && e.category === current.category
         && startOfDay(eventDate(e.date)) >= today
-    )).slice(0, 3)
+        && (e.tags || []).some(tag => tags.includes(tag))
+    ).slice(0, 3)
 }

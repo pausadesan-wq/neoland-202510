@@ -360,13 +360,15 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
 
 // === Subcomponentes locales ===
 
+// En remix-reference el aspecto de "card" (borde, fondo, padding) es solo de desktop.
+// En móvil las secciones van planas, con el título en versalitas pequeñas.
 function Section({ title, subtitle, children }) {
-    return <section className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-4 md:p-6">
+    return <section className="md:rounded-2xl md:border md:border-[color:var(--border)] md:bg-[color:var(--card)] md:p-6">
         <header className="mb-4">
-            <h2 className="font-display text-base font-extrabold text-[color:var(--foreground)]">
+            <h2 className="font-display text-[10px] font-extrabold uppercase tracking-[0.14em] text-[color:var(--muted-foreground)] md:text-lg md:tracking-normal md:text-[color:var(--foreground)]">
                 {title}
             </h2>
-            {subtitle && <p className="mt-1 text-xs text-[color:var(--muted-foreground)]">{subtitle}</p>}
+            {subtitle && <p className="mt-1 text-[12px] text-[color:var(--muted-foreground)] md:text-xs">{subtitle}</p>}
         </header>
         <div className="space-y-4">{children}</div>
     </section>

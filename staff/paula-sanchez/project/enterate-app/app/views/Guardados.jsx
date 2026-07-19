@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 
 import { EventCard } from './components/EventCard'
+import { OwnerActions } from './components/OwnerActions'
 import { Spinner } from './components/Spinner'
 
 import { useContext } from '../context'
@@ -9,6 +10,8 @@ import { useContext } from '../context'
 import { logic } from '../logic'
 
 import { eventDate, startOfDay } from './lib/events'
+
+import { useSavedEvents } from './lib/useSavedEvents'
 
 import { logger } from '../logger'
 
@@ -20,7 +23,11 @@ const TABS = ['guardados', 'voy', 'creados', 'pasados']
 export function Guardados() {
     logger.debug('Guardados -> call')
 
-    const { onError } = useContext()
+    const { onSuccess, onError } = useContext()
+
+    const { savedIds, toggleSave, pendingId, loaded: savedLoaded } = useSavedEvents()
+
+    const [deletingId, setDeletingId] = useState(null)
 
     const [searchParams, setSearchParams] = useSearchParams()
     const rawTab = searchParams.get('tab')
@@ -57,11 +64,35 @@ export function Guardados() {
 
     const setTab = next => setSearchParams({ tab: next })
 
+    // Eliminar desde la card de Creados: quita el plan de la lista sin salir de Mis planes.
+    const handleDeleteCreated = eventId => {
+        setDeletingId(eventId)
+
+        try {
+            logic.removeEvent(eventId)
+                .then(() => {
+                    setCreated(prev => prev.filter(e => e.id !== eventId))
+
+                    onSuccess('Plan eliminado')
+                })
+                .catch(error => onError(error))
+                .finally(() => setDeletingId(null))
+        } catch (error) {
+            setDeletingId(null)
+
+            onError(error)
+        }
+    }
+
     const today = startOfDay(new Date())
 
     // Guardados solo muestra planes que todavía se pueden hacer, aunque la referencia
     // siga guardada en Mongo. Voy/Pasados parten de los mismos eventos apuntados.
-    const savedUpcoming = useMemo(() => (saved || []).filter(e => startOfDay(eventDate(e.date)) >= today), [saved])
+    // Además de ocultar los pasados, respeta savedIds: al desguardar desde la card, desaparece.
+    const savedUpcoming = useMemo(
+        () => (saved || []).filter(e => savedIds.has(e.id) && startOfDay(eventDate(e.date)) >= today),
+        [saved, savedIds]
+    )
     const upcoming = useMemo(() => (joined || []).filter(e => startOfDay(eventDate(e.date)) >= today), [joined])
     const past = useMemo(() => (joined || []).filter(e => startOfDay(eventDate(e.date)) < today), [joined])
 
@@ -72,15 +103,16 @@ export function Guardados() {
 
     logger.debug('Guardados -> render')
 
-    if (saved === null || joined === null || created === null) return <Spinner />
+    if (saved === null || joined === null || created === null || !savedLoaded) return <Spinner />
 
-    return <div className="py-4 md:py-8">
+    // -mt-2 deja el título a la altura de remix-reference (py-4 en su main, sin envoltorio extra).
+    return <div className="-mt-2 py-4 md:mt-0 md:py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-                <h1 className="font-display text-3xl font-extrabold leading-tight md:text-5xl">
+                <h1 className="font-display text-2xl font-extrabold leading-tight md:text-5xl">
                     Mis <span className="mark-yellow">planes</span>
                 </h1>
-                <p className="mt-1 text-sm text-[color:var(--muted-foreground)]">
+                <p className="mt-1 text-[12.5px] text-[color:var(--muted-foreground)] md:text-base">
                     Lo que has guardado, a lo que vas y los pasados.
                 </p>
             </div>
@@ -102,7 +134,14 @@ export function Guardados() {
 
         {/* === LISTADO === */}
         {list.length > 0 ? <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {list.map(e => <EventCard key={e.id} event={e} />)}
+            {list.map(e => tab === 'creados'
+                // En Creados la card lleva debajo Editar/Eliminar, como en remix-reference.
+                ? <div key={e.id} className="space-y-3">
+                    <EventCard event={e} owner saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />
+                    <OwnerActions eventId={e.id} onDelete={handleDeleteCreated} deleting={deletingId === e.id} />
+                </div>
+                : <EventCard key={e.id} event={e} saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />
+            )}
         </div> : <EmptyState tab={tab} />}
     </div>
 }

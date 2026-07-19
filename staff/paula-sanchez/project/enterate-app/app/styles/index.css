@@ -24,6 +24,10 @@
     --card-foreground: #1A1A1A;
     --destructive: #E9483B;
 
+    /* Blanco cálido de remix-reference para las secciones sobre fondo crema
+       ("Cómo funciona", "Planes parecidos"). Valor exacto de la referencia. */
+    --surface-warm: oklch(0.98 0.005 90);
+
     --radius: 0.875rem;
 
     /* Espacio sobre el contenido del Header: un mínimo fijo que siempre se ve, más el

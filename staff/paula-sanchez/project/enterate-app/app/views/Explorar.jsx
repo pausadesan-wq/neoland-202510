@@ -19,12 +19,15 @@ import {
     startOfDay
 } from './lib/events'
 
+import { useSavedEvents } from './lib/useSavedEvents'
+
 import { logger } from '../logger'
 
 const DATE_FILTERS = [
     { value: 'hoy', label: 'Hoy' },
-    { value: 'semana', label: 'Próximos 7 días' },
-    { value: 'treinta', label: 'Próximos 30 días' }
+    { value: 'semana', label: 'Esta semana' },
+    { value: 'mes', label: 'Este mes' },
+    { value: 'adelante', label: 'Más adelante' }
 ]
 
 // Buscador + chips categoría + filtros temporales — todo en cliente sobre GET /events.
@@ -33,6 +36,8 @@ export function Explorar() {
     logger.debug('Explorar -> call')
 
     const { onError } = useContext()
+
+    const { savedIds, toggleSave, pendingId } = useSavedEvents()
 
     // null = todavía cargando. [] = la API ha respondido y no hay eventos.
     // Distinguirlos evita pintar "0 planes" y el estado vacío antes de tener datos.
@@ -162,30 +167,32 @@ export function Explorar() {
 
             {/* === FILTROS TEMPORALES === */}
             {/* Van dentro del bloque sticky, junto al buscador y las categorías.
-                "Limpiar filtros" abre la misma fila para que se vea sin deslizar y no añade
-                altura; la fila scrollea en horizontal porque no cabe entera a 390 px. */}
-            <div className="-mx-4 mt-1 flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:mt-4 md:flex-wrap md:overflow-visible md:px-0">
+                Los chips scrollean en horizontal; "× Limpiar" queda fijo fuera del scroll,
+                a la derecha, para que no desaparezca al deslizar. */}
+            <div className="mt-1 flex items-center gap-2 md:mt-4">
+                <div className="-ml-4 flex min-w-0 flex-1 gap-2 overflow-x-auto pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:ml-0 md:flex-wrap md:overflow-visible md:pl-0">
+                    {DATE_FILTERS.map(f => {
+                        const active = dateFilter === f.value
+
+                        return <button
+                            key={f.value}
+                            type="button"
+                            onClick={() => setDateFilter(active ? null : f.value)}
+                            aria-pressed={active}
+                            className={`flex h-7 shrink-0 items-center rounded-full border px-2.5 text-[11px] font-semibold transition active:scale-[0.97] md:h-8 md:px-3 md:text-xs ${active ? 'border-[color:var(--foreground)] bg-[color:var(--foreground)] text-[color:var(--background)]' : 'border-[color:var(--border)] bg-[color:var(--background)] text-[color:var(--muted-foreground)]'}`}
+                        >
+                            {f.label}
+                        </button>
+                    })}
+                </div>
+
                 {hasActiveFilters && <button
                     type="button"
                     onClick={handleClearFilters}
-                    className="flex h-7 shrink-0 items-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3 text-[11px] font-bold text-[color:var(--foreground)] transition active:scale-[0.97] md:h-8"
+                    className="flex h-7 shrink-0 items-center gap-1 rounded-full border border-[color:var(--border)] bg-[color:var(--background)] px-2.5 text-[11px] font-semibold text-[color:var(--muted-foreground)] transition hover:border-[color:var(--foreground)] hover:text-[color:var(--foreground)] active:scale-[0.97] md:h-8 md:px-3 md:text-xs"
                 >
-                    Limpiar filtros
+                    <Icon name="x" className="h-3 w-3" /> Limpiar
                 </button>}
-
-                {DATE_FILTERS.map(f => {
-                    const active = dateFilter === f.value
-
-                    return <button
-                        key={f.value}
-                        type="button"
-                        onClick={() => setDateFilter(active ? null : f.value)}
-                        aria-pressed={active}
-                        className={`flex h-7 shrink-0 items-center rounded-full border px-2.5 text-[11px] font-semibold transition active:scale-[0.97] md:h-8 md:px-3 md:text-xs ${active ? 'border-[color:var(--foreground)] bg-[color:var(--foreground)] text-[color:var(--background)]' : 'border-[color:var(--border)] bg-[color:var(--background)] text-[color:var(--muted-foreground)]'}`}
-                    >
-                        {f.label}
-                    </button>
-                })}
             </div>
         </section>
 
@@ -196,7 +203,7 @@ export function Explorar() {
             </p>
 
             {list.length > 0 ? <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                {list.map(e => <EventCard key={e.id} event={e} />)}
+                {list.map(e => <EventCard key={e.id} event={e} saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />)}
             </div> : <div className="rounded-2xl border-2 border-dashed border-[color:var(--border)] p-6 text-center">
                 <p className="text-[color:var(--muted-foreground)]">No hay planes con estos filtros</p>
                 {hasActiveFilters && <button

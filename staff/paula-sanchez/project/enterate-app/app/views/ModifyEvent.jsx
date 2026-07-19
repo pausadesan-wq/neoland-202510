@@ -81,7 +81,7 @@ export function ModifyEvent() {
 
     logger.debug('ModifyEvent -> render')
 
-    return <div className="mx-auto max-w-2xl py-4 md:py-8">
+    return <div className="mx-auto -mt-2 max-w-2xl py-4 md:mt-0 md:py-8">
         <button
             onClick={handleBackClick}
             className="inline-flex items-center gap-1 text-sm font-semibold text-[color:var(--muted-foreground)] hover:text-[color:var(--foreground)]"
@@ -89,9 +89,13 @@ export function ModifyEvent() {
             <Icon name="back" className="h-4 w-4" /> Volver
         </button>
 
-        <h1 className="mt-3 font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-            Editar plan
+        <h1 className="mt-3 font-display text-2xl font-extrabold leading-tight md:text-5xl">
+            Editar <span className="mark-yellow">plan</span>
         </h1>
+
+        <p className="mt-1 text-[12.5px] text-[color:var(--muted-foreground)] md:text-base">
+            Cambia lo que haga falta. Los cambios se guardan al instante.
+        </p>
 
         <div className="mt-6">
             {loadFailed
