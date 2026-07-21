@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 import { Icon } from './Icon'
 
-import { categoryMeta, categoryTextColor, formatEventDate, handleImageError, priceLabel } from '../lib/events'
+import { categoryMeta, categoryTextColor, FALLBACK_IMAGE, formatEventDate, handleImageError, priceLabel } from '../lib/events'
 
 // Card visual estilo Lovable. Enlaza a /evento/:eventId, con CTA "Ver plan →".
 // El bookmark solo se pinta si la vista pasa onToggleSave (estado en useSavedEvents).
@@ -29,7 +29,7 @@ export function EventCard({ event, compact = false, owner = false, saved = false
     >
         <div className={`relative w-full overflow-hidden bg-[color:var(--muted)] ${compact ? 'h-[132px]' : 'h-[180px]'}`}>
             <img
-                src={event.image}
+                src={event.image || FALLBACK_IMAGE}
                 alt={event.title}
                 loading="lazy"
                 onError={handleImageError}

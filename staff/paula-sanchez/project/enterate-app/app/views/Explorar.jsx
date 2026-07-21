@@ -186,12 +186,16 @@ export function Explorar() {
                     })}
                 </div>
 
+                {/* En móvil solo la ×, para dejar todo el ancho posible a los chips. */}
                 {hasActiveFilters && <button
                     type="button"
                     onClick={handleClearFilters}
-                    className="flex h-7 shrink-0 items-center gap-1 rounded-full border border-[color:var(--border)] bg-[color:var(--background)] px-2.5 text-[11px] font-semibold text-[color:var(--muted-foreground)] transition hover:border-[color:var(--foreground)] hover:text-[color:var(--foreground)] active:scale-[0.97] md:h-8 md:px-3 md:text-xs"
+                    aria-label="Limpiar filtros"
+                    title="Limpiar filtros"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-[color:var(--muted-foreground)] transition hover:bg-[color:var(--muted)] hover:text-[color:var(--foreground)] active:scale-[0.97] md:flex md:h-8 md:w-auto md:items-center md:gap-1 md:px-3 md:text-xs md:font-semibold"
                 >
-                    <Icon name="x" className="h-3 w-3" /> Limpiar
+                    <Icon name="x" className="h-3.5 w-3.5" />
+                    <span className="hidden md:inline">Limpiar</span>
                 </button>}
             </div>
         </section>

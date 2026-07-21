@@ -98,7 +98,8 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
         if (tags.length < MIN_TAGS || tags.length > MAX_TAGS) next.tags = `Entre ${MIN_TAGS} y ${MAX_TAGS} tags`
         if (!EVENT_PRICE_TYPES.includes(priceType)) next.priceType = 'Tipo de precio no válido'
         if (priceType === 'De pago' && !price.trim()) next.price = 'Indica el precio'
-        if (!/^(https?:|www\.)/.test(image.trim())) next.image = 'URL de imagen no válida'
+        // Imagen opcional: si se deja vacía se usa el respaldo local al mostrar el evento.
+        if (image.trim() && !/^(https?:|www\.)/.test(image.trim())) next.image = 'URL de imagen no válida'
         if (!EVENT_SOURCE_TYPES.includes(sourceType)) next.sourceType = 'Fuente no válida'
         if (sourceUrl && !/^(https?:|www\.)/.test(sourceUrl.trim())) next.sourceUrl = 'URL no válida'
 
@@ -126,7 +127,7 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
             tags,
             priceType,
             price: priceType === 'De pago' ? price.trim() : null,
-            image: image.trim(),
+            image: image.trim() || null,
             sourceType,
             sourceUrl: sourceUrl.trim() || null
         }
@@ -336,7 +337,7 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
                 />
             </Field>
 
-            <Field label="URL de la imagen" hint="Pega el enlace directo a una imagen (obligatorio)." error={errors.image}>
+            <Field label="Imagen del evento (opcional)" hint="Recomendamos añadir una imagen para que tu plan destaque. Si no, usaremos una imagen genérica." error={errors.image}>
                 <input
                     type="url"
                     value={image}

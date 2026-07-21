@@ -105,8 +105,9 @@ export function Guardados() {
 
     if (saved === null || joined === null || created === null || !savedLoaded) return <Spinner />
 
-    // -mt-2 deja el título a la altura de remix-reference (py-4 en su main, sin envoltorio extra).
-    return <div className="-mt-2 py-4 md:mt-0 md:py-8">
+    // -mt-6 cancela entero el py-6 de <main>; con el py-4 propio quedan los 16px
+    // de separación que tiene remix-reference (su <main> usa py-4 sin envoltorio extra).
+    return <div className="-mt-6 py-4 md:mt-0 md:py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
                 <h1 className="font-display text-2xl font-extrabold leading-tight md:text-5xl">

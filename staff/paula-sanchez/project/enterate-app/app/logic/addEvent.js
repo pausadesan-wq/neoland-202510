@@ -19,7 +19,8 @@ export function addEvent(title, description, date, time, location, address, dist
         if (typeof price !== 'string' || price.trim().length === 0) throw new ValidationError('invalid price length')
     }
 
-    validate.url(image, 'image')
+    // La imagen es opcional: solo validamos el formato si el usuario escribe algo.
+    if (image !== null && image !== undefined && image !== '') validate.url(image, 'image')
     validate.enum(sourceType, EVENT_SOURCE_TYPES, 'sourceType')
     if (sourceUrl !== null && sourceUrl !== undefined && sourceUrl !== '') validate.url(sourceUrl, 'sourceUrl')
 

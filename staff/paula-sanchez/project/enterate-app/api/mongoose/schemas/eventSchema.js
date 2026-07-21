@@ -80,7 +80,7 @@ export const eventSchema = new Schema({
     image: {
         type: String,
         match: URL_REGEX,
-        required: true
+        default: null
     },
 
     sourceType: {

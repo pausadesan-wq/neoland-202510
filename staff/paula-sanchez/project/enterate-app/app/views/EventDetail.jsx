@@ -13,6 +13,7 @@ import { logic } from '../logic'
 import {
     categoryMeta,
     categoryTextColor,
+    FALLBACK_IMAGE,
     formatLongEventDate,
     handleImageError,
     priceLabel,
@@ -91,7 +92,8 @@ export function EventDetail() {
             logic.removeEvent(eventId)
                 .then(() => {
                     onSuccess('Plan eliminado')
-                    navigate('/')
+                    // Volvemos a Mis planes > Creados, como remix-reference. Nunca a Inicio.
+                    navigate('/guardados?tab=creados')
                 })
                 .catch(error => onError(error))
                 .finally(() => setDeleting(false))
@@ -102,6 +104,24 @@ export function EventDetail() {
     }
 
     const handleToggleSave = () => toggleSave(eventId)
+
+    // Web Share API si el navegador la soporta; si no, copiar el enlace al portapapeles.
+    const handleShare = () => {
+        const url = window.location.href
+
+        if (navigator.share) {
+            // Si el usuario cancela el diálogo nativo no es un error.
+            navigator.share({ title: event.title, url }).catch(() => { })
+
+            return
+        }
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url)
+                .then(() => onSuccess('Enlace copiado'))
+                .catch(() => onError(new Error('no se pudo copiar el enlace')))
+        }
+    }
 
     const handleToggleJoin = () => {
         if (!loggedIn) return navigate(`/login?redirect=${encodeURIComponent(`/evento/${eventId}`)}`)
@@ -167,7 +187,7 @@ export function EventDetail() {
         {/* === HERO === */}
         <div className="relative aspect-[12/5] w-full overflow-hidden bg-[color:var(--muted)] md:aspect-[16/9] md:rounded-2xl">
             <img
-                src={event.image}
+                src={event.image || FALLBACK_IMAGE}
                 alt={event.title}
                 onError={handleImageError}
                 className="h-full w-full object-cover"
@@ -290,14 +310,15 @@ export function EventDetail() {
             </div>
 
             {/* === FUENTE (móvil) === */}
+            {/* Misma escala que los botones Editar / Eliminar de OwnerActions. */}
             {event.sourceUrl && <div className="mt-2.5 flex flex-wrap gap-2 md:hidden">
                 <a
                     href={event.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] px-4 py-2 text-sm font-semibold text-[color:var(--muted-foreground)]"
+                    className="inline-flex h-9 items-center gap-1.5 rounded-full border border-[color:var(--border)] px-4 text-xs font-bold text-[color:var(--muted-foreground)]"
                 >
-                    <Icon name="external" className="h-4 w-4" /> Fuente
+                    <Icon name="external" className="h-3.5 w-3.5" /> Fuente
                 </a>
             </div>}
         </div>
@@ -336,6 +357,14 @@ export function EventDetail() {
                     className={`inline-flex h-8 flex-1 items-center justify-center gap-1.5 rounded-full px-4 text-[12.5px] font-semibold transition active:scale-[0.98] disabled:opacity-60 ${joinStyle}`}
                 >
                     {joinLabel}
+                </button>
+
+                <button
+                    onClick={handleShare}
+                    aria-label="Compartir"
+                    className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-[color:var(--border)] bg-[color:var(--background)] transition active:scale-95"
+                >
+                    <Icon name="share" className="h-3 w-3" />
                 </button>
             </div>
         </div>

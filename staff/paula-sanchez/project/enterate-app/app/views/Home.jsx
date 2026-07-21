@@ -140,7 +140,7 @@ export function Home() {
         </section>
 
         {/* === COSITAS OCULTAS === */}
-        <section className="border-t border-[color:var(--border)] bg-[color:var(--muted)]/40 px-4 pb-6 pt-5">
+        <section className="border-t border-[color:var(--border)] bg-[color:var(--surface-tint)] px-4 pb-6 pt-5">
             <div className="mb-2.5">
                 <span
                     className="inline-flex h-5 items-center rounded-md bg-[color:var(--brand-coral)] px-2 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm"

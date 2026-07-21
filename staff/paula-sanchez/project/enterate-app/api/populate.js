@@ -66,11 +66,12 @@ connect('mongodb://localhost:27017/enterate')
                     }),
 
                     // === ESTA SEMANA ===
+                    // Este arranca hoy mismo, para poder probar el filtro "Hoy" de Explorar.
                     new EventModel({
                         owner: lucia.id,
                         title: 'Paseo por el Parque Federico García Lorca',
                         description: 'Un paseo tranquilo por uno de los parques más bonitos de Granada. Quedamos a la entrada y caminamos sin prisa.',
-                        date: inDays(1),
+                        date: inDays(0),
                         time: '10:30',
                         location: 'Parque Federico García Lorca',
                         district: 'Centro',

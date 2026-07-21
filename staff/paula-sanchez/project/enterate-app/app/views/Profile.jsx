@@ -76,33 +76,11 @@ export function Profile() {
 
         {/* === IDENTIDAD + EDITAR PERFIL === */}
         <section className="mt-3 rounded-xl border border-[color:var(--border)] bg-[color:var(--card)] p-2.5 md:mt-8 md:rounded-3xl md:border-2 md:border-[color:var(--foreground)] md:p-8 md:shadow-[6px_6px_0_0_var(--foreground)]">
-            <div className="flex items-start gap-2.5 md:gap-3">
-                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--border)] bg-[color:var(--brand-yellow)] font-display text-[15px] font-extrabold md:h-20 md:w-20 md:rounded-2xl md:border-2 md:border-[color:var(--foreground)] md:text-2xl">
-                    {user.image && !avatarBroken
-                        ? <img
-                            src={user.image}
-                            alt="Avatar"
-                            onError={() => setAvatarBroken(true)}
-                            className="h-full w-full object-cover"
-                        />
-                        : initials}
-                </div>
-
-                <div className="min-w-0 flex-1 pt-0.5 md:pt-0">
-                    <p className="truncate font-display text-[14px] font-extrabold leading-tight md:text-xl">{user.name}</p>
-                    <p className="truncate text-[12px] font-bold leading-tight text-[color:var(--brand-blue)] md:text-sm md:font-extrabold">
-                        @{user.username}
-                    </p>
-                    <p className="truncate pt-0.5 text-[11px] leading-tight text-[color:var(--muted-foreground)] md:pt-0 md:text-xs">
-                        {user.email}
-                    </p>
-                </div>
-            </div>
-
-            <div className="my-2.5 h-px bg-[color:var(--border)] md:my-5" />
-
             <IdentityForm
                 user={user}
+                initials={initials}
+                avatarBroken={avatarBroken}
+                onAvatarBroken={() => setAvatarBroken(true)}
                 onSaved={() => { onSuccess('Perfil actualizado ✦'); load() }}
                 onError={onError}
             />
@@ -183,7 +161,7 @@ function Field({ label, type = 'text', value, onChange, placeholder, hint }) {
     </label>
 }
 
-function PasswordField({ label, value, onChange, autoComplete }) {
+function PasswordField({ label, value, onChange, autoComplete, placeholder }) {
     const [visible, setVisible] = useState(false)
 
     return <label className="flex flex-col gap-0.5 text-[10px] font-semibold text-[color:var(--muted-foreground)] md:gap-1 md:text-[12px]">
@@ -194,6 +172,7 @@ function PasswordField({ label, value, onChange, autoComplete }) {
                 value={value}
                 onChange={e => onChange(e.target.value)}
                 autoComplete={autoComplete}
+                placeholder={placeholder}
                 className="h-7 w-full rounded-lg border-2 border-[color:var(--border)] bg-[color:var(--background)] px-2.5 pr-9 text-[13px] text-[color:var(--foreground)] outline-none transition focus:border-[color:var(--foreground)] md:h-10 md:px-3 md:pr-11 md:text-[14px]"
             />
             <button
@@ -212,8 +191,9 @@ const saveBtnCls = 'inline-flex h-[30px] items-center justify-center rounded-ful
 const altBtnCls = 'inline-flex items-center justify-center rounded-full border-2 border-[color:var(--foreground)] bg-[color:var(--background)] px-3.5 py-1.5 text-[12px] font-bold text-[color:var(--foreground)] transition active:translate-y-0.5 disabled:opacity-60'
 
 // Nombre, usuario y avatar en un único formulario con un solo botón, como en la referencia.
-// Cada campo sigue usando su propio endpoint; solo se envían los que han cambiado.
-function IdentityForm({ user, onSaved, onError }) {
+// La acción del avatar va arriba, junto a la foto y los datos. Cada campo sigue usando su
+// propio endpoint; solo se envían los que han cambiado. El avatar sigue siendo por URL.
+function IdentityForm({ user, initials, avatarBroken, onAvatarBroken, onSaved, onError }) {
     const [name, setName] = useState(user.name)
     const [username, setUsername] = useState(user.username)
     const [image, setImage] = useState(user.image || '')
@@ -247,23 +227,56 @@ function IdentityForm({ user, onSaved, onError }) {
         }
     }
 
-    return <form onSubmit={handleSubmit} className="grid gap-1 md:gap-2">
-        <Field label="Nombre visible" value={name} onChange={setName} placeholder="Cómo quieres que te vean" />
-        <Field label="Nombre de usuario" value={username} onChange={setUsername} placeholder="tu_usuario" />
-        <Field label="Avatar (URL)" type="url" value={image} onChange={setImage} placeholder="https://…" hint="Pega el enlace directo a una imagen." />
+    return <form onSubmit={handleSubmit}>
+        {/* === CABECERA: avatar + datos + URL del avatar === */}
+        <div className="flex items-start gap-2.5 md:gap-3">
+            <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--border)] bg-[color:var(--brand-yellow)] font-display text-[15px] font-extrabold md:h-20 md:w-20 md:rounded-2xl md:border-2 md:border-[color:var(--foreground)] md:text-2xl">
+                {user.image && !avatarBroken
+                    ? <img
+                        src={user.image}
+                        alt="Avatar"
+                        onError={onAvatarBroken}
+                        className="h-full w-full object-cover"
+                    />
+                    : initials}
+            </div>
 
-        <div className="pt-0.5 md:pt-1">
-            <button type="submit" disabled={saving || !dirty} className={saveBtnCls}>
-                {saving ? 'Guardando…' : 'Guardar cambios'}
-            </button>
+            <div className="min-w-0 flex-1 pt-0.5 md:pt-0">
+                <p className="truncate font-display text-[14px] font-extrabold leading-tight md:text-xl">{user.name}</p>
+                <p className="truncate text-[12px] font-bold leading-tight text-[color:var(--brand-blue)] md:text-sm md:font-extrabold">
+                    @{user.username}
+                </p>
+                <p className="truncate pt-0.5 text-[11px] leading-tight text-[color:var(--muted-foreground)] md:pt-0 md:text-xs">
+                    {user.email}
+                </p>
+
+                <div className="mt-1.5">
+                    <Field label="Avatar (URL)" type="url" value={image} onChange={setImage} placeholder="https://…" />
+                </div>
+            </div>
+        </div>
+
+        <div className="my-2.5 h-px bg-[color:var(--border)] md:my-5" />
+
+        {/* === NOMBRE Y USUARIO === */}
+        <div className="grid gap-1 md:gap-2">
+            <Field label="Nombre visible" value={name} onChange={setName} placeholder="Cómo quieres que te vean" />
+            <Field label="Nombre de usuario" value={username} onChange={setUsername} placeholder="tu_usuario" />
+
+            <div className="pt-0.5 md:pt-1">
+                <button type="submit" disabled={saving || !dirty} className={saveBtnCls}>
+                    {saving ? 'Guardando…' : 'Guardar cambios'}
+                </button>
+            </div>
         </div>
     </form>
 }
 
+// Sin campo de repetición, como en la referencia. La lógica sigue recibiendo
+// newEmailRepeat porque valida que coincidan; le pasamos el mismo valor.
 function EmailForm({ current, onSaved, onError }) {
     const [email, setEmail] = useState('')
     const [newEmail, setNewEmail] = useState('')
-    const [newEmailRepeat, setNewEmailRepeat] = useState('')
     const [saving, setSaving] = useState(false)
 
     const handleSubmit = e => {
@@ -272,9 +285,9 @@ function EmailForm({ current, onSaved, onError }) {
         setSaving(true)
 
         try {
-            logic.changeUserEmail(email, newEmail, newEmailRepeat)
+            logic.changeUserEmail(email, newEmail, newEmail)
                 .then(() => {
-                    setEmail(''); setNewEmail(''); setNewEmailRepeat('')
+                    setEmail(''); setNewEmail('')
                     onSaved()
                 })
                 .catch(error => onError(error))
@@ -288,7 +301,6 @@ function EmailForm({ current, onSaved, onError }) {
     return <form onSubmit={handleSubmit} className="grid gap-1 md:gap-2">
         <Field label="Email actual" type="email" value={email} onChange={setEmail} placeholder={current} />
         <Field label="Nuevo email" type="email" value={newEmail} onChange={setNewEmail} placeholder="tu@email.com" />
-        <Field label="Repite el nuevo email" type="email" value={newEmailRepeat} onChange={setNewEmailRepeat} placeholder="tu@email.com" />
 
         <div className="pt-0.5">
             <button type="submit" disabled={saving} className={altBtnCls}>
@@ -324,9 +336,10 @@ function PasswordForm({ onSaved, onError }) {
     }
 
     return <form onSubmit={handleSubmit} className="grid gap-1 md:gap-2">
-        <PasswordField label="Contraseña actual" value={password} onChange={setPassword} autoComplete="current-password" />
-        <PasswordField label="Nueva contraseña" value={newPassword} onChange={setNewPassword} autoComplete="new-password" />
-        <PasswordField label="Repite la nueva contraseña" value={newPasswordRepeat} onChange={setNewPasswordRepeat} autoComplete="new-password" />
+        {/* La contraseña actual la exige la API (bcrypt.compare) para autorizar el cambio. */}
+        <PasswordField label="Contraseña actual" value={password} onChange={setPassword} autoComplete="current-password" placeholder="Tu contraseña" />
+        <PasswordField label="Nueva contraseña" value={newPassword} onChange={setNewPassword} autoComplete="new-password" placeholder="Mínimo 8 caracteres, con letras y números" />
+        <PasswordField label="Repite la nueva contraseña" value={newPasswordRepeat} onChange={setNewPasswordRepeat} autoComplete="new-password" placeholder="Mínimo 8 caracteres, con letras y números" />
 
         <div className="pt-0.5">
             <button type="submit" disabled={saving} className={altBtnCls}>
