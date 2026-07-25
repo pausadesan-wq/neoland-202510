@@ -105,21 +105,14 @@ export function EventDetail() {
 
     const handleToggleSave = () => toggleSave(eventId)
 
-    // Web Share API si el navegador la soporta; si no, copiar el enlace al portapapeles.
+    // Copiar el enlace al portapapeles, como en remix-reference (sin share sheet nativo).
     const handleShare = () => {
-        const url = window.location.href
-
-        if (navigator.share) {
-            // Si el usuario cancela el diálogo nativo no es un error.
-            navigator.share({ title: event.title, url }).catch(() => { })
-
-            return
-        }
-
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(url)
-                .then(() => onSuccess('Enlace copiado'))
-                .catch(() => onError(new Error('no se pudo copiar el enlace')))
+        try {
+            navigator.clipboard.writeText(window.location.href)
+                .then(() => onSuccess('Enlace copiado!'))
+                .catch(error => onError(error))
+        } catch (error) {
+            onError(error)
         }
     }
 

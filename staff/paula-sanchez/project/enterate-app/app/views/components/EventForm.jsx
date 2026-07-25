@@ -337,7 +337,7 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
                 />
             </Field>
 
-            <Field label="Imagen del evento (opcional)" hint="Recomendamos añadir una imagen para que tu plan destaque. Si no, usaremos una imagen genérica." error={errors.image}>
+            <Field label="Imagen del evento (opcional)" hint="Si no añades una imagen, usaremos una genérica." error={errors.image}>
                 <input
                     type="url"
                     value={image}
