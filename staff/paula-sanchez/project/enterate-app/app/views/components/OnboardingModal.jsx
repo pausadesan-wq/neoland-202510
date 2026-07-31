@@ -12,22 +12,24 @@ import { logic } from '../../logic'
 const DISMISS_KEY = 'enterate:onboarding-dismissed'
 
 export function OnboardingModal() {
-    const [open, setOpen] = useState(false)
-
     const loggedIn = logic.isUserLoggedIn()
 
-    useEffect(() => {
-        if (loggedIn) {
-            setOpen(false)
-            return
-        }
+    // Decidimos en el primer render, no en un useEffect. Si esperásemos al efecto, durante
+    // un fotograma el modal no existiría y se vería la pantalla de debajo, que puede estar
+    // cargando. Leer localStorage es síncrono, así que no hace falta esperar.
+    const [open, setOpen] = useState(() => {
+        if (loggedIn) return false
 
         try {
-            const dismissed = localStorage.getItem(DISMISS_KEY)
-            if (!dismissed) setOpen(true)
+            return !localStorage.getItem(DISMISS_KEY)
         } catch {
-            setOpen(true)
+            return true
         }
+    })
+
+    // Si el usuario inicia sesión, el modal deja de tener sentido.
+    useEffect(() => {
+        if (loggedIn) setOpen(false)
     }, [loggedIn])
 
     const close = () => {
