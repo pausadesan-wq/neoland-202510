@@ -106,7 +106,7 @@ export function Guardados() {
     if (saved === null || joined === null || created === null || !savedLoaded) return <Spinner />
 
     // -mt-6 cancela entero el py-6 de <main>; con el py-4 propio quedan los 16px
-    // de separación que tiene remix-reference (su <main> usa py-4 sin envoltorio extra).
+    // de separación que tiene el diseño de referencia (su <main> usa py-4 sin envoltorio extra).
     return <div className="-mt-6 py-4 md:mt-0 md:py-8">
         <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
@@ -136,7 +136,7 @@ export function Guardados() {
         {/* === LISTADO === */}
         {list.length > 0 ? <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {list.map(e => tab === 'creados'
-                // En Creados la card lleva debajo Editar/Eliminar, como en remix-reference.
+                // En Creados la card lleva debajo Editar/Eliminar, según el diseño de referencia.
                 ? <div key={e.id} className="space-y-3">
                     <EventCard event={e} owner saved={savedIds.has(e.id)} savePending={pendingId === e.id} onToggleSave={toggleSave} />
                     <OwnerActions eventId={e.id} onDelete={handleDeleteCreated} deleting={deletingId === e.id} />

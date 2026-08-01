@@ -100,7 +100,7 @@ export function Explorar() {
     // Después de los hooks, para no romper el orden de llamada.
     if (!events) return <Spinner />
 
-    // -mt-6 cancela el py-6 de <main> en móvil: en remix-reference la barra de búsqueda
+    // -mt-6 cancela el py-6 de <main> en móvil: en el diseño de referencia la barra de búsqueda
     // arranca pegada al Header. En desktop se mantiene el espaciado actual.
     return <div className="-mx-4 -mt-6 md:mx-0 md:mt-0">
         {/* === CABECERA === */}

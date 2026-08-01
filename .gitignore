@@ -148,11 +148,6 @@ vite.config.ts.timestamp-*
 **/.env
 !**/.env.example
 
-# Carpetas utilizadas solamente como referencia
-staff/paula-sanchez/project/remix-reference/
-staff/paula-sanchez/project/zzz/
-staff/paula-sanchez/project/CLAUDE.local.md
-staff/paula-sanchez/project/.claude
 
 # macOS
 .DS_Store

@@ -74,7 +74,7 @@ export function Home() {
     const weekIds = new Set(weekList.map(e => e.id))
     const gemsList = hiddenGems(events, today).filter(e => !weekIds.has(e.id)).slice(0, 2)
 
-    // -mt-6 cancela el py-6 de <main> en móvil: en remix-reference el hero arranca pegado
+    // -mt-6 cancela el py-6 de <main> en móvil: en el diseño de referencia el hero arranca pegado
     // al Header, sin ese hueco extra. En desktop se mantiene el espaciado actual.
     return <div className="-mx-4 -mt-6 md:mx-0 md:mt-0">
         {/* === HERO === */}

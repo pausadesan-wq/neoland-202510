@@ -4,7 +4,7 @@ import { Icon } from './Icon'
 
 import { categoryMeta, categoryTextColor, FALLBACK_IMAGE, formatEventDate, handleImageError, priceLabel } from '../lib/events'
 
-// Card visual estilo Lovable. Enlaza a /evento/:eventId, con CTA "Ver plan →".
+// Card visual del diseño de referencia. Enlaza a /evento/:eventId, con CTA "Ver plan →".
 // El bookmark solo se pinta si la vista pasa onToggleSave (estado en useSavedEvents).
 
 export function EventCard({ event, compact = false, owner = false, saved = false, savePending = false, onToggleSave }) {

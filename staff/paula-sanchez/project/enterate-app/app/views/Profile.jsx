@@ -11,7 +11,7 @@ import { logic } from '../logic'
 import { logger } from '../logger'
 
 // === PERFIL ===
-// Composición de remix-reference: card de identidad con avatar + datos + un único
+// Composición del diseño de referencia: card de identidad con avatar + datos + un único
 // formulario, ajustes de cuenta (email y contraseña), accesos a Mis planes y logout.
 // La densidad es móvil primero; el aspecto brutalista (borde grueso + sombra) es de desktop.
 

@@ -7,7 +7,7 @@ import { logic } from '../../logic'
 
 // === GUARDADOS ===
 // Estado compartido por las vistas que pintan EventCard, para que el bookmark
-// refleje y actualice el mismo dato. Espeja useSavedEvents de remix-reference
+// refleje y actualice el mismo dato. Sigue el comportamiento del diseño de referencia
 // pero sobre la arquitectura actual: savedEvents del usuario vía API.
 //
 // Cada vista lo llama una vez y se lo pasa a sus cards por props.

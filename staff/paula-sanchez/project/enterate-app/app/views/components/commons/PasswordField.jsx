@@ -4,7 +4,7 @@ import { Label } from './Label'
 import { Input } from './Input'
 import { Icon } from '../Icon'
 
-// El botón de mostrar/ocultar va dentro del input, a la derecha (igual que en remix-reference).
+// El botón de mostrar/ocultar va dentro del input, a la derecha (según el diseño de referencia).
 // El input reserva sitio con pr-10 para que el texto no quede debajo del icono.
 
 export function PasswordField({ alias, children, placeholder }) {

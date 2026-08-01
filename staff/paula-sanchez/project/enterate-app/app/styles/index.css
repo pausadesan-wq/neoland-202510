@@ -1,5 +1,5 @@
 /* === TOKENS ENTÉRATE ===
-   Inspirado en remix-reference/src/styles.css (Lovable).
+   Basado en el diseño de referencia de Figma.
    Se usan como CSS variables consumidas con clases Tailwind arbitrarias:
      bg-[color:var(--brand-yellow)]  text-[color:var(--foreground)]
 */
@@ -24,7 +24,7 @@
     --card-foreground: #1A1A1A;
     --destructive: #E9483B;
 
-    /* Fondos de sección de remix-reference. Valores exactos de la referencia.
+    /* Fondos de sección. Valores exactos del diseño de referencia.
        --surface-warm: blanco cálido de "Cómo funciona" y "Planes parecidos".
        --surface-tint: crema algo más saturado de "Cositas ocultas", que debe
        distinguirse de la sección siguiente. */
@@ -86,7 +86,7 @@ h1, h2, h3, h4 {
     letter-spacing: -0.035em;
 }
 
-/* Marker amarillo estilo Lovable — resalta la sílaba TÉ del logo */
+/* Marker amarillo del diseño de referencia — resalta la sílaba TÉ del logo */
 .mark-yellow {
     background-image: linear-gradient(120deg, var(--brand-yellow), var(--brand-yellow));
     background-repeat: no-repeat;

@@ -92,7 +92,7 @@ export function EventDetail() {
             logic.removeEvent(eventId)
                 .then(() => {
                     onSuccess('Plan eliminado')
-                    // Volvemos a Mis planes > Creados, como remix-reference. Nunca a Inicio.
+                    // Volvemos a Mis planes > Creados, según el diseño de referencia. Nunca a Inicio.
                     navigate('/guardados?tab=creados')
                 })
                 .catch(error => onError(error))
@@ -105,7 +105,7 @@ export function EventDetail() {
 
     const handleToggleSave = () => toggleSave(eventId)
 
-    // Copiar el enlace al portapapeles, como en remix-reference (sin share sheet nativo).
+    // Copiar el enlace al portapapeles, según el diseño de referencia (sin share sheet nativo).
     const handleShare = () => {
         try {
             navigator.clipboard.writeText(window.location.href)
@@ -174,7 +174,7 @@ export function EventDetail() {
     const excluded = new Set([event.category.toLowerCase(), event.priceType.toLowerCase(), price.toLowerCase()])
     const secondaryTags = (event.tags || []).filter(t => !excluded.has(t.toLowerCase()))
 
-    // -mt-6 cancela el py-6 de <main>: en remix-reference el hero arranca pegado al Header.
+    // -mt-6 cancela el py-6 de <main>: en el diseño de referencia el hero arranca pegado al Header.
     // pb-14 en móvil deja hueco para la barra sticky de asistencia.
     return <article className="-mx-4 -mt-6 pb-14 md:mx-0 md:mt-0 md:pb-0">
         {/* === HERO === */}
@@ -194,7 +194,7 @@ export function EventDetail() {
                 <Icon name="back" className="h-4 w-4" />
             </button>
 
-            {/* Único control de guardar del detalle, como en remix-reference. */}
+            {/* Único control de guardar del detalle, según el diseño de referencia. */}
             <button
                 onClick={handleToggleSave}
                 aria-label={isSaved ? 'Quitar de guardados' : 'Guardar'}
@@ -337,7 +337,7 @@ export function EventDetail() {
         </section>}
 
         {/* === BARRA STICKY DE ASISTENCIA (móvil) === */}
-        {/* Se apoya justo encima de la MobileTabBar, como en remix-reference. */}
+        {/* Se apoya justo encima de la MobileTabBar, según el diseño de referencia. */}
         <div
             className="fixed inset-x-0 z-40 border-t border-[color:var(--border)] bg-[color:var(--background)]/95 backdrop-blur md:hidden"
             style={{ bottom: 'calc(4rem + env(safe-area-inset-bottom))' }}

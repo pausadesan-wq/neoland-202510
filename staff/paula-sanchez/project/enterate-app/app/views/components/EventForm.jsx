@@ -361,7 +361,7 @@ export function EventForm({ mode, initialEvent = null, onSubmit }) {
 
 // === Subcomponentes locales ===
 
-// En remix-reference el aspecto de "card" (borde, fondo, padding) es solo de desktop.
+// En el diseño de referencia el aspecto de "card" (borde, fondo, padding) es solo de desktop.
 // En móvil las secciones van planas, con el título en versalitas pequeñas.
 function Section({ title, subtitle, children }) {
     return <section className="md:rounded-2xl md:border md:border-[color:var(--border)] md:bg-[color:var(--card)] md:p-6">

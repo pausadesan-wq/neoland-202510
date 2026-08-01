@@ -1,5 +1,5 @@
 // === Helpers puros para eventos ===
-// Inspirado en remix-reference/src/lib/events-data.ts. Sin dependencias externas.
+// Basado en el diseño de referencia. Sin dependencias externas.
 
 const WEEKDAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 const MONTHS_SHORT = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
@@ -173,7 +173,7 @@ export function thisWeekEvents(events, today = startOfDay(new Date())) {
 }
 
 // "Cositas ocultas": eventos futuros con menos gente apuntada. Los ordenamos por asistencia
-// ascendente para destacar los que menos gente conoce. Inspirado en getDiscoveryEvents de Lovable.
+// ascendente para destacar los que menos gente conoce, como en el diseño de referencia.
 export function hiddenGems(events, today = startOfDay(new Date())) {
     const future = events.filter(e => startOfDay(eventDate(e.date)) >= today)
 
@@ -185,7 +185,7 @@ export function hiddenGems(events, today = startOfDay(new Date())) {
     })
 }
 
-// Eventos relacionados. Misma regla que remix-reference: comparten al menos un tag
+// Eventos relacionados. Misma regla que el diseño de referencia: comparten al menos un tag
 // con el evento actual y no son él mismo. Añadimos solo el descarte de los ya pasados,
 // porque nuestro dataset sí tiene eventos antiguos y no sirven como sugerencia.
 export function relatedEvents(events, current, today = startOfDay(new Date())) {

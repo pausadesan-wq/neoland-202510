@@ -6,7 +6,7 @@ import { Icon } from './Icon'
 // === ACCIONES DEL PROPIETARIO ===
 // Fila compacta Editar / Eliminar con confirmación en dos pasos.
 // Se reutiliza en el detalle del plan y en las cards de Mis planes > Creados,
-// igual que OwnerActions en remix-reference.
+// igual que en el diseño de referencia.
 
 export function OwnerActions({ eventId, onDelete, deleting = false }) {
     const [confirming, setConfirming] = useState(false)

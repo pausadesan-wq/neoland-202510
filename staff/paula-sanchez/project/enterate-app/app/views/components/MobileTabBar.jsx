@@ -4,7 +4,7 @@ import { Icon } from './Icon'
 
 // === MOBILE TAB BAR ===
 // Barra inferior fija (solo móvil). Oculta en /login y /register.
-// La pestaña activa lleva pastilla amarilla detrás del icono, como en remix-reference.
+// La pestaña activa lleva pastilla amarilla detrás del icono, como en el diseño de referencia.
 
 export function MobileTabBar() {
     const location = useLocation()
