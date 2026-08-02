@@ -239,6 +239,8 @@ npm install
 npm start
 ```
 
+Por defecto, Vite sirve la aplicación en `http://localhost:5173/`.
+
 ### Variables de entorno
 
 La API se arranca con `node --env-file=.env`, por lo que el archivo `.env` es obligatorio. Cada carpeta incluye su `.env.example` como referencia.
