@@ -1,1 +1,2 @@
-curl -X PATCH -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWIxYzczNmJlMjdkMDM1ZTAwNGE0OWYiLCJpYXQiOjE3NzMzNDQxMDcsImV4cCI6MTc3MzM0NzcwN30.YHeslHPNZGSdqJe_3MUbRCgkx4SY-Hmf54qIDn7TaxU' -H 'Content-Type: application/json' -d '{"password":"123123123","newPassword":"234234234","newPasswordRepeat":"234234234"}' http://localhost:8080/users/me/password -v
+# uso: TOKEN=<jwt> sh change-user-password.sh
+curl -X PATCH -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d '{"password":"123123123","newPassword":"234234234","newPasswordRepeat":"234234234"}' http://localhost:8080/users/me/password -v

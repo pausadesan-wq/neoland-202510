@@ -1,1 +1,2 @@
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWI0NWQxNzVkYjI4NzIxZTgxOTgxNjMiLCJpYXQiOjE3NzM0MjgwMzEsImV4cCI6MTc3MzQzMTYzMX0.xJIh2lqX6ecibMWMXvHR0xIcv47V_nKvk-AKuSud1M8' http://localhost:8080/events -v
+# uso: sh get-events.sh   (ruta pública, no requiere token)
+curl http://localhost:8080/events -v

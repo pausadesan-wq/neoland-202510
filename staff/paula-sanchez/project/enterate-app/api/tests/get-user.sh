@@ -1,1 +1,2 @@
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWIxYzczNmJlMjdkMDM1ZTAwNGE0OWYiLCJpYXQiOjE3NzMzNDQxMDcsImV4cCI6MTc3MzM0NzcwN30.YHeslHPNZGSdqJe_3MUbRCgkx4SY-Hmf54qIDn7TaxU' http://localhost:8080/users/me -v
+# uso: TOKEN=<jwt> sh get-user.sh
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/users/me -v
