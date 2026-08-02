@@ -43,9 +43,9 @@ La interfaz ha sido diseñada siguiendo un enfoque **mobile-first**.
 
 Para visualizar la experiencia principal tal y como ha sido diseñada, se recomienda utilizar las herramientas de desarrollo del navegador en modo responsive con un ancho aproximado de **390 px**.
 
-- [Archivo de Figma — vistas completas](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=2052-95)
+- [Archivo de Figma — vistas completas](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal?node-id=2052-95&t=q7SuXz8ZeNaYhrFr-1)
 
-- [Prototipo navegable](https://www.figma.com/design/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal--Copia-?node-id=2038-1139)
+- [Prototipo navegable](https://www.figma.com/proto/jZmJmUETMuD2AQuSnPD0Ax/EnterateAppMobile_Dise%C3%B1oUI-UX_ProyectoFinal?node-id=2038-1139&t=GQbfCd6oKVCw6ZOg-1)
 
 ## Technical description
 
